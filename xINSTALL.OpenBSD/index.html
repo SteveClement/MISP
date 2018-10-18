@@ -434,19 +434,6 @@
     Install standard OpenBSD-amd64 with ports
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#in-case-you-forgot-to-fetch-ports" title="In case you forgot to fetch ports" class="md-nav__link">
-    In case you forgot to fetch ports
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -460,6 +447,19 @@
   <a href="#doas-pkg-as-root" title="doas &amp; pkg (as root)" class="md-nav__link">
     doas &amp; pkg (as root)
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-case-you-forgot-to-fetch-ports" title="In case you forgot to fetch ports" class="md-nav__link">
+    In case you forgot to fetch ports
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -706,19 +706,6 @@
     Install standard OpenBSD-amd64 with ports
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#in-case-you-forgot-to-fetch-ports" title="In case you forgot to fetch ports" class="md-nav__link">
-    In case you forgot to fetch ports
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -732,6 +719,19 @@
   <a href="#doas-pkg-as-root" title="doas &amp; pkg (as root)" class="md-nav__link">
     doas &amp; pkg (as root)
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-case-you-forgot-to-fetch-ports" title="In case you forgot to fetch ports" class="md-nav__link">
+    In case you forgot to fetch ports
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -825,21 +825,20 @@ This guide attempts to offer native httpd or apache2/nginx set-up.</p>
 </div>
 <h3 id="1-minimal-openbsd-install">1/ Minimal OpenBSD install<a class="headerlink" href="#1-minimal-openbsd-install" title="Permanent link">&para;</a></h3>
 <h4 id="install-standard-openbsd-amd64-with-ports">Install standard OpenBSD-amd64 with ports<a class="headerlink" href="#install-standard-openbsd-amd64-with-ports" title="Permanent link">&para;</a></h4>
-<h5 id="in-case-you-forgot-to-fetch-ports">In case you forgot to fetch ports<a class="headerlink" href="#in-case-you-forgot-to-fetch-ports" title="Permanent link">&para;</a></h5>
-<div class="codehilite"><pre><span></span>$ <span class="nb">cd</span> /tmp
-$ ftp https://ftp.openbsd.org/pub/OpenBSD/<span class="k">$(</span>uname -r<span class="k">)</span>/<span class="o">{</span>ports.tar.gz,SHA256.sig<span class="o">}</span>
-$ signify -Cp /etc/signify/openbsd-<span class="k">$(</span>uname -r <span class="p">|</span> cut -c <span class="m">1</span>,3<span class="k">)</span>-base.pub -x SHA256.sig ports.tar.gz
-<span class="c1"># cd /usr</span>
-<span class="c1"># tar xzf /tmp/ports.tar.gz</span>
-</pre></div>
-
 <h4 id="system-hardening">System Hardening<a class="headerlink" href="#system-hardening" title="Permanent link">&para;</a></h4>
 <ul>
 <li>TBD</li>
 </ul>
 <h4 id="doas-pkg-as-root">doas &amp; pkg (as root)<a class="headerlink" href="#doas-pkg-as-root" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="nb">echo</span> http://ftp.belnet.be/pub/OpenBSD/ &gt; /etc/installurl
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> https://cdn.openbsd.org/pub/OpenBSD/ &gt; /etc/installurl
 <span class="nb">echo</span> <span class="s2">&quot;permit keepenv setenv { PKG_PATH ENV PS1 SSH_AUTH_SOCK } :wheel&quot;</span> &gt; /etc/doas.conf
+</pre></div>
+
+<h5 id="in-case-you-forgot-to-fetch-ports">In case you forgot to fetch ports<a class="headerlink" href="#in-case-you-forgot-to-fetch-ports" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /tmp
+ftp https://ftp.openbsd.org/pub/OpenBSD/<span class="k">$(</span>uname -r<span class="k">)</span>/<span class="o">{</span>ports.tar.gz,SHA256.sig<span class="o">}</span>
+signify -Cp /etc/signify/openbsd-<span class="k">$(</span>uname -r <span class="p">|</span> cut -c <span class="m">1</span>,3<span class="k">)</span>-base.pub -x SHA256.sig ports.tar.gz
+doas tar -x -z -f /tmp/ports.tar.gz -C /usr
 </pre></div>
 
 <h4 id="update-system">Update system<a class="headerlink" href="#update-system" title="Permanent link">&para;</a></h4>
@@ -851,8 +850,8 @@ $ signify -Cp /etc/signify/openbsd-<span class="k">$(</span>uname -r <span class
 </pre></div>
 
 <h4 id="rclocal-add-ntpdate-on-boot">rc.local - Add ntpdate on boot<a class="headerlink" href="#rclocal-add-ntpdate-on-boot" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="nb">echo</span> -n <span class="s1">&#39; ntpdate&#39;</span>
-/usr/local/sbin/ntpdate -b pool.ntp.org &gt;/dev/null
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;echo -n &#39; ntpdate&#39;&quot;</span> <span class="p">|</span>doas tee -a /etc/rc.local
+<span class="nb">echo</span> <span class="s2">&quot;/usr/local/sbin/ntpdate -b pool.ntp.org &gt;/dev/null&quot;</span> <span class="p">|</span>doas tee -a /etc/rc.local
 </pre></div>
 
 <h4 id="launch-ntpd-on-boot">Launch ntpd on boot<a class="headerlink" href="#launch-ntpd-on-boot" title="Permanent link">&para;</a></h4>
@@ -862,7 +861,7 @@ doas /usr/local/sbin/ntpd -p /var/run/ntpd.pid
 </pre></div>
 
 <h4 id="misp-user">misp user<a class="headerlink" href="#misp-user" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span>useradd -m -s /usr/local/bin/bash -G wheel,www misp
+<div class="codehilite"><pre><span></span>doas useradd -m -s /usr/local/bin/bash -G wheel,www misp
 </pre></div>
 
 <h4 id="nvim-optional">nvim (optional)<a class="headerlink" href="#nvim-optional" title="Permanent link">&para;</a></h4>
@@ -872,7 +871,7 @@ doas ln -s /usr/local/bin/nvim /usr/bin/vi
 </pre></div>
 
 <h4 id="etchttpdconf">/etc/httpd.conf<a class="headerlink" href="#etchttpdconf" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span>cp /etc/examples/httpd.conf /etc <span class="c1"># adjust by hand, or copy/paste the config example below</span>
+<div class="codehilite"><pre><span></span>doas cp /etc/examples/httpd.conf /etc <span class="c1"># adjust by hand, or copy/paste the config example below</span>
 </pre></div>
 
 <div class="codehilite"><pre><span></span># $OpenBSD: httpd.conf,v 1.18 2018/03/23 11:36:41 florian Exp $
@@ -935,79 +934,107 @@ types {
 </pre></div>
 
 <h1 id="if-a-valid-ssl-certificate-is-not-already-created-for-the-server-create-a-self-signed-certificate">If a valid SSL certificate is not already created for the server, create a self-signed certificate:<a class="headerlink" href="#if-a-valid-ssl-certificate-is-not-already-created-for-the-server-create-a-self-signed-certificate" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>doas openssl genrsa -out /etc/ssl/private/server.key
-doas openssl req -new -x509 -subj <span class="s2">&quot;/C=&lt;Country&gt;/ST=&lt;State&gt;/L=&lt;Locality&gt;/O=&lt;Organization&gt;/OU=&lt;Organizational Unit Name&gt;/CN=&lt;QDN.here&gt;/emailAddress=admin@&lt;your.FQDN.here&gt;&quot;</span> -key /etc/ssl/private/server.key -out /etc/ssl/server.crt -days <span class="m">3650</span>
+<div class="codehilite"><pre><span></span># OpenSSL configuration
+OPENSSL_C=&#39;LU&#39;
+OPENSSL_ST=&#39;State&#39;
+OPENSSL_L=&#39;Location&#39;
+OPENSSL_O=&#39;Organization&#39;
+OPENSSL_OU=&#39;Organizational Unit&#39;
+OPENSSL_CN=&#39;Common Name&#39;
+OPENSSL_EMAILADDRESS=&#39;info@localhost&#39;
+</pre></div>
+
+<div class="codehilite"><pre><span></span>doas openssl req -newkey rsa:4096 -days <span class="m">3650</span> -nodes -x509 -subj <span class="s2">&quot;/C=</span><span class="nv">$OPENSSL_C</span><span class="s2">/ST=</span><span class="nv">$OPENSSL_ST</span><span class="s2">/L=</span><span class="nv">$OPENSSL_L</span><span class="s2">/O=&lt;</span><span class="nv">$OPENSSL_O</span><span class="s2">/OU=</span><span class="nv">$OPENSSL_OU</span><span class="s2">/CN=</span><span class="nv">$OPENSSL_CN</span><span class="s2">/emailAddress=</span><span class="nv">$OPENSSL_EMAILADDRESS</span><span class="s2">&quot;</span> -keyout /etc/ssl/private/server.key -out /etc/ssl/server.crt
 </pre></div>
 
 <h1 id="mariadb-server">mariadb server<a class="headerlink" href="#mariadb-server" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>pkd_add -v mariadb-server 
+<div class="codehilite"><pre><span></span>doas pkg_add -v mariadb-server 
 </pre></div>
 
 <h1 id="start-httpd">start httpd<a class="headerlink" href="#start-httpd" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>/etc/rc.d/httpd -f start
-</pre></div>
-
-<h1 id="install-postfix">Install postfix<a class="headerlink" href="#install-postfix" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>doas pkg_add -v postfix
+<div class="codehilite"><pre><span></span>doas /etc/rc.d/httpd -f start
 </pre></div>
 
 <h1 id="enable-httpd">Enable httpd<a class="headerlink" href="#enable-httpd" title="Permanent link">&para;</a></h1>
 <div class="codehilite"><pre><span></span>doas rcctl <span class="nb">enable</span> httpd
 </pre></div>
 
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>When asked, the standard postfix will be enough for a basic setup, option 9.</p>
+</div>
+<div class="codehilite"><pre><span></span>doas pkg_add -v postfix
+doas /usr/local/sbin/postfix-enable 
+</pre></div>
+
 <h1 id="install-misc-dependencies">Install misc dependencies<a class="headerlink" href="#install-misc-dependencies" title="Permanent link">&para;</a></h1>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>You need to install python 3.x when asked, option 2.</p>
+</div>
 <div class="codehilite"><pre><span></span>doas pkg_add -v curl git python redis
 </pre></div>
 
 <h1 id="opendbsd-apachehttpdnginx-mysqlmariadb-php">OpendBSD + Apache/httpd/nginx + MySQL/Mariadb + PHP<a class="headerlink" href="#opendbsd-apachehttpdnginx-mysqlmariadb-php" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>pkg_add -v apache-httpd
-pkg_add -v <span class="se">\</span>
-     gnupg <span class="se">\</span>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>GnuPG 2.x is best, option 3.</p>
+</div>
+<div class="codehilite"><pre><span></span><span class="c1">##pkg_add -v apache-httpd</span>
+doas pkg_add -v gnupg
 </pre></div>
 
-<h1 id="php7-ports">php7 ports<a class="headerlink" href="#php7-ports" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>    php-mysqli 
-    php-pcntl 
-    php-pdo_mysql 
-    pecl-redis 
-    pear
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>php-5.6 is marked as end-of-life starting December 2018, use php 7.x instead.
+Option 2.</p>
+</div>
+<div class="codehilite"><pre><span></span>doas pkg_add -v php-mysqli php-pcntl php-pdo_mysql 
+# pecl-redis --&gt; Pull php56
+# pear --&gt; Pull php56
 </pre></div>
 
 <h1 id="optional-for-apache2">Optional for Apache2<a class="headerlink" href="#optional-for-apache2" title="Permanent link">&para;</a></h1>
 <div class="codehilite"><pre><span></span>doas pkg_add -v fcgi-cgi fcgi
 </pre></div>
 
-<h1 id="etcphp-56ini">/etc/php-5.6.ini<a class="headerlink" href="#etcphp-56ini" title="Permanent link">&para;</a></h1>
+<h1 id="etcphp-70ini">/etc/php-7.0.ini<a class="headerlink" href="#etcphp-70ini" title="Permanent link">&para;</a></h1>
 <div class="codehilite"><pre><span></span>allow_url_fopen = On
 </pre></div>
 
-<div class="codehilite"><pre><span></span><span class="nb">cd</span> /etc/php-5.6
-doas cp ../php-5.6.sample/* .
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /etc/php-7.0
+doas cp ../php-7.0.sample/* .
 </pre></div>
 
 <h1 id="php-ln">php ln<a class="headerlink" href="#php-ln" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>doas ln -s /usr/local/bin/php-5.6 /usr/local/bin/php
+<div class="codehilite"><pre><span></span>doas ln -s /usr/local/bin/php-7.0 /usr/local/bin/php
 </pre></div>
 
 <h1 id="enable-php-fpm">Enable php fpm<a class="headerlink" href="#enable-php-fpm" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>doas rcctl <span class="nb">enable</span> php56_fpm
+<div class="codehilite"><pre><span></span>doas rcctl <span class="nb">enable</span> php70_fpm
 </pre></div>
 
 <h1 id="configure-fpm">Configure fpm<a class="headerlink" href="#configure-fpm" title="Permanent link">&para;</a></h1>
 <div class="codehilite"><pre><span></span>doas vi /etc/php-fpm.conf
 </pre></div>
 
-<p>error_log = log/php-fpm.log
-chroot -&gt; remove for the time being</p>
+<div class="codehilite"><pre><span></span>error_log = log/php-fpm.log
+chroot -&gt; remove for the time being
+</pre></div>
+
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
 <p>For native httpd: listen = /var/www/run/php-fpm.sock
 For apache2: listen = 127.0.0.1:9000</p>
+</div>
 <h1 id="enable-redis">Enable redis<a class="headerlink" href="#enable-redis" title="Permanent link">&para;</a></h1>
 <div class="codehilite"><pre><span></span>doas rcctl <span class="nb">enable</span> redis
 doas /etc/rc.d/redis start
 </pre></div>
 
 <h1 id="enable-mysqld">Enable mysqld<a class="headerlink" href="#enable-mysqld" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>doas rcctl <span class="nb">set</span> mysqld status on
+<div class="codehilite"><pre><span></span>doas /usr/local/bin/mysql_install_db
+doas rcctl <span class="nb">set</span> mysqld status on
 doas rcctl <span class="nb">set</span> mysqld flags --bind-address<span class="o">=</span><span class="m">127</span>.0.0.1
 doas /etc/rc.d/mysqld start
 doas mysql_secure_installation
