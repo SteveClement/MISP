@@ -706,6 +706,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#misp-dashboard" title="misp-dashboard" class="md-nav__link">
+    misp-dashboard
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1172,6 +1179,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#misp-dashboard" title="misp-dashboard" class="md-nav__link">
+    misp-dashboard
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1203,7 +1217,9 @@
 <h2 id="for-openbsd-64-amd64">for OpenBSD 6.4-amd64<a class="headerlink" href="#for-openbsd-64-amd64" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This is not fully working yet. Mostly it is a template for our ongoing documentation efforts <img alt="🕷" class="emojione" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f577.svg" title=":spider:" /></p>
+<p>This is not fully working yet. Mostly it is a template for our ongoing documentation efforts <img alt="🕷" class="emojione" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f577.svg" title=":spider:" />
+    LIEF, will probably not be available for a long long time on OpenBSD, until someone is brave enough to make it work.
+    GnuPG also needs some more TLC.</p>
 </div>
 <h3 id="0-wip-you-are-warned-this-does-not-work-yet">0/ WIP! You are warned, this does not work yet!<a class="headerlink" href="#0-wip-you-are-warned-this-does-not-work-yet" title="Permanent link">&para;</a></h3>
 <hr />
@@ -1795,7 +1811,7 @@ doas <span class="nv">$CAKE</span> Admin updateWarningLists
 curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/noticelists/update
 
 <span class="c1"># Updating the object templates…</span>
-<span class="c1">##sudo $CAKE Admin updateObjectTemplates</span>
+<span class="c1">##doas $CAKE Admin updateObjectTemplates</span>
 curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/objectTemplates/update
 
 <span class="c1"># Tune global time outs</span>
@@ -1939,6 +1955,122 @@ doas <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Sessi
 <h4 id="zeromq-depends-on-the-python-client-for-redis">ZeroMQ depends on the Python client for Redis<a class="headerlink" href="#zeromq-depends-on-the-python-client-for-redis" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>doas pkg_add -v py3-zmq zeromq
 doas /usr/local/virtualenvs/MISP/bin/pip install pyzmq
+</pre></div>
+
+<h4 id="misp-dashboard">misp-dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Enable ZeroMQ for misp-dashboard</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This still needs more testing, it runs but no data is showing.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The install_dependencies.sh script is for Linux ONLY. The following blurp will be a diff of a working OpenBSD version.</p>
+</div>
+<div class="codehilite"><pre><span></span>(DASHENV) obsd# diff -u install_dependencies.sh install_dependencies_obsd.sh  
+<span class="gd">--- install_dependencies.sh     Fri Oct 19 12:14:38 2018</span>
+<span class="gi">+++ install_dependencies_obsd.sh        Fri Oct 19 12:43:22 2018</span>
+<span class="gu">@@ -1,14 +1,14 @@</span>
+<span class="gd">-#!/bin/bash</span>
+<span class="gi">+#!/usr/local/bin/bash</span>
+
+ set -e
+ #set -x
+
+<span class="gd">-sudo apt-get install python3-virtualenv virtualenv screen redis-server unzip -y</span>
+<span class="gi">+doas pkg_add -v unzip wget</span>
+
+ if [ -z &quot;$VIRTUAL_ENV&quot; ]; then
+<span class="gd">-    virtualenv -p python3 DASHENV</span>
+<span class="gi">+    virtualenv -p python3 /usr/local/virtualenvs/DASHENV</span>
+
+<span class="gd">-    . ./DASHENV/bin/activate</span>
+<span class="gi">+    . /usr/local/virtualenvs/DASHENV/bin/activate</span>
+ fi
+
+ pip3 install -U pip argparse redis zmq geoip2 flask phonenumbers pycountry
+</pre></div>
+
+<div class="codehilite"><pre><span></span>cd /var/www
+doas mkdir misp-dashboard
+doas chown www:www misp-dashboard
+doas -u www git clone https://github.com/MISP/misp-dashboard.git
+cd misp-dashboard
+#/!\ Made on Linux, the next script will fail
+#doas /var/www/misp-dashboard/install_dependencies.sh
+doas virtualenv -ppython3 /usr/local/virtualenvs/DASHENV
+doas /usr/local/virtualenvs/DASHENV/bin/pip install -U pip argparse redis zmq geoip2 flask phonenumbers pycountry
+
+doas sed -i &quot;s/^host\ =\ localhost/host\ =\ 0.0.0.0/g&quot; /var/www/misp-dashboard/config/config.cfg
+doas sed -i -e &#39;$i \doas -u www bash /var/www/misp-dashboard/start_all.sh\n&#39; /etc/rc.local
+#/!\ Add port 8001 as a listener
+#doas sed -i &#39;/Listen 80/a Listen 0.0.0.0:8001&#39; /etc/apache2/ports.conf
+doas pkg_add -v ap2-mod_wsgi
+
+echo &quot;&lt;VirtualHost *:8001&gt;
+    ServerAdmin admin@misp.local
+    ServerName misp.local
+    DocumentRoot /var/www/misp-dashboard
+
+    WSGIDaemonProcess misp-dashboard \
+       user=misp group=misp \
+       python-home=/var/www/misp-dashboard/DASHENV \
+       processes=1 \
+       threads=15 \
+       maximum-requests=5000 \
+       listen-backlog=100 \
+       queue-timeout=45 \
+       socket-timeout=60 \
+       connect-timeout=15 \
+       request-timeout=60 \
+       inactivity-timeout=0 \
+       deadlock-timeout=60 \
+       graceful-timeout=15 \
+       eviction-timeout=0 \
+       shutdown-timeout=5 \
+       send-buffer-size=0 \
+       receive-buffer-size=0 \
+       header-buffer-size=0 \
+       response-buffer-size=0 \
+       server-metrics=Off
+    WSGIScriptAlias / /var/www/misp-dashboard/misp-dashboard.wsgi
+    &lt;Directory /var/www/misp-dashboard&gt;
+        WSGIProcessGroup misp-dashboard
+        WSGIApplicationGroup %{GLOBAL}
+        Require all granted
+    &lt;/Directory&gt;
+    LogLevel info
+    ErrorLog /var/log/apache2/misp-dashboard.local_error.log
+    CustomLog /var/log/apache2/misp-dashboard.local_access.log combined
+    ServerSignature Off
+&lt;/VirtualHost&gt;&quot; | doas tee /etc/apache2/sites-available/misp-dashboard.conf
+
+doas ln -s /etc/apache2/sites-available/misp-dashboard.conf /etc/apache2/sites-enabled/misp-dashboard.conf
+</pre></div>
+
+<p>Add this to /etc/httpd2.conf
+<div class="codehilite"><pre><span></span>LoadModule wsgi_module /usr/local/lib/apache2/mod_wsgi.so
+Listen 8001
+</pre></div></p>
+<div class="codehilite"><pre><span></span>doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_event_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_object_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_object_reference_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_attribute_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_sighting_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_user_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_organisation_notifications_enable&quot; true
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_port&quot; 50000
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_redis_host&quot; &quot;localhost&quot;
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_redis_port&quot; 6379
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_redis_database&quot; 1
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_redis_namespace&quot; &quot;mispq&quot;
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_include_attachments&quot; false
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_tag_notifications_enable&quot; false
+doas $CAKE Admin setSetting &quot;Plugin.ZeroMQ_audit_notifications_enable&quot; false
 </pre></div>
                 
                   
