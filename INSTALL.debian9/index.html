@@ -96,7 +96,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="../#0-misp-debian-stable-install-status" tabindex="1" class="md-skip">
+      <a href="../#installation-instructions" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -292,9 +292,71 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Debian stable
+      </label>
+    
     <a href="./" title="Debian stable" class="md-nav__link md-nav__link--active">
       Debian stable
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#for-debian-95-stretch-server" title="for Debian 9.5 "stretch" server" class="md-nav__link">
+    for Debian 9.5 "stretch" server
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-misp-debian-stable-install-status" title="0/ MISP debian stable install - Status" class="md-nav__link">
+    0/ MISP debian stable install - Status
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misp-configuration-variables" title="MISP configuration variables" class="md-nav__link">
+    MISP configuration variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-minimal-debian-install" title="1/ Minimal Debian install" class="md-nav__link">
+    1/ Minimal Debian install
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -537,6 +599,55 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#for-debian-95-stretch-server" title="for Debian 9.5 "stretch" server" class="md-nav__link">
+    for Debian 9.5 "stretch" server
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-misp-debian-stable-install-status" title="0/ MISP debian stable install - Status" class="md-nav__link">
+    0/ MISP debian stable install - Status
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misp-configuration-variables" title="MISP configuration variables" class="md-nav__link">
+    MISP configuration variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-minimal-debian-install" title="1/ Minimal Debian install" class="md-nav__link">
+    1/ Minimal Debian install
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -548,53 +659,57 @@
               
                 
                 
-                <p>INSTALLATION INSTRUCTIONS
-------------------------- for Debian 9 "stretch" server</p>
-<h2 id="0-misp-debian-stable-install-status">0/ MISP debian stable install - Status<a class="headerlink" href="#0-misp-debian-stable-install-status" title="Permanent link">&para;</a></h2>
+                <h1 id="installation-instructions">INSTALLATION INSTRUCTIONS<a class="headerlink" href="#installation-instructions" title="Permanent link">&para;</a></h1>
+<h2 id="for-debian-95-stretch-server">for Debian 9.5 "stretch" server<a class="headerlink" href="#for-debian-95-stretch-server" title="Permanent link">&para;</a></h2>
+<h3 id="0-misp-debian-stable-install-status">0/ MISP debian stable install - Status<a class="headerlink" href="#0-misp-debian-stable-install-status" title="Permanent link">&para;</a></h3>
+<hr />
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
 <p>Maintained and tested by @SteveClement on 20180705</p>
-<p>Some configurables used below:</p>
-<div class="codehilite"><pre><span></span># MISP configuration variables
-PATH_TO_MISP=&#39;/var/www/MISP&#39;
-CAKE=&quot;$PATH_TO_MISP/app/Console/cake&quot;
-MISP_BASEURL=&#39;&#39;
-MISP_LIVE=&#39;1&#39;
+</div>
+<h4 id="misp-configuration-variables">MISP configuration variables<a class="headerlink" href="#misp-configuration-variables" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><span class="c1"># MISP configuration variables</span>
+<span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s1">&#39;/var/www/MISP&#39;</span>
+<span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
+<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">MISP_LIVE</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
 
-# Database configuration
-DBHOST=&#39;localhost&#39;
-DBNAME=&#39;misp&#39;
-DBUSER_ADMIN=&#39;root&#39;
-DBPASSWORD_ADMIN=&quot;$(openssl rand -hex 32)&quot;
-DBUSER_MISP=&#39;misp&#39;
-DBPASSWORD_MISP=&quot;$(openssl rand -hex 32)&quot;
+<span class="c1"># Database configuration</span>
+<span class="nv">DBHOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+<span class="nv">DBNAME</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
+<span class="nv">DBUSER_ADMIN</span><span class="o">=</span><span class="s1">&#39;root&#39;</span>
+<span class="nv">DBPASSWORD_ADMIN</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">DBUSER_MISP</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
+<span class="nv">DBPASSWORD_MISP</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
 
-# Webserver configuration
-FQDN=&#39;localhost&#39;
+<span class="c1"># Webserver configuration</span>
+<span class="nv">FQDN</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
 
-# OpenSSL configuration
-OPENSSL_CN=&#39;Common Name&#39;
-OPENSSL_C=&#39;LU&#39;
-OPENSSL_ST=&#39;State&#39;
-OPENSSL_L=&#39;Location&#39;
-OPENSSL_O=&#39;Organization&#39;
-OPENSSL_OU=&#39;Organizational Unit&#39;
-OPENSSL_EMAILADDRESS=&#39;info@localhost&#39;
+<span class="c1"># OpenSSL configuration</span>
+<span class="nv">OPENSSL_CN</span><span class="o">=</span><span class="s1">&#39;Common Name&#39;</span>
+<span class="nv">OPENSSL_C</span><span class="o">=</span><span class="s1">&#39;LU&#39;</span>
+<span class="nv">OPENSSL_ST</span><span class="o">=</span><span class="s1">&#39;State&#39;</span>
+<span class="nv">OPENSSL_L</span><span class="o">=</span><span class="s1">&#39;Location&#39;</span>
+<span class="nv">OPENSSL_O</span><span class="o">=</span><span class="s1">&#39;Organization&#39;</span>
+<span class="nv">OPENSSL_OU</span><span class="o">=</span><span class="s1">&#39;Organizational Unit&#39;</span>
+<span class="nv">OPENSSL_EMAILADDRESS</span><span class="o">=</span><span class="s1">&#39;info@localhost&#39;</span>
 
-# GPG configuration
-GPG_REAL_NAME=&#39;Autogenerated Key&#39;
-GPG_COMMENT=&#39;WARNING: MISP AutoGenerated Key consider this Key VOID!&#39;
-GPG_EMAIL_ADDRESS=&#39;admin@admin.test&#39;
-GPG_KEY_LENGTH=&#39;2048&#39;
-GPG_PASSPHRASE=&#39;Password1234&#39;
+<span class="c1"># GPG configuration</span>
+<span class="nv">GPG_REAL_NAME</span><span class="o">=</span><span class="s1">&#39;Autogenerated Key&#39;</span>
+<span class="nv">GPG_COMMENT</span><span class="o">=</span><span class="s1">&#39;WARNING: MISP AutoGenerated Key consider this Key VOID!&#39;</span>
+<span class="nv">GPG_EMAIL_ADDRESS</span><span class="o">=</span><span class="s1">&#39;admin@admin.test&#39;</span>
+<span class="nv">GPG_KEY_LENGTH</span><span class="o">=</span><span class="s1">&#39;2048&#39;</span>
+<span class="nv">GPG_PASSPHRASE</span><span class="o">=</span><span class="s1">&#39;Password1234&#39;</span>
 
-# php.ini configuration
-upload_max_filesize=50M
-post_max_size=50M
-max_execution_time=300
-memory_limit=512M
-PHP_INI=/etc/php/7.0/apache2/php.ini
+<span class="c1"># php.ini configuration</span>
+<span class="nv">upload_max_filesize</span><span class="o">=</span>50M
+<span class="nv">post_max_size</span><span class="o">=</span>50M
+<span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
+<span class="nv">memory_limit</span><span class="o">=</span>512M
+<span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.0/apache2/php.ini
 
-echo &quot;Admin (root) DB Password: $DBPASSWORD_ADMIN&quot;
-echo &quot;User  (misp) DB Password: $DBPASSWORD_MISP&quot;
+<span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
 </pre></div>
 
 <h2 id="1-minimal-debian-install">1/ Minimal Debian install<a class="headerlink" href="#1-minimal-debian-install" title="Permanent link">&para;</a></h2>
