@@ -66,6 +66,16 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://www.misp-project.org/UPGRADE/</loc>
+     <lastmod>2018-10-21</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.misp-project.org/old-2_3to2_4-UPGRADE/</loc>
+     <lastmod>2018-10-21</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://www.misp-project.org/Changelog/</loc>
      <lastmod>2018-10-21</lastmod>
      <changefreq>daily</changefreq>

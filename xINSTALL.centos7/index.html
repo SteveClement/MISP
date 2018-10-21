@@ -513,6 +513,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#recommended-actions" title="Recommended actions" class="md-nav__link">
+    Recommended actions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -635,15 +642,63 @@
       
 
 
+  <li class="md-nav__item">
+    <a href="../UPGRADE/" title="Upgrading MISP" class="md-nav__link">
+      Upgrading MISP
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
     
-    <label class="md-nav__link" for="nav-6">
+    <label class="md-nav__link" for="nav-7">
+      Old guides
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Old guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-nav__link">
+      2.3 to 2.4 upgrade
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
+      <label class="md-nav__title" for="nav-8">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -829,6 +884,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#recommended-actions" title="Recommended actions" class="md-nav__link">
+    Recommended actions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -857,7 +919,7 @@
 <hr />
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
-<p>Semi-maintained and tested by @SteveClement, CentOS 7.5-1804 on 20180906
+<p>Semi-maintained and tested by @SteveClement, CentOS 7.5-1804 on 20180906<br />
 It is still considered experimental as not everything works seemlessly.</p>
 </div>
 <p>CentOS 7.5-1804 <a href="http://mirror.centos.org/centos/7.5.1804/os/x86_64/">NetInstallURL</a></p>
@@ -1144,8 +1206,10 @@ sudo chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 sudo chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 </pre></div>
 
-<p>!!! warning:
-    Revise all permissions so update in Web UI works.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Revise all permissions so update in Web UI works.</p>
+</div>
 <div class="codehilite"><pre><span></span>sudo chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
 
 
@@ -1165,8 +1229,10 @@ sudo firewall-cmd --reload
 <span class="c1"># Check out the apache.misp.ssl file for an example</span>
 </pre></div>
 
-<p>!!! warning:
-    To be fixed - Place holder</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To be fixed - Place holder</p>
+</div>
 <div class="codehilite"><pre><span></span><span class="c1"># If a valid SSL certificate is not already created for the server, create a self-signed certificate:</span>
 sudo openssl req -newkey rsa:4096 -days <span class="m">365</span> -nodes -x509 <span class="se">\</span>
 -subj <span class="s2">&quot;/C=</span><span class="si">${</span><span class="nv">OPENSSL_C</span><span class="si">}</span><span class="s2">/ST=</span><span class="si">${</span><span class="nv">OPENSSL_ST</span><span class="si">}</span><span class="s2">/L=</span><span class="si">${</span><span class="nv">OPENSSL_L</span><span class="si">}</span><span class="s2">/O=</span><span class="si">${</span><span class="nv">OPENSSL_O</span><span class="si">}</span><span class="s2">/OU=</span><span class="si">${</span><span class="nv">OPENSSL_OU</span><span class="si">}</span><span class="s2">/CN=</span><span class="si">${</span><span class="nv">OPENSSL_CN</span><span class="si">}</span><span class="s2">/emailAddress=</span><span class="si">${</span><span class="nv">OPENSSL_EMAILADDRESS</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\</span>
@@ -1412,26 +1478,36 @@ sudo $RUN_PHP &quot;$CAKE Admin setSetting &quot;Session.timeout&quot; 600&quot;
 sudo $RUN_PHP &quot;$CAKE Admin setSetting &quot;Session.cookie_timeout&quot; 3600&quot;
 </pre></div>
 
-<p>!!! notice:
-    Now log in using the webinterface: http://misp/users/login
-    The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin</p>
-<h1 id="using-the-server-settings-tool-in-the-admin-interface-administration-server-settings-set-misp-up-to-your-preference">Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<a class="headerlink" href="#using-the-server-settings-tool-in-the-admin-interface-administration-server-settings-set-misp-up-to-your-preference" title="Permanent link">&para;</a></h1>
-<h1 id="it-is-especially-vital-that-no-critical-issues-remain">It is especially vital that no critical issues remain!<a class="headerlink" href="#it-is-especially-vital-that-no-critical-issues-remain" title="Permanent link">&para;</a></h1>
-<p>Don't forget to change the email, password and authentication key after installation.</p>
-<h1 id="once-done-have-a-look-at-the-diagnostics">Once done, have a look at the diagnostics<a class="headerlink" href="#once-done-have-a-look-at-the-diagnostics" title="Permanent link">&para;</a></h1>
-<h1 id="if-any-of-the-directories-that-misp-uses-to-store-files-is-not-writeable-to-the-apache-user-change-the-permissions">If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions<a class="headerlink" href="#if-any-of-the-directories-that-misp-uses-to-store-files-is-not-writeable-to-the-apache-user-change-the-permissions" title="Permanent link">&para;</a></h1>
-<h1 id="you-can-do-this-by-running-the-following-commands">you can do this by running the following commands:<a class="headerlink" href="#you-can-do-this-by-running-the-following-commands" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>chmod -R 750 /var/www/MISP/&lt;directory path with an indicated issue&gt;
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Now log in using the webinterface: http://misp/users/login<br />
+The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin<br />
+Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<br />
+It is especially vital that no critical issues remain!<br />
+Don't forget to change the email, password and authentication key after installation<br />
+Once done, have a look at the diagnostics.<br /></p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions<br />
+you can do this by running the following commands:
+<div class="codehilite"><pre><span></span>chmod -R <span class="m">750</span> /var/www/MISP/&lt;directory path with an indicated issue&gt;
 chown -R apache:apache /var/www/MISP/&lt;directory path with an indicated issue&gt;
-</pre></div>
-
-<h1 id="make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items">Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items<a class="headerlink" href="#make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items" title="Permanent link">&para;</a></h1>
-<p>!!! notice:
-    If anything goes wrong, make sure that you check MISP's logs for errors:
-    # /var/www/MISP/app/tmp/logs/error.log
-    # /var/www/MISP/app/tmp/logs/resque-worker-error.log
-    # /var/www/MISP/app/tmp/logs/resque-scheduler-error.log
-    # /var/www/MISP/app/tmp/logs/resque-2015-01-01.log //where the actual date is the current date</p>
+</pre></div></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items</p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>If anything goes wrong, make sure that you check MISP's logs for errors:
+<div class="codehilite"><pre><span></span># /var/www/MISP/app/tmp/logs/error.log
+# /var/www/MISP/app/tmp/logs/resque-worker-error.log
+# /var/www/MISP/app/tmp/logs/resque-scheduler-error.log
+# /var/www/MISP/app/tmp/logs/resque-2015-01-01.log //where the actual date is the current date
+</pre></div></p>
+</div>
 <h3 id="recommended-actions">Recommended actions<a class="headerlink" href="#recommended-actions" title="Permanent link">&para;</a></h3>
 <hr />
 <ul>
