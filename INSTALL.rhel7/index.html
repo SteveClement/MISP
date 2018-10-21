@@ -316,9 +316,72 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Redhat Enterprise Linux 7
+      </label>
+    
     <a href="./" title="Redhat Enterprise Linux 7" class="md-nav__link md-nav__link--active">
       Redhat Enterprise Linux 7
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-overview-and-assumptions" title="0/ Overview and Assumptions" class="md-nav__link">
+    0/ Overview and Assumptions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-a-valid-support-agreement-allowing-the-system-to-register-to-the-red-hat-customer-portal-and-receive-updates" title="0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates" class="md-nav__link">
+    0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-the-ability-to-enable-additional-rpm-repositories-specifically-the-epel-and-software-collections-scl-repos" title="0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos" class="md-nav__link">
+    0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-this-system-will-have-direct-or-proxy-access-to-the-internet-for-updates-or-connected-to-a-red-hat-satellite-server" title="0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server" class="md-nav__link">
+    0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-this-document-is-to-get-a-misp-instance-up-and-running-over-http-i-havent-done-a-full-test-of-all-features" title="0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features" class="md-nav__link">
+    0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -585,6 +648,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-overview-and-assumptions" title="0/ Overview and Assumptions" class="md-nav__link">
+    0/ Overview and Assumptions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-a-valid-support-agreement-allowing-the-system-to-register-to-the-red-hat-customer-portal-and-receive-updates" title="0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates" class="md-nav__link">
+    0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-the-ability-to-enable-additional-rpm-repositories-specifically-the-epel-and-software-collections-scl-repos" title="0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos" class="md-nav__link">
+    0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-this-system-will-have-direct-or-proxy-access-to-the-internet-for-updates-or-connected-to-a-red-hat-satellite-server" title="0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server" class="md-nav__link">
+    0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-this-document-is-to-get-a-misp-instance-up-and-running-over-http-i-havent-done-a-full-test-of-all-features" title="0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features" class="md-nav__link">
+    0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -596,192 +709,271 @@
               
                 
                 
-                <h2 id="installation-instructions-for-rhel-7x">INSTALLATION INSTRUCTIONS for RHEL 7.x<a class="headerlink" href="#installation-instructions-for-rhel-7x" title="Permanent link">&para;</a></h2>
-<p>+----------------------------------------+
-|   0/ Overview and Assumptions          |
-+----------------------------------------+
-This document details the steps to install MISP on Red Hat Enterprise Linux 7.x (RHEL 7.x). At time of this writing it
+                <h1 id="installation-instructions-for-rhel-7x">INSTALLATION INSTRUCTIONS for RHEL 7.x<a class="headerlink" href="#installation-instructions-for-rhel-7x" title="Permanent link">&para;</a></h1>
+<hr />
+<h2 id="0-overview-and-assumptions">0/ Overview and Assumptions<a class="headerlink" href="#0-overview-and-assumptions" title="Permanent link">&para;</a></h2>
+<p>This document details the steps to install MISP on Red Hat Enterprise Linux 7.x (RHEL 7.x). At time of this writing it
 was tested on version 7.4.</p>
 <p>The following assumptions with regard to this installation have been made.</p>
-<p>0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates
-0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos
-0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server
-0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features</p>
-<p>+----------------------------------------------+
-|   1/ OS Install and additional repositories  |
-+----------------------------------------------+</p>
-<p>1.1/ Complete a minimal RHEL installation, configure IP address to connect automatically.</p>
-<p>1.2/ Configure system hostname
-hostnamectl set-hostname misp # You're choice, in a production environment, it's best to use a FQDN</p>
-<p>1.3/ Register the system for updates with Red Hat Subscription Manager
-subscription-manager register # register your system to an account
-subscription-manager attach   # attach your system to a current subscription</p>
-<p>1.4/ Enable the optional, extras and Software Collections (SCL) repos
-subscription-manager repos --enable rhel-7-server-optional-rpms
+<h3 id="01-a-valid-support-agreement-allowing-the-system-to-register-to-the-red-hat-customer-portal-and-receive-updates">0.1/ A valid support agreement allowing the system to register to the Red Hat Customer Portal and receive updates<a class="headerlink" href="#01-a-valid-support-agreement-allowing-the-system-to-register-to-the-red-hat-customer-portal-and-receive-updates" title="Permanent link">&para;</a></h3>
+<h3 id="02-the-ability-to-enable-additional-rpm-repositories-specifically-the-epel-and-software-collections-scl-repos">0.2/ The ability to enable additional RPM repositories, specifically the EPEL and Software Collections (SCL) repos<a class="headerlink" href="#02-the-ability-to-enable-additional-rpm-repositories-specifically-the-epel-and-software-collections-scl-repos" title="Permanent link">&para;</a></h3>
+<h3 id="03-this-system-will-have-direct-or-proxy-access-to-the-internet-for-updates-or-connected-to-a-red-hat-satellite-server">0.3/ This system will have direct or proxy access to the Internet for updates. Or connected to a Red Hat Satellite Server<a class="headerlink" href="#03-this-system-will-have-direct-or-proxy-access-to-the-internet-for-updates-or-connected-to-a-red-hat-satellite-server" title="Permanent link">&para;</a></h3>
+<h3 id="04-this-document-is-to-get-a-misp-instance-up-and-running-over-http-i-havent-done-a-full-test-of-all-features">0.4/ This document is to get a MISP instance up and running over HTTP. I haven't done a full test of all features<a class="headerlink" href="#04-this-document-is-to-get-a-misp-instance-up-and-running-over-http-i-havent-done-a-full-test-of-all-features" title="Permanent link">&para;</a></h3>
+<h1 id="1-os-install-and-additional-repositories">1/ OS Install and additional repositories<a class="headerlink" href="#1-os-install-and-additional-repositories" title="Permanent link">&para;</a></h1>
+<h2 id="11-complete-a-minimal-rhel-installation-configure-ip-address-to-connect-automatically">1.1/ Complete a minimal RHEL installation, configure IP address to connect automatically.<a class="headerlink" href="#11-complete-a-minimal-rhel-installation-configure-ip-address-to-connect-automatically" title="Permanent link">&para;</a></h2>
+<h2 id="12-configure-system-hostname">1.2/ Configure system hostname<a class="headerlink" href="#12-configure-system-hostname" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>hostnamectl set-hostname misp <span class="c1"># You&#39;re choice, in a production environment, it&#39;s best to use a FQDN</span>
+</pre></div>
+
+<h2 id="13-register-the-system-for-updates-with-red-hat-subscription-manager">1.3/ Register the system for updates with Red Hat Subscription Manager<a class="headerlink" href="#13-register-the-system-for-updates-with-red-hat-subscription-manager" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>subscription-manager register <span class="c1"># register your system to an account</span>
+subscription-manager attach   <span class="c1"># attach your system to a current subscription</span>
+</pre></div>
+
+<h2 id="14-enable-the-optional-extras-and-software-collections-scl-repos">1.4/ Enable the optional, extras and Software Collections (SCL) repos<a class="headerlink" href="#14-enable-the-optional-extras-and-software-collections-scl-repos" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>subscription-manager repos --enable rhel-7-server-optional-rpms
 subscription-manager repos --enable rhel-7-server-extras-rpms
-subscription-manager repos --enable rhel-server-rhscl-7-rpms</p>
-<p>1.5a/ OPTIONAL: Install the deltarpm package to help reduce download size when installing updates
-yum install deltarpm</p>
-<p>1.5/ Update the system and reboot
-yum update</p>
-<h2 id="note-as-time-of-writing-performing-a-yum-update-results-in-the-rhel-7-server-rt-beta-rpms-being-forbidden">NOTE: As time of writing performing a yum update results in the rhel-7-server-rt-beta-rpms being forbidden<a class="headerlink" href="#note-as-time-of-writing-performing-a-yum-update-results-in-the-rhel-7-server-rt-beta-rpms-being-forbidden" title="Permanent link">&para;</a></h2>
-<h2 id="the-repo-can-be-disabled-using-the-following-command">The repo can be disabled using the following command<a class="headerlink" href="#the-repo-can-be-disabled-using-the-following-command" title="Permanent link">&para;</a></h2>
-<p>subscription-manager repos --disable rhel-7-server-rt-beta-rpms</p>
-<p>1.6/ Install the EPEL repo
-yum install <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</a></p>
-<p>1.7/ Install the SCL repo
-yum install centos-release-scl</p>
-<p>+-----------------------------+
-|   2/ Install Dependencies   |
-+-----------------------------+
-Once the system is installed and updated, the following steps can be performed as root</p>
-<p>2.01/ Install some base system dependencies
-yum install gcc git httpd zip python-devel libxslt-devel zlib-devel python-pip ssdeep-devel</p>
-<p>2.02/ Install MariaDB 10.2 from SCL
-yum install rh-mariadb102</p>
-<p>2.03/ Start the MariaDB service and enable it to start on boot
-systemctl start rh-mariadb102-mariadb.service
-systemctl enable rh-mariadb102-mariadb.service</p>
-<h2 id="misp-24-requires-php-55-as-a-minimum-we-need-a-higher-version-than-base-rhel-provides">MISP 2.4 requires PHP 5.5 as a minimum, we need a higher version than base RHEL provides.<a class="headerlink" href="#misp-24-requires-php-55-as-a-minimum-we-need-a-higher-version-than-base-rhel-provides" title="Permanent link">&para;</a></h2>
-<h2 id="this-guide-installs-php-71-from-scl">This guide installs PHP 7.1 from SCL<a class="headerlink" href="#this-guide-installs-php-71-from-scl" title="Permanent link">&para;</a></h2>
-<p>2.04/ Install PHP 7.1 from SCL
-yum install rh-php71 rh-php71-php-fpm rh-php71-php-devel rh-php71-php-mysqlnd rh-php71-php-mbstring rh-php71-php-xml rh-php71-php-bcmath rh-php71-php-opcache</p>
-<h2 id="if-we-want-to-use-httpd-from-rhel-base-we-can-use-the-rh-php71-php-fpm-service-instead">If we want to use httpd from RHEL base we can use the rh-php71-php-fpm service instead<a class="headerlink" href="#if-we-want-to-use-httpd-from-rhel-base-we-can-use-the-rh-php71-php-fpm-service-instead" title="Permanent link">&para;</a></h2>
-<p>2.05/ Start the PHP FPM service and enable to start on boot
-systemctl start rh-php71-php-fpm.service
-systemctl enable rh-php71-php-fpm.service</p>
-<p>2.06/ Install redis 3.2 from SCL
-yum install rh-redis32</p>
-<p>2.07/ Start redis service and enable to start on boot
-systemctl start rh-redis32-redis.service
-systemctl enable rh-redis32-redis.service</p>
-<p>2.08/ Start a SCL shell with rh-mariadb102 rh-php71 and rh-redis32 enabled
-scl enable rh-mariadb102 rh-php71 rh-redis32 bash</p>
-<p>2.08/ Secure the MariaDB installation, run the following command and follow the prompts
-mysql_secure_installation</p>
-<p>2.10/ Update the PHP extension repository and install required package
-pear channel-update pear.php.net
-pear install Crypt_GPG</p>
-<p>2.11/ Install haveged and enable to start on boot to provide entropy for GPG
-yum install haveged
+subscription-manager repos --enable rhel-server-rhscl-7-rpms
+</pre></div>
+
+<h3 id="15a-optional-install-the-deltarpm-package-to-help-reduce-download-size-when-installing-updates">1.5a/ OPTIONAL: Install the deltarpm package to help reduce download size when installing updates<a class="headerlink" href="#15a-optional-install-the-deltarpm-package-to-help-reduce-download-size-when-installing-updates" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>yum install deltarpm
+</pre></div>
+
+<h2 id="15-update-the-system-and-reboot">1.5/ Update the system and reboot<a class="headerlink" href="#15-update-the-system-and-reboot" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum update
+</pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As time of writing performing a yum update results in the rhel-7-server-rt-beta-rpms being forbidden.<br />
+The repo can be disabled using the following command
+<div class="codehilite"><pre><span></span>subscription-manager repos --disable rhel-7-server-rt-beta-rpms
+</pre></div></p>
+</div>
+<h2 id="16-install-the-epel-repo">1.6/ Install the EPEL repo<a class="headerlink" href="#16-install-the-epel-repo" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+</pre></div>
+
+<h2 id="17-install-the-scl-repo">1.7/ Install the SCL repo<a class="headerlink" href="#17-install-the-scl-repo" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install centos-release-scl
+</pre></div>
+
+<h1 id="2-install-dependencies">2/ Install Dependencies<a class="headerlink" href="#2-install-dependencies" title="Permanent link">&para;</a></h1>
+<p>Once the system is installed and updated, the following steps can be performed as root</p>
+<h2 id="201-install-some-base-system-dependencies">2.01/ Install some base system dependencies<a class="headerlink" href="#201-install-some-base-system-dependencies" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install gcc git httpd zip python-devel libxslt-devel zlib-devel python-pip ssdeep-devel
+</pre></div>
+
+<h2 id="202-install-mariadb-102-from-scl">2.02/ Install MariaDB 10.2 from SCL<a class="headerlink" href="#202-install-mariadb-102-from-scl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install rh-mariadb102
+</pre></div>
+
+<h2 id="203-start-the-mariadb-service-and-enable-it-to-start-on-boot">2.03/ Start the MariaDB service and enable it to start on boot<a class="headerlink" href="#203-start-the-mariadb-service-and-enable-it-to-start-on-boot" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>systemctl start rh-mariadb102-mariadb.service
+systemctl <span class="nb">enable</span> rh-mariadb102-mariadb.service
+</pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MISP 2.4 requires PHP 5.6 as a minimum, we need a higher version than base RHEL provides.<br />
+This guide installs PHP 7.1 from SCL</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>PHP 5.6 will be EOL in January 2018. Please update accordingly. In future only PHP7 will be supported.</p>
+</div>
+<h2 id="204-install-php-71-from-scl">2.04/ Install PHP 7.1 from SCL<a class="headerlink" href="#204-install-php-71-from-scl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install rh-php71 rh-php71-php-fpm rh-php71-php-devel rh-php71-php-mysqlnd rh-php71-php-mbstring rh-php71-php-xml rh-php71-php-bcmath rh-php71-php-opcache
+</pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If we want to use httpd from RHEL base we can use the rh-php71-php-fpm service instead</p>
+</div>
+<h2 id="205-start-the-php-fpm-service-and-enable-to-start-on-boot">2.05/ Start the PHP FPM service and enable to start on boot<a class="headerlink" href="#205-start-the-php-fpm-service-and-enable-to-start-on-boot" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>systemctl start rh-php71-php-fpm.service
+systemctl <span class="nb">enable</span> rh-php71-php-fpm.service
+</pre></div>
+
+<h2 id="206-install-redis-32-from-scl">2.06/ Install redis 3.2 from SCL<a class="headerlink" href="#206-install-redis-32-from-scl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install rh-redis32
+</pre></div>
+
+<h2 id="207-start-redis-service-and-enable-to-start-on-boot">2.07/ Start redis service and enable to start on boot<a class="headerlink" href="#207-start-redis-service-and-enable-to-start-on-boot" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>systemctl start rh-redis32-redis.service
+systemctl <span class="nb">enable</span> rh-redis32-redis.service
+</pre></div>
+
+<h2 id="208-start-a-scl-shell-with-rh-mariadb102-rh-php71-and-rh-redis32-enabled">2.08/ Start a SCL shell with rh-mariadb102 rh-php71 and rh-redis32 enabled<a class="headerlink" href="#208-start-a-scl-shell-with-rh-mariadb102-rh-php71-and-rh-redis32-enabled" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>scl <span class="nb">enable</span> rh-mariadb102 rh-php71 rh-redis32 bash
+</pre></div>
+
+<h2 id="208-secure-the-mariadb-installation-run-the-following-command-and-follow-the-prompts">2.08/ Secure the MariaDB installation, run the following command and follow the prompts<a class="headerlink" href="#208-secure-the-mariadb-installation-run-the-following-command-and-follow-the-prompts" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>mysql_secure_installation
+</pre></div>
+
+<h2 id="210-update-the-php-extension-repository-and-install-required-package">2.10/ Update the PHP extension repository and install required package<a class="headerlink" href="#210-update-the-php-extension-repository-and-install-required-package" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>pear channel-update pear.php.net
+pear install Crypt_GPG
+</pre></div>
+
+<h2 id="211-install-haveged-and-enable-to-start-on-boot-to-provide-entropy-for-gpg">2.11/ Install haveged and enable to start on boot to provide entropy for GPG<a class="headerlink" href="#211-install-haveged-and-enable-to-start-on-boot-to-provide-entropy-for-gpg" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install haveged
 systemctl start haveged
-systemctl enable haveged</p>
-<p>2.12/ Install Python 3.6 from SCL
-yum install rh-python36</p>
-<p>+---------------------+
-|   3/ MISP Download  |
-+---------------------+</p>
-<p>3.01/ Download MISP code using git in /var/www/ directory
-cd /var/www
-git clone <a href="https://github.com/MISP/MISP.git">https://github.com/MISP/MISP.git</a>
-git checkout tags/$(git describe --tags <code>git rev-list --tags --max-count=1</code>)</p>
-<h1 id="if-the-last-shortcut-doesnt-work-specify-the-latest-version-manually">if the last shortcut doesn't work, specify the latest version manually<a class="headerlink" href="#if-the-last-shortcut-doesnt-work-specify-the-latest-version-manually" title="Permanent link">&para;</a></h1>
-<h1 id="example-git-checkout-tagsv24xy">example: git checkout tags/v2.4.XY<a class="headerlink" href="#example-git-checkout-tagsv24xy" title="Permanent link">&para;</a></h1>
-<h1 id="the-message-regarding-a-detached-head-state-is-expected-behaviour">the message regarding a "detached HEAD state" is expected behaviour<a class="headerlink" href="#the-message-regarding-a-detached-head-state-is-expected-behaviour" title="Permanent link">&para;</a></h1>
-<h1 id="you-only-have-to-create-a-new-branch-if-you-want-to-change-stuff-and-do-a-pull-request-for-example">(you only have to create a new branch, if you want to change stuff and do a pull request for example)<a class="headerlink" href="#you-only-have-to-create-a-new-branch-if-you-want-to-change-stuff-and-do-a-pull-request-for-example" title="Permanent link">&para;</a></h1>
-<p>3.02/ Make git ignore filesystem permission differences
-git config core.filemode false</p>
-<p>3.03/ Install Mitre's STIX and its dependencies by running the following commands:
-pip install importlib
+systemctl <span class="nb">enable</span> haveged
+</pre></div>
+
+<h2 id="212-install-python-36-from-scl">2.12/ Install Python 3.6 from SCL<a class="headerlink" href="#212-install-python-36-from-scl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install rh-python36
+</pre></div>
+
+<h1 id="3-misp-download">3/ MISP Download<a class="headerlink" href="#3-misp-download" title="Permanent link">&para;</a></h1>
+<h2 id="301-download-misp-code-using-git-in-varwww-directory">3.01/ Download MISP code using git in /var/www/ directory<a class="headerlink" href="#301-download-misp-code-using-git-in-varwww-directory" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www
+git clone https://github.com/MISP/MISP.git
+git checkout tags/<span class="k">$(</span>git describe --tags <span class="sb">`</span>git rev-list --tags --max-count<span class="o">=</span><span class="m">1</span><span class="sb">`</span><span class="k">)</span>
+<span class="c1"># if the last shortcut doesn&#39;t work, specify the latest version manually</span>
+<span class="c1"># example: git checkout tags/v2.4.XY</span>
+<span class="c1"># the message regarding a &quot;detached HEAD state&quot; is expected behaviour</span>
+<span class="c1"># (you only have to create a new branch, if you want to change stuff and do a pull request for example)</span>
+</pre></div>
+
+<h2 id="302-make-git-ignore-filesystem-permission-differences">3.02/ Make git ignore filesystem permission differences<a class="headerlink" href="#302-make-git-ignore-filesystem-permission-differences" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>git config core.filemode <span class="nb">false</span>
+</pre></div>
+
+<h2 id="303-install-mitres-stix-and-its-dependencies-by-running-the-following-commands">3.03/ Install Mitre's STIX and its dependencies by running the following commands<a class="headerlink" href="#303-install-mitres-stix-and-its-dependencies-by-running-the-following-commands" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>pip install importlib
 yum install python-six
-cd /var/www/MISP/app/files/scripts
-git clone <a href="https://github.com/CybOXProject/python-cybox.git">https://github.com/CybOXProject/python-cybox.git</a>
-git clone <a href="https://github.com/STIXProject/python-stix.git">https://github.com/STIXProject/python-stix.git</a>
-cd /var/www/MISP/app/files/scripts/python-cybox
-git config core.filemode false</p>
-<h1 id="if-your-umask-has-been-changed-from-the-default-it-is-a-good-idea-to-reset-it-to-0022-before-installing-python-modules">If your umask has been changed from the default, it is a good idea to reset it to 0022 before installing python modules<a class="headerlink" href="#if-your-umask-has-been-changed-from-the-default-it-is-a-good-idea-to-reset-it-to-0022-before-installing-python-modules" title="Permanent link">&para;</a></h1>
-<p>UMASK=$(umask)
-umask 0022
-scl enable rh-python36 'python3 setup.py install'
-cd /var/www/MISP/app/files/scripts/python-stix
-git config core.filemode false
-scl enable rh-python36 'python3 setup.py install'</p>
-<p>3.04/ Install mixbox to accomodate the new STIX dependencies:
-cd /var/www/MISP/app/files/scripts/
-git clone <a href="https://github.com/CybOXProject/mixbox.git">https://github.com/CybOXProject/mixbox.git</a>
-cd /var/www/MISP/app/files/scripts/mixbox
-git config core.filemode false
-scl enable rh-python36 'python3 setup.py install'
-umask $UMASK</p>
-<p>3.05/ Enable python3 for php-fpm</p>
-<p>echo 'source scl_source enable rh-python36' &gt;&gt; /etc/opt/rh/rh-php71/sysconfig/php-fpm
-sed -i.org -e 's/^;<span><span class="MathJax_Preview">clear_env = no</span><script type="math/tex">clear_env = no</script></span>/\1/' /etc/opt/rh/rh-php71/php-fpm.d/www.conf
-systemctl restart rh-php71-php-fpm.service</p>
-<p>+---------------------+
-|   4/ CakePHP        |
-+---------------------+</p>
-<p>4.01/ CakePHP is now included as a submodule of MISP, execute the following commands to let git fetch it ignore this
-message: No submodule mapping found in .gitmodules for path 'app/Plugin/CakeResque'
-cd /var/www/MISP
-git submodule update --init --recursive</p>
-<h1 id="make-git-ignore-filesystem-permission-differences-for-submodules">Make git ignore filesystem permission differences for submodules<a class="headerlink" href="#make-git-ignore-filesystem-permission-differences-for-submodules" title="Permanent link">&para;</a></h1>
-<p>git submodule foreach --recursive git config core.filemode false</p>
-<p>4.02/ Install CakeResque along with its dependencies if you intend to use the built in background jobs
-cd /var/www/MISP/app
+<span class="nb">cd</span> /var/www/MISP/app/files/scripts
+git clone https://github.com/CybOXProject/python-cybox.git
+git clone https://github.com/STIXProject/python-stix.git
+<span class="nb">cd</span> /var/www/MISP/app/files/scripts/python-cybox
+git config core.filemode <span class="nb">false</span>
+<span class="c1"># If your umask has been changed from the default, it is a good idea to reset it to 0022 before installing python modules</span>
+<span class="nv">UMASK</span><span class="o">=</span><span class="k">$(</span><span class="nb">umask</span><span class="k">)</span>
+<span class="nb">umask</span> <span class="m">0022</span>
+scl <span class="nb">enable</span> rh-python36 <span class="s1">&#39;python3 setup.py install&#39;</span>
+<span class="nb">cd</span> /var/www/MISP/app/files/scripts/python-stix
+git config core.filemode <span class="nb">false</span>
+scl <span class="nb">enable</span> rh-python36 <span class="s1">&#39;python3 setup.py install&#39;</span>
+</pre></div>
+
+<h2 id="304-install-mixbox-to-accomodate-the-new-stix-dependencies">3.04/ Install mixbox to accomodate the new STIX dependencies<a class="headerlink" href="#304-install-mixbox-to-accomodate-the-new-stix-dependencies" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www/MISP/app/files/scripts/
+git clone https://github.com/CybOXProject/mixbox.git
+<span class="nb">cd</span> /var/www/MISP/app/files/scripts/mixbox
+git config core.filemode <span class="nb">false</span>
+scl <span class="nb">enable</span> rh-python36 <span class="s1">&#39;python3 setup.py install&#39;</span>
+<span class="nb">umask</span> <span class="nv">$UMASK</span>
+</pre></div>
+
+<h2 id="305-enable-python3-for-php-fpm">3.05/ Enable python3 for php-fpm<a class="headerlink" href="#305-enable-python3-for-php-fpm" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;source scl_source enable rh-python36&#39;</span> &gt;&gt; /etc/opt/rh/rh-php71/sysconfig/php-fpm
+sed -i.org -e <span class="s1">&#39;s/^;\(clear_env = no\)/\1/&#39;</span> /etc/opt/rh/rh-php71/php-fpm.d/www.conf
+systemctl restart rh-php71-php-fpm.service
+</pre></div>
+
+<h1 id="4-cakephp">4/ CakePHP<a class="headerlink" href="#4-cakephp" title="Permanent link">&para;</a></h1>
+<h2 id="401-cakephp-is-now-included-as-a-submodule-of-misp">4.01/ CakePHP is now included as a submodule of MISP<a class="headerlink" href="#401-cakephp-is-now-included-as-a-submodule-of-misp" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Execute the following commands to let git fetch it ignore this
+<div class="codehilite"><pre><span></span>message: No submodule mapping found in .gitmodules for path &#39;app/Plugin/CakeResque&#39;
+</pre></div></p>
+</div>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www/MISP
+git submodule update --init --recursive
+<span class="c1"># Make git ignore filesystem permission differences for submodules</span>
+git submodule foreach --recursive git config core.filemode <span class="nb">false</span>
+</pre></div>
+
+<h2 id="402-install-cakeresque-along-with-its-dependencies-if-you-intend-to-use-the-built-in-background-jobs">4.02/ Install CakeResque along with its dependencies if you intend to use the built in background jobs<a class="headerlink" href="#402-install-cakeresque-along-with-its-dependencies-if-you-intend-to-use-the-built-in-background-jobs" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www/MISP/app
 php composer.phar require kamisama/cake-resque:4.1.2
 php composer.phar config vendor-dir Vendor
-php composer.phar install</p>
-<p>4.03/ Install and configure php redis connector through pecl
-pecl install redis
-echo "extension=redis.so" &gt; /etc/opt/rh/rh-php71/php-fpm.d/redis.ini
+php composer.phar install
+</pre></div>
+
+<h2 id="403-install-and-configure-php-redis-connector-through-pecl">4.03/ Install and configure php redis connector through pecl<a class="headerlink" href="#403-install-and-configure-php-redis-connector-through-pecl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>pecl install redis
+<span class="nb">echo</span> <span class="s2">&quot;extension=redis.so&quot;</span> &gt; /etc/opt/rh/rh-php71/php-fpm.d/redis.ini
 ln -s ../php-fpm.d/redis.ini /etc/opt/rh/rh-php71/php.d/99-redis.ini
-systemctl restart rh-php71-php-fpm.service</p>
-<p>4.04/ Set a timezone in php.ini
-echo 'date.timezone = "Australia/Sydney"' &gt; /etc/opt/rh/rh-php71/php-fpm.d/timezone.ini
-ln -s ../php-fpm.d/timezone.ini /etc/opt/rh/rh-php71/php.d/99-timezone.ini</p>
-<p>4.05/ To use the scheduler worker for scheduled tasks, do the following:
-cp -fa /var/www/MISP/INSTALL/setup/config.php /var/www/MISP/app/Plugin/CakeResque/Config/config.php</p>
-<p>+----------------------------+
-|   5/ Set file permissions  |
-+----------------------------+</p>
-<p>5.01/ Make sure the permissions are set correctly using the following commands as root:
-chown -R root:apache /var/www/MISP
-find /var/www/MISP -type d -exec chmod g=rx {} \;
-chmod -R g+r,o= /var/www/MISP
+systemctl restart rh-php71-php-fpm.service
+</pre></div>
+
+<h2 id="404-set-a-timezone-in-phpini">4.04/ Set a timezone in php.ini<a class="headerlink" href="#404-set-a-timezone-in-phpini" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;date.timezone = &quot;Australia/Sydney&quot;&#39;</span> &gt; /etc/opt/rh/rh-php71/php-fpm.d/timezone.ini
+ln -s ../php-fpm.d/timezone.ini /etc/opt/rh/rh-php71/php.d/99-timezone.ini
+</pre></div>
+
+<h2 id="405-to-use-the-scheduler-worker-for-scheduled-tasks-do-the-following">4.05/ To use the scheduler worker for scheduled tasks, do the following:<a class="headerlink" href="#405-to-use-the-scheduler-worker-for-scheduled-tasks-do-the-following" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>cp -fa /var/www/MISP/INSTALL/setup/config.php /var/www/MISP/app/Plugin/CakeResque/Config/config.php
+</pre></div>
+
+<h1 id="5-set-file-permissions">5/ Set file permissions<a class="headerlink" href="#5-set-file-permissions" title="Permanent link">&para;</a></h1>
+<h2 id="501-make-sure-the-permissions-are-set-correctly-using-the-following-commands-as-root">5.01/ Make sure the permissions are set correctly using the following commands as root:<a class="headerlink" href="#501-make-sure-the-permissions-are-set-correctly-using-the-following-commands-as-root" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>chown -R root:apache /var/www/MISP
+find /var/www/MISP -type d -exec chmod <span class="nv">g</span><span class="o">=</span>rx <span class="o">{}</span> <span class="se">\;</span>
+chmod -R g+r,o<span class="o">=</span> /var/www/MISP
 chown apache:apache /var/www/MISP/app/files
 chown apache:apache /var/www/MISP/app/files/terms
 chown apache:apache /var/www/MISP/app/files/scripts/tmp
 chown apache:apache /var/www/MISP/app/Plugin/CakeResque/tmp
 chown -R apache:apache /var/www/MISP/app/tmp
 chown -R apache:apache /var/www/MISP/app/webroot/img/orgs
-chown -R apache:apache /var/www/MISP/app/webroot/img/custom</p>
-<p>+--------------------------------+
-|   6/ Create database and user  |
-+--------------------------------+</p>
-<p>6.01/ Set database to listen on localhost only
-echo [mysqld] &gt; /etc/opt/rh/rh-mariadb102/my.cnf.d/bind-address.cnf
-echo bind-address=127.0.0.1 &gt;&gt; /etc/opt/rh/rh-mariadb102/my.cnf.d/bind-address.cnf
-systemctl restart rh-mariadb102-mariadb</p>
-<p>6.02/ Start MariaDB shell and create database
-mysql -u root -p</p>
-<p>MariaDB [(none)]&gt; create database misp;
-MariaDB [(none)]&gt; grant usage on <em>.</em> to misp@localhost identified by 'XXXXXXXXX';
+chown -R apache:apache /var/www/MISP/app/webroot/img/custom
+</pre></div>
+
+<h1 id="6-create-database-and-user">6/ Create database and user<a class="headerlink" href="#6-create-database-and-user" title="Permanent link">&para;</a></h1>
+<h2 id="601-set-database-to-listen-on-localhost-only">6.01/ Set database to listen on localhost only<a class="headerlink" href="#601-set-database-to-listen-on-localhost-only" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="o">[</span>mysqld<span class="o">]</span> &gt; /etc/opt/rh/rh-mariadb102/my.cnf.d/bind-address.cnf
+<span class="nb">echo</span> bind-address<span class="o">=</span><span class="m">127</span>.0.0.1 &gt;&gt; /etc/opt/rh/rh-mariadb102/my.cnf.d/bind-address.cnf
+systemctl restart rh-mariadb102-mariadb
+</pre></div>
+
+<h2 id="602-start-mariadb-shell-and-create-database">6.02/ Start MariaDB shell and create database<a class="headerlink" href="#602-start-mariadb-shell-and-create-database" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>mysql -u root -p
+</pre></div>
+
+<div class="codehilite"><pre><span></span>MariaDB [(none)]&gt; create database misp;
+MariaDB [(none)]&gt; grant usage on *.* to misp@localhost identified by &#39;XXXXXXXXX&#39;;
 MariaDB [(none)]&gt; grant all privileges on misp.* to misp@localhost ;
-MariaDB [(none)]&gt; exit</p>
-<p>6.03/ Import the empty MySQL database from MYSQL.sql
-cd /var/www/MISP
-mysql -u misp -p misp &lt; INSTALL/MYSQL.sql</p>
+MariaDB [(none)]&gt; exit
+</pre></div>
+
+<h2 id="603-import-the-empty-mysql-database-from-mysqlsql">6.03/ Import the empty MySQL database from MYSQL.sql<a class="headerlink" href="#603-import-the-empty-mysql-database-from-mysqlsql" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>cd /var/www/MISP
+mysql -u misp -p misp &lt; INSTALL/MYSQL.sql
+</pre></div>
+
 <p>+--------------------------------+
 |   7/ Apache Configuration      |
 +--------------------------------+</p>
 <p>7.01/ Copy a sample vhost config to Apache configuration directory
-cp /var/www/MISP/INSTALL/apache.misp.centos7 /etc/httpd/conf.d/misp.conf</p>
+<div class="codehilite"><pre><span></span>cp /var/www/MISP/INSTALL/apache.misp.centos7 /etc/httpd/conf.d/misp.conf
+</pre></div></p>
 <p>7.02/ Since SELinux is enabled, we need to allow httpd to write to certain directories
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+<div class="codehilite"><pre><span></span>chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom</p>
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+</pre></div></p>
 <p>7.02/ Allow httpd to connect to the redis server and php-fpm over tcp/ip
-setsebool -P httpd_can_network_connect on</p>
+<div class="codehilite"><pre><span></span>setsebool -P httpd_can_network_connect on
+</pre></div></p>
 <p>7.03/ Enable and start the httpd service
-systemctl enable httpd.service
-systemctl start httpd.service</p>
+<div class="codehilite"><pre><span></span>systemctl enable httpd.service
+systemctl start httpd.service
+</pre></div></p>
 <p>7.04/ Open a hole in the firewalld service
-firewall-cmd --zone=public --add-port=80/tcp --permanent
-firewall-cmd --reload</p>
+<div class="codehilite"><pre><span></span>firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+</pre></div></p>
 <h1 id="we-seriously-recommend-using-only-https-ssl">We seriously recommend using only HTTPS / SSL !<a class="headerlink" href="#we-seriously-recommend-using-only-https-ssl" title="Permanent link">&para;</a></h1>
 <h1 id="add-ssl-support-by-running-yum-install-mod_ssl">Add SSL support by running: yum install mod_ssl<a class="headerlink" href="#add-ssl-support-by-running-yum-install-mod_ssl" title="Permanent link">&para;</a></h1>
 <h1 id="check-out-the-apachemispssl-file-for-an-example">Check out the apache.misp.ssl file for an example<a class="headerlink" href="#check-out-the-apachemispssl-file-for-an-example" title="Permanent link">&para;</a></h1>
@@ -790,80 +982,106 @@ firewall-cmd --reload</p>
 +--------------------------------+</p>
 <h1 id="misp-saves-the-stdout-and-stderr-of-its-workers-in-varwwwmispapptmplogs">MISP saves the stdout and stderr of it's workers in /var/www/MISP/app/tmp/logs<a class="headerlink" href="#misp-saves-the-stdout-and-stderr-of-its-workers-in-varwwwmispapptmplogs" title="Permanent link">&para;</a></h1>
 <h1 id="to-rotate-these-logs-install-the-supplied-logrotate-script">To rotate these logs install the supplied logrotate script:<a class="headerlink" href="#to-rotate-these-logs-install-the-supplied-logrotate-script" title="Permanent link">&para;</a></h1>
-<p>cp INSTALL/misp.logrotate /etc/logrotate.d/misp
-chmod 0640 /etc/logrotate.d/misp</p>
+<div class="codehilite"><pre><span></span>cp INSTALL/misp.logrotate /etc/logrotate.d/misp
+chmod 0640 /etc/logrotate.d/misp
+</pre></div>
+
 <p>8.01/ Allow logrotate to work under SELinux and modify the log files
-semanage fcontext -a -t httpd_log_t "/var/www/MISP/app/tmp/logs(/.*)?"
-chcon -R -t httpd_log_t /var/www/MISP/app/tmp/logs</p>
+<div class="codehilite"><pre><span></span>semanage fcontext -a -t httpd_log_t &quot;/var/www/MISP/app/tmp/logs(/.*)?&quot;
+chcon -R -t httpd_log_t /var/www/MISP/app/tmp/logs
+</pre></div></p>
 <p>8.02/ Allow logrotate to read /var/www
-checkmodule -M -m -o /tmp/misplogrotate.mod INSTALL/misplogrotate.te
+<div class="codehilite"><pre><span></span>checkmodule -M -m -o /tmp/misplogrotate.mod INSTALL/misplogrotate.te
 semodule_package -o /tmp/misplogrotate.pp -m /tmp/misplogrotate.mod
-semodule -i /tmp/misplogrotate.pp</p>
+semodule -i /tmp/misplogrotate.pp
+</pre></div></p>
 <p>+--------------------------------+
 |   9/ MISP Configuration        |
 +--------------------------------+</p>
 <p>9.01/ There are 4 sample configuration files in /var/www/MISP/app/Config that need to be copied
-cd /var/www/MISP/app/Config
+<div class="codehilite"><pre><span></span>cd /var/www/MISP/app/Config
 cp -a bootstrap.default.php bootstrap.php
 cp -a database.default.php database.php
 cp -a core.default.php core.php
-cp -a config.default.php config.php</p>
-<p>9.02/ Configure the fields in the newly created files</p>
-<h1 id="configure-the-fields-in-the-newly-created-files">Configure the fields in the newly created files:<a class="headerlink" href="#configure-the-fields-in-the-newly-created-files" title="Permanent link">&para;</a></h1>
-<h1 id="configphp-baseurl-example-baseurl-httpmisp-dont-use-localhost-it-causes-issues-when-browsing-externally">config.php   : baseurl (example: 'baseurl' =&gt; 'http://misp',) - don't use "localhost" it causes issues when browsing externally<a class="headerlink" href="#configphp-baseurl-example-baseurl-httpmisp-dont-use-localhost-it-causes-issues-when-browsing-externally" title="Permanent link">&para;</a></h1>
-<h1 id="corephp-uncomment-and-set-the-timezone-date_default_timezone_setutc">core.php   : Uncomment and set the timezone: <code>// date_default_timezone_set('UTC');</code><a class="headerlink" href="#corephp-uncomment-and-set-the-timezone-date_default_timezone_setutc" title="Permanent link">&para;</a></h1>
-<h1 id="databasephp-login-port-password-database">database.php : login, port, password, database<a class="headerlink" href="#databasephp-login-port-password-database" title="Permanent link">&para;</a></h1>
-<h1 id="database_config-has-to-be-filled">DATABASE_CONFIG has to be filled<a class="headerlink" href="#database_config-has-to-be-filled" title="Permanent link">&para;</a></h1>
-<h1 id="with-the-default-values-provided-in-section-6-this-would-look-like">With the default values provided in section 6, this would look like:<a class="headerlink" href="#with-the-default-values-provided-in-section-6-this-would-look-like" title="Permanent link">&para;</a></h1>
-<h1 id="class-database_config">class DATABASE_CONFIG {<a class="headerlink" href="#class-database_config" title="Permanent link">&para;</a></h1>
-<h1 id="public-default-array">public $default = array(<a class="headerlink" href="#public-default-array" title="Permanent link">&para;</a></h1>
-<h1 id="datasource-databasemysql">'datasource' =&gt; 'Database/Mysql',<a class="headerlink" href="#datasource-databasemysql" title="Permanent link">&para;</a></h1>
-<h1 id="persistent-false">'persistent' =&gt; false,<a class="headerlink" href="#persistent-false" title="Permanent link">&para;</a></h1>
-<h1 id="host-localhost">'host' =&gt; 'localhost',<a class="headerlink" href="#host-localhost" title="Permanent link">&para;</a></h1>
-<h1 id="login-misp-grant-usage-on-to-misplocalhost">'login' =&gt; 'misp', // grant usage on <em>.</em> to misp@localhost<a class="headerlink" href="#login-misp-grant-usage-on-to-misplocalhost" title="Permanent link">&para;</a></h1>
-<h1 id="port-3306">'port' =&gt; 3306,<a class="headerlink" href="#port-3306" title="Permanent link">&para;</a></h1>
-<h1 id="password-xxxxdbpasswordherexxxxx-identified-by-xxxxdbpasswordherexxxxx">'password' =&gt; 'XXXXdbpasswordhereXXXXX', // identified by 'XXXXdbpasswordhereXXXXX';<a class="headerlink" href="#password-xxxxdbpasswordherexxxxx-identified-by-xxxxdbpasswordherexxxxx" title="Permanent link">&para;</a></h1>
-<h1 id="database-misp-create-database-misp">'database' =&gt; 'misp', // create database misp;<a class="headerlink" href="#database-misp-create-database-misp" title="Permanent link">&para;</a></h1>
-<h1 id="prefix">'prefix' =&gt; '',<a class="headerlink" href="#prefix" title="Permanent link">&para;</a></h1>
-<h1 id="encoding-utf8">'encoding' =&gt; 'utf8',<a class="headerlink" href="#encoding-utf8" title="Permanent link">&para;</a></h1>
-<h1 id="_1">);<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h1 id="_2">}<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
-<h1 id="important-change-the-salt-key-in-varwwwmispappconfigconfigphp">Important! Change the salt key in /var/www/MISP/app/Config/config.php<a class="headerlink" href="#important-change-the-salt-key-in-varwwwmispappconfigconfigphp" title="Permanent link">&para;</a></h1>
-<h1 id="the-admin-user-account-will-be-generated-on-the-first-login-make-sure-that-the-salt-is-changed-before-you-create-that-user">The admin user account will be generated on the first login, make sure that the salt is changed before you create that user<a class="headerlink" href="#the-admin-user-account-will-be-generated-on-the-first-login-make-sure-that-the-salt-is-changed-before-you-create-that-user" title="Permanent link">&para;</a></h1>
-<h1 id="if-you-forget-to-do-this-step-and-you-are-still-dealing-with-a-fresh-installation-just-alter-the-salt">If you forget to do this step, and you are still dealing with a fresh installation, just alter the salt,<a class="headerlink" href="#if-you-forget-to-do-this-step-and-you-are-still-dealing-with-a-fresh-installation-just-alter-the-salt" title="Permanent link">&para;</a></h1>
-<h1 id="delete-the-user-from-mysql-and-log-in-again-using-the-default-admin-credentials-amp97amp100amp109amp105amp110amp64amp97amp100amp109amp105amp110amp46amp116amp101amp115amp116-admin">delete the user from mysql and log in again using the default admin credentials (<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a> / admin)<a class="headerlink" href="#delete-the-user-from-mysql-and-log-in-again-using-the-default-admin-credentials-amp97amp100amp109amp105amp110amp64amp97amp100amp109amp105amp110amp46amp116amp101amp115amp116-admin" title="Permanent link">&para;</a></h1>
+cp -a config.default.php config.php
+</pre></div></p>
+<p>9.02/ Configure the fields in the newly created files
+<div class="codehilite"><pre><span></span># Configure the fields in the newly created files:
+# config.php   : baseurl (example: &#39;baseurl&#39; =&gt; &#39;http://misp&#39;,) - don&#39;t use &quot;localhost&quot; it causes issues when browsing externally
+# core.php   : Uncomment and set the timezone: `// date_default_timezone_set(&#39;UTC&#39;);`
+# database.php : login, port, password, database
+# DATABASE_CONFIG has to be filled
+# With the default values provided in section 6, this would look like:
+# class DATABASE_CONFIG {
+#   public $default = array(
+#       &#39;datasource&#39; =&gt; &#39;Database/Mysql&#39;,
+#       &#39;persistent&#39; =&gt; false,
+#       &#39;host&#39; =&gt; &#39;localhost&#39;,
+#       &#39;login&#39; =&gt; &#39;misp&#39;, // grant usage on *.* to misp@localhost
+#       &#39;port&#39; =&gt; 3306,
+#       &#39;password&#39; =&gt; &#39;XXXXdbpasswordhereXXXXX&#39;, // identified by &#39;XXXXdbpasswordhereXXXXX&#39;;
+#       &#39;database&#39; =&gt; &#39;misp&#39;, // create database misp;
+#       &#39;prefix&#39; =&gt; &#39;&#39;,
+#       &#39;encoding&#39; =&gt; &#39;utf8&#39;,
+#   );
+#}
+
+# Important! Change the salt key in /var/www/MISP/app/Config/config.php
+# The admin user account will be generated on the first login, make sure that the salt is changed before you create that user
+# If you forget to do this step, and you are still dealing with a fresh installation, just alter the salt,
+# delete the user from mysql and log in again using the default admin credentials (admin@admin.test / admin)
+</pre></div></p>
 <p>9.03/ If you want to be able to change configuration parameters from the webinterface:
-chown apache:apache /var/www/MISP/app/Config/config.php
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php</p>
+<div class="codehilite"><pre><span></span>chown apache:apache /var/www/MISP/app/Config/config.php
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php
+</pre></div></p>
 <p>9.04/ Generate an encryption key
-gpg --gen-key
+<div class="codehilite"><pre><span></span>gpg --gen-key
 mv ~/.gnupg /var/www/MISP/
 chown -R apache:apache /var/www/MISP/.gnupg
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/.gnupg</p>
-<h2 id="note-there-is-a-bug-that-if-a-passphrase-is-added-misp-will-produce-an-error-on-the-diagnostic-page">NOTE: There is a bug that if a passphrase is added MISP will produce an error on the diagnostic page.<a class="headerlink" href="#note-there-is-a-bug-that-if-a-passphrase-is-added-misp-will-produce-an-error-on-the-diagnostic-page" title="Permanent link">&para;</a></h2>
-<h1 id="the-email-address-should-match-the-one-set-in-the-configphp-configuration-file">The email address should match the one set in the config.php configuration file<a class="headerlink" href="#the-email-address-should-match-the-one-set-in-the-configphp-configuration-file" title="Permanent link">&para;</a></h1>
-<h1 id="make-sure-that-you-use-the-same-settings-in-the-misp-server-settings-tool">Make sure that you use the same settings in the MISP Server Settings tool<a class="headerlink" href="#make-sure-that-you-use-the-same-settings-in-the-misp-server-settings-tool" title="Permanent link">&para;</a></h1>
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/.gnupg
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is a bug that if a passphrase is added MISP will produce an error on the diagnostic page.<br />
+/! THIS WANTS TO BE VERIFIED AND LINKED WITH A CORRESPONDING ISSUE.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The email address should match the one set in the config.php configuration file
+Make sure that you use the same settings in the MISP Server Settings tool</p>
+</div>
 <p>9.05/ export the public key to the webroot
-sudo -u apache gpg --homedir /var/www/MISP/.gnupg --export --armor YOUR-EMAIL &gt; /var/www/MISP/app/webroot/gpg.asc</p>
+<div class="codehilite"><pre><span></span>sudo -u apache gpg --homedir /var/www/MISP/.gnupg --export --armor YOUR-EMAIL &gt; /var/www/MISP/app/webroot/gpg.asc
+</pre></div></p>
 <p>9.06/ Start the workers to enable background jobs
-chmod +x /var/www/MISP/app/Console/worker/start.sh
-su -s /bin/bash apache -c 'scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh'</p>
+<div class="codehilite"><pre><span></span>chmod +x /var/www/MISP/app/Console/worker/start.sh
+su -s /bin/bash apache -c &#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;
+</pre></div></p>
 <p>9.07a/ To make the background workers start on boot
-vi /etc/rc.local
+<div class="codehilite"><pre><span></span>vi /etc/rc.local
 9.07b/ Add the following line at the end
-su -s /bin/bash apache -c 'scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh'
+su -s /bin/bash apache -c &#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;
 9.07c/ and make sure it will execute
-chmod +x /etc/rc.local</p>
-<h1 id="now-log-in-using-the-webinterface-httpmispuserslogin">Now log in using the webinterface: http://misp/users/login<a class="headerlink" href="#now-log-in-using-the-webinterface-httpmispuserslogin" title="Permanent link">&para;</a></h1>
-<h1 id="the-default-userpass-amp97amp100amp109amp105amp110amp64amp97amp100amp109amp105amp110amp46amp116amp101amp115amp116admin">The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin<a class="headerlink" href="#the-default-userpass-amp97amp100amp109amp105amp110amp64amp97amp100amp109amp105amp110amp46amp116amp101amp115amp116admin" title="Permanent link">&para;</a></h1>
-<h1 id="using-the-server-settings-tool-in-the-admin-interface-administration-server-settings-set-misp-up-to-your-preference">Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<a class="headerlink" href="#using-the-server-settings-tool-in-the-admin-interface-administration-server-settings-set-misp-up-to-your-preference" title="Permanent link">&para;</a></h1>
-<h1 id="it-is-especially-vital-that-no-critical-issues-remain">It is especially vital that no critical issues remain!<a class="headerlink" href="#it-is-especially-vital-that-no-critical-issues-remain" title="Permanent link">&para;</a></h1>
-<p>Don't forget to change the email, password and authentication key after installation.</p>
-<h1 id="once-done-have-a-look-at-the-diagnostics">Once done, have a look at the diagnostics<a class="headerlink" href="#once-done-have-a-look-at-the-diagnostics" title="Permanent link">&para;</a></h1>
-<h1 id="if-any-of-the-directories-that-misp-uses-to-store-files-is-not-writeable-to-the-apache-user-change-the-permissions">If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions<a class="headerlink" href="#if-any-of-the-directories-that-misp-uses-to-store-files-is-not-writeable-to-the-apache-user-change-the-permissions" title="Permanent link">&para;</a></h1>
-<h1 id="you-can-do-this-by-running-the-following-commands">you can do this by running the following commands:<a class="headerlink" href="#you-can-do-this-by-running-the-following-commands" title="Permanent link">&para;</a></h1>
-<p>chmod -R 750 /var/www/MISP/<directory path with an indicated issue>
-chown -R apache:apache /var/www/MISP/<directory path with an indicated issue></p>
+chmod +x /etc/rc.local
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Now log in using the webinterface: http://misp/users/login<br />
+The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin<br />
+Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<br />
+It is especially vital that no critical issues remain!<br />
+Don't forget to change the email, password and authentication key after installation.<br /></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Once done, have a look at the diagnostics<br />
+If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions<br />
+you can do this by running the following commands:<br />
+<div class="codehilite"><pre><span></span>chmod -R 750 /var/www/MISP/&lt;directory path with an indicated issue&gt;
+chown -R apache:apache /var/www/MISP/&lt;directory path with an indicated issue&gt;
+</pre></div></p>
+</div>
 <h1 id="make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items">Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items<a class="headerlink" href="#make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items" title="Permanent link">&para;</a></h1>
 <h1 id="if-anything-goes-wrong-make-sure-that-you-check-misps-logs-for-errors">If anything goes wrong, make sure that you check MISP's logs for errors:<a class="headerlink" href="#if-anything-goes-wrong-make-sure-that-you-check-misps-logs-for-errors" title="Permanent link">&para;</a></h1>
 <h1 id="varwwwmispapptmplogserrorlog">/var/www/MISP/app/tmp/logs/error.log<a class="headerlink" href="#varwwwmispapptmplogserrorlog" title="Permanent link">&para;</a></h1>
