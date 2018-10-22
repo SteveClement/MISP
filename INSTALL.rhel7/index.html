@@ -781,7 +781,7 @@ This guide installs PHP 7.1 from SCL</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>PHP 5.6 will be EOL in January 2018. Please update accordingly. In future only PHP7 will be supported.</p>
+<p><a href="https://secure.php.net/supported-versions.php">PHP 5.6 will be EOL in December 2018</a>. Please update accordingly. In future only PHP7 will be supported.</p>
 </div>
 <h2 id="204-install-php-71-from-scl">2.04/ Install PHP 7.1 from SCL<a class="headerlink" href="#204-install-php-71-from-scl" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>yum install rh-php71 rh-php71-php-fpm rh-php71-php-devel rh-php71-php-mysqlnd rh-php71-php-mbstring rh-php71-php-xml rh-php71-php-bcmath rh-php71-php-opcache
@@ -944,17 +944,16 @@ MariaDB [(none)]&gt; exit
 </pre></div>
 
 <h2 id="603-import-the-empty-mysql-database-from-mysqlsql">6.03/ Import the empty MySQL database from MYSQL.sql<a class="headerlink" href="#603-import-the-empty-mysql-database-from-mysqlsql" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span>cd /var/www/MISP
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www/MISP
 mysql -u misp -p misp &lt; INSTALL/MYSQL.sql
 </pre></div>
 
-<p>+--------------------------------+
-|   7/ Apache Configuration      |
-+--------------------------------+</p>
-<p>7.01/ Copy a sample vhost config to Apache configuration directory
+<h1 id="7-apache-configuration">7/ Apache Configuration<a class="headerlink" href="#7-apache-configuration" title="Permanent link">&para;</a></h1>
+<h2 id="701-copy-a-sample-vhost-config-to-apache-configuration-directory">7.01/ Copy a sample vhost config to Apache configuration directory<a class="headerlink" href="#701-copy-a-sample-vhost-config-to-apache-configuration-directory" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>cp /var/www/MISP/INSTALL/apache.misp.centos7 /etc/httpd/conf.d/misp.conf
-</pre></div></p>
-<p>7.02/ Since SELinux is enabled, we need to allow httpd to write to certain directories
+</pre></div>
+
+<h2 id="702-since-selinux-is-enabled-we-need-to-allow-httpd-to-write-to-certain-directories">7.02/ Since SELinux is enabled, we need to allow httpd to write to certain directories<a class="headerlink" href="#702-since-selinux-is-enabled-we-need-to-allow-httpd-to-write-to-certain-directories" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
@@ -962,85 +961,93 @@ chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
-</pre></div></p>
-<p>7.02/ Allow httpd to connect to the redis server and php-fpm over tcp/ip
-<div class="codehilite"><pre><span></span>setsebool -P httpd_can_network_connect on
-</pre></div></p>
-<p>7.03/ Enable and start the httpd service
-<div class="codehilite"><pre><span></span>systemctl enable httpd.service
-systemctl start httpd.service
-</pre></div></p>
-<p>7.04/ Open a hole in the firewalld service
-<div class="codehilite"><pre><span></span>firewall-cmd --zone=public --add-port=80/tcp --permanent
-firewall-cmd --reload
-</pre></div></p>
-<h1 id="we-seriously-recommend-using-only-https-ssl">We seriously recommend using only HTTPS / SSL !<a class="headerlink" href="#we-seriously-recommend-using-only-https-ssl" title="Permanent link">&para;</a></h1>
-<h1 id="add-ssl-support-by-running-yum-install-mod_ssl">Add SSL support by running: yum install mod_ssl<a class="headerlink" href="#add-ssl-support-by-running-yum-install-mod_ssl" title="Permanent link">&para;</a></h1>
-<h1 id="check-out-the-apachemispssl-file-for-an-example">Check out the apache.misp.ssl file for an example<a class="headerlink" href="#check-out-the-apachemispssl-file-for-an-example" title="Permanent link">&para;</a></h1>
-<p>+--------------------------------+
-|   8/ Log Rotation              |
-+--------------------------------+</p>
-<h1 id="misp-saves-the-stdout-and-stderr-of-its-workers-in-varwwwmispapptmplogs">MISP saves the stdout and stderr of it's workers in /var/www/MISP/app/tmp/logs<a class="headerlink" href="#misp-saves-the-stdout-and-stderr-of-its-workers-in-varwwwmispapptmplogs" title="Permanent link">&para;</a></h1>
-<h1 id="to-rotate-these-logs-install-the-supplied-logrotate-script">To rotate these logs install the supplied logrotate script:<a class="headerlink" href="#to-rotate-these-logs-install-the-supplied-logrotate-script" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span>cp INSTALL/misp.logrotate /etc/logrotate.d/misp
-chmod 0640 /etc/logrotate.d/misp
 </pre></div>
 
-<p>8.01/ Allow logrotate to work under SELinux and modify the log files
-<div class="codehilite"><pre><span></span>semanage fcontext -a -t httpd_log_t &quot;/var/www/MISP/app/tmp/logs(/.*)?&quot;
-chcon -R -t httpd_log_t /var/www/MISP/app/tmp/logs
+<h2 id="702-allow-httpd-to-connect-to-the-redis-server-and-php-fpm-over-tcpip">7.02/ Allow httpd to connect to the redis server and php-fpm over tcp/ip<a class="headerlink" href="#702-allow-httpd-to-connect-to-the-redis-server-and-php-fpm-over-tcpip" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>setsebool -P httpd_can_network_connect on
+</pre></div>
+
+<h2 id="703-enable-and-start-the-httpd-service">7.03/ Enable and start the httpd service<a class="headerlink" href="#703-enable-and-start-the-httpd-service" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>systemctl <span class="nb">enable</span> httpd.service
+systemctl start httpd.service
+</pre></div>
+
+<h2 id="704-open-a-hole-in-the-firewalld-service">7.04/ Open a hole in the firewalld service<a class="headerlink" href="#704-open-a-hole-in-the-firewalld-service" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>firewall-cmd --zone<span class="o">=</span>public --add-port<span class="o">=</span><span class="m">80</span>/tcp --permanent
+firewall-cmd --reload
+</pre></div>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We seriously recommend using only HTTPS / SSL !
+Add SSL support by running: yum install mod_ssl
+Check out the apache.misp.ssl file for an example</p>
+</div>
+<h1 id="8-log-rotation">8/ Log Rotation<a class="headerlink" href="#8-log-rotation" title="Permanent link">&para;</a></h1>
+<p>MISP saves the stdout and stderr of it's workers in /var/www/MISP/app/tmp/logs
+To rotate these logs install the supplied logrotate script:
+<div class="codehilite"><pre><span></span>cp INSTALL/misp.logrotate /etc/logrotate.d/misp
+chmod 0640 /etc/logrotate.d/misp
 </pre></div></p>
-<p>8.02/ Allow logrotate to read /var/www
+<h2 id="801-allow-logrotate-to-work-under-selinux-and-modify-the-log-files">8.01/ Allow logrotate to work under SELinux and modify the log files<a class="headerlink" href="#801-allow-logrotate-to-work-under-selinux-and-modify-the-log-files" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>semanage fcontext -a -t httpd_log_t <span class="s2">&quot;/var/www/MISP/app/tmp/logs(/.*)?&quot;</span>
+chcon -R -t httpd_log_t /var/www/MISP/app/tmp/logs
+</pre></div>
+
+<h2 id="802-allow-logrotate-to-read-varwww">8.02/ Allow logrotate to read /var/www<a class="headerlink" href="#802-allow-logrotate-to-read-varwww" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>checkmodule -M -m -o /tmp/misplogrotate.mod INSTALL/misplogrotate.te
 semodule_package -o /tmp/misplogrotate.pp -m /tmp/misplogrotate.mod
 semodule -i /tmp/misplogrotate.pp
-</pre></div></p>
-<p>+--------------------------------+
-|   9/ MISP Configuration        |
-+--------------------------------+</p>
-<p>9.01/ There are 4 sample configuration files in /var/www/MISP/app/Config that need to be copied
-<div class="codehilite"><pre><span></span>cd /var/www/MISP/app/Config
+</pre></div>
+
+<h1 id="9-misp-configuration">9/ MISP Configuration<a class="headerlink" href="#9-misp-configuration" title="Permanent link">&para;</a></h1>
+<h2 id="901-there-are-4-sample-configuration-files-in-varwwwmispappconfig-that-need-to-be-copied">9.01/ There are 4 sample configuration files in /var/www/MISP/app/Config that need to be copied<a class="headerlink" href="#901-there-are-4-sample-configuration-files-in-varwwwmispappconfig-that-need-to-be-copied" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www/MISP/app/Config
 cp -a bootstrap.default.php bootstrap.php
 cp -a database.default.php database.php
 cp -a core.default.php core.php
 cp -a config.default.php config.php
-</pre></div></p>
-<p>9.02/ Configure the fields in the newly created files
-<div class="codehilite"><pre><span></span># Configure the fields in the newly created files:
-# config.php   : baseurl (example: &#39;baseurl&#39; =&gt; &#39;http://misp&#39;,) - don&#39;t use &quot;localhost&quot; it causes issues when browsing externally
-# core.php   : Uncomment and set the timezone: `// date_default_timezone_set(&#39;UTC&#39;);`
-# database.php : login, port, password, database
-# DATABASE_CONFIG has to be filled
-# With the default values provided in section 6, this would look like:
-# class DATABASE_CONFIG {
-#   public $default = array(
-#       &#39;datasource&#39; =&gt; &#39;Database/Mysql&#39;,
-#       &#39;persistent&#39; =&gt; false,
-#       &#39;host&#39; =&gt; &#39;localhost&#39;,
-#       &#39;login&#39; =&gt; &#39;misp&#39;, // grant usage on *.* to misp@localhost
-#       &#39;port&#39; =&gt; 3306,
-#       &#39;password&#39; =&gt; &#39;XXXXdbpasswordhereXXXXX&#39;, // identified by &#39;XXXXdbpasswordhereXXXXX&#39;;
-#       &#39;database&#39; =&gt; &#39;misp&#39;, // create database misp;
-#       &#39;prefix&#39; =&gt; &#39;&#39;,
-#       &#39;encoding&#39; =&gt; &#39;utf8&#39;,
-#   );
-#}
+</pre></div>
 
-# Important! Change the salt key in /var/www/MISP/app/Config/config.php
-# The admin user account will be generated on the first login, make sure that the salt is changed before you create that user
-# If you forget to do this step, and you are still dealing with a fresh installation, just alter the salt,
-# delete the user from mysql and log in again using the default admin credentials (admin@admin.test / admin)
-</pre></div></p>
-<p>9.03/ If you want to be able to change configuration parameters from the webinterface:
+<h2 id="902-configure-the-fields-in-the-newly-created-files">9.02/ Configure the fields in the newly created files<a class="headerlink" href="#902-configure-the-fields-in-the-newly-created-files" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="c1"># Configure the fields in the newly created files:</span>
+<span class="c1"># config.php   : baseurl (example: &#39;baseurl&#39; =&gt; &#39;http://misp&#39;,) - don&#39;t use &quot;localhost&quot; it causes issues when browsing externally</span>
+<span class="c1"># core.php   : Uncomment and set the timezone: `// date_default_timezone_set(&#39;UTC&#39;);`</span>
+<span class="c1"># database.php : login, port, password, database</span>
+<span class="c1"># DATABASE_CONFIG has to be filled</span>
+<span class="c1"># With the default values provided in section 6, this would look like:</span>
+<span class="c1"># class DATABASE_CONFIG {</span>
+<span class="c1">#   public $default = array(</span>
+<span class="c1">#       &#39;datasource&#39; =&gt; &#39;Database/Mysql&#39;,</span>
+<span class="c1">#       &#39;persistent&#39; =&gt; false,</span>
+<span class="c1">#       &#39;host&#39; =&gt; &#39;localhost&#39;,</span>
+<span class="c1">#       &#39;login&#39; =&gt; &#39;misp&#39;, // grant usage on *.* to misp@localhost</span>
+<span class="c1">#       &#39;port&#39; =&gt; 3306,</span>
+<span class="c1">#       &#39;password&#39; =&gt; &#39;XXXXdbpasswordhereXXXXX&#39;, // identified by &#39;XXXXdbpasswordhereXXXXX&#39;;</span>
+<span class="c1">#       &#39;database&#39; =&gt; &#39;misp&#39;, // create database misp;</span>
+<span class="c1">#       &#39;prefix&#39; =&gt; &#39;&#39;,</span>
+<span class="c1">#       &#39;encoding&#39; =&gt; &#39;utf8&#39;,</span>
+<span class="c1">#   );</span>
+<span class="c1">#}</span>
+
+<span class="c1"># Important! Change the salt key in /var/www/MISP/app/Config/config.php</span>
+<span class="c1"># The admin user account will be generated on the first login, make sure that the salt is changed before you create that user</span>
+<span class="c1"># If you forget to do this step, and you are still dealing with a fresh installation, just alter the salt,</span>
+<span class="c1"># delete the user from mysql and log in again using the default admin credentials (admin@admin.test / admin)</span>
+</pre></div>
+
+<h2 id="903-if-you-want-to-be-able-to-change-configuration-parameters-from-the-webinterface">9.03/ If you want to be able to change configuration parameters from the webinterface:<a class="headerlink" href="#903-if-you-want-to-be-able-to-change-configuration-parameters-from-the-webinterface" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>chown apache:apache /var/www/MISP/app/Config/config.php
 chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Config/config.php
-</pre></div></p>
-<p>9.04/ Generate an encryption key
+</pre></div>
+
+<h2 id="904-generate-an-encryption-key">9.04/ Generate an encryption key<a class="headerlink" href="#904-generate-an-encryption-key" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>gpg --gen-key
 mv ~/.gnupg /var/www/MISP/
 chown -R apache:apache /var/www/MISP/.gnupg
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/.gnupg
-</pre></div></p>
+</pre></div>
+
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There is a bug that if a passphrase is added MISP will produce an error on the diagnostic page.<br />
@@ -1051,27 +1058,34 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/.gnupg
 <p>The email address should match the one set in the config.php configuration file
 Make sure that you use the same settings in the MISP Server Settings tool</p>
 </div>
-<p>9.05/ export the public key to the webroot
+<h2 id="905-export-the-public-key-to-the-webroot">9.05/ export the public key to the webroot<a class="headerlink" href="#905-export-the-public-key-to-the-webroot" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>sudo -u apache gpg --homedir /var/www/MISP/.gnupg --export --armor YOUR-EMAIL &gt; /var/www/MISP/app/webroot/gpg.asc
-</pre></div></p>
-<p>9.06/ Start the workers to enable background jobs
+</pre></div>
+
+<h2 id="906-start-the-workers-to-enable-background-jobs">9.06/ Start the workers to enable background jobs<a class="headerlink" href="#906-start-the-workers-to-enable-background-jobs" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>chmod +x /var/www/MISP/app/Console/worker/start.sh
-su -s /bin/bash apache -c &#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;
-</pre></div></p>
-<p>9.07a/ To make the background workers start on boot
+su -s /bin/bash apache -c <span class="s1">&#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;</span>
+</pre></div>
+
+<h2 id="907a-to-make-the-background-workers-start-on-boot">9.07a/ To make the background workers start on boot<a class="headerlink" href="#907a-to-make-the-background-workers-start-on-boot" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>vi /etc/rc.local
-9.07b/ Add the following line at the end
-su -s /bin/bash apache -c &#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;
-9.07c/ and make sure it will execute
-chmod +x /etc/rc.local
-</pre></div></p>
+</pre></div>
+
+<h2 id="907b-add-the-following-line-at-the-end">9.07b/ Add the following line at the end<a class="headerlink" href="#907b-add-the-following-line-at-the-end" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>su -s /bin/bash apache -c <span class="s1">&#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;</span>
+</pre></div>
+
+<h2 id="907c-and-make-sure-it-will-execute">9.07c/ and make sure it will execute<a class="headerlink" href="#907c-and-make-sure-it-will-execute" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>chmod +x /etc/rc.local
+</pre></div>
+
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Now log in using the webinterface: http://misp/users/login<br />
 The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin<br />
 Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<br />
 It is especially vital that no critical issues remain!<br />
-Don't forget to change the email, password and authentication key after installation.<br /></p>
+Don't forget to change the email, password and authentication key after installation.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1082,90 +1096,107 @@ you can do this by running the following commands:<br />
 chown -R apache:apache /var/www/MISP/&lt;directory path with an indicated issue&gt;
 </pre></div></p>
 </div>
-<h1 id="make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items">Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items<a class="headerlink" href="#make-sure-that-the-stix-libraries-and-gnupg-work-as-intended-if-not-refer-to-installtxts-paragraphs-dealing-with-these-two-items" title="Permanent link">&para;</a></h1>
-<h1 id="if-anything-goes-wrong-make-sure-that-you-check-misps-logs-for-errors">If anything goes wrong, make sure that you check MISP's logs for errors:<a class="headerlink" href="#if-anything-goes-wrong-make-sure-that-you-check-misps-logs-for-errors" title="Permanent link">&para;</a></h1>
-<h1 id="varwwwmispapptmplogserrorlog">/var/www/MISP/app/tmp/logs/error.log<a class="headerlink" href="#varwwwmispapptmplogserrorlog" title="Permanent link">&para;</a></h1>
-<h1 id="varwwwmispapptmplogsresque-worker-errorlog">/var/www/MISP/app/tmp/logs/resque-worker-error.log<a class="headerlink" href="#varwwwmispapptmplogsresque-worker-errorlog" title="Permanent link">&para;</a></h1>
-<h1 id="varwwwmispapptmplogsresque-scheduler-errorlog">/var/www/MISP/app/tmp/logs/resque-scheduler-error.log<a class="headerlink" href="#varwwwmispapptmplogsresque-scheduler-errorlog" title="Permanent link">&para;</a></h1>
-<h1 id="varwwwmispapptmplogsresque-2015-01-01log-where-the-actual-date-is-the-current-date">/var/www/MISP/app/tmp/logs/resque-2015-01-01.log //where the actual date is the current date<a class="headerlink" href="#varwwwmispapptmplogsresque-2015-01-01log-where-the-actual-date-is-the-current-date" title="Permanent link">&para;</a></h1>
-<p>+---------------------------+
-|   10/ Post Install        |
-+---------------------------+</p>
-<p>10.01/ Allow apache to write to /var/www/MISP/app/tmp/logs</p>
-<h1 id="result-from-diagnostic-is-that-the-directory-is-not-writable">Result from diagnostic is that the directory is not writable.<a class="headerlink" href="#result-from-diagnostic-is-that-the-directory-is-not-writable" title="Permanent link">&para;</a></h1>
-<p>chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp/logs/</p>
-<h1 id="note-this-may-mean-that-logrotate-cannot-access-the-logs-directory-will-require-further-investigation">NOTE: This may mean that logrotate cannot access the logs directory, will require further investigation<a class="headerlink" href="#note-this-may-mean-that-logrotate-cannot-access-the-logs-directory-will-require-further-investigation" title="Permanent link">&para;</a></h1>
-<p>10.02/ Change php.ini settings to suggested limits from diagnostic page.</p>
-<h1 id="edit-etcoptrhrh-php71phpini-and-set-the-following-settings">Edit /etc/opt/rh/rh-php71/php.ini and set the following settings<a class="headerlink" href="#edit-etcoptrhrh-php71phpini-and-set-the-following-settings" title="Permanent link">&para;</a></h1>
-<p>max_execution_time = 300
-memory_limit = 512M
-upload_max_filesize = 50M
-post_max_size = 50M</p>
-<p>10.03/ Restart rh-php71 for settings to take effect
-systemctl restart rh-php71-php-fpm</p>
-<p>10.04/ Install pymisp and pydeep for Advanced Attachment handler
-pip install pymisp
-pip install git+<a href="https://github.com/kbandla/pydeep.git">https://github.com/kbandla/pydeep.git</a></p>
-<p>10.05/ Install pymisp also in Python 3
-scl enable rh-python36 pip3 install pymisp</p>
-<p>+---------------------------+
-|   11/ LIEF Installation   |
-+---------------------------+</p>
-<h1 id="lief-is-required-for-the-advanced-attachment-handler-and-requires-manual-compilation">lief is required for the Advanced Attachment Handler and requires manual compilation<a class="headerlink" href="#lief-is-required-for-the-advanced-attachment-handler-and-requires-manual-compilation" title="Permanent link">&para;</a></h1>
-<p>11.01/ Install cmake3 devtoolset-7 from SCL
-yum install devtoolset-7 cmake3</p>
-<p>11.02/ Enable devtoolset-7
-scl enable devtoolset-7 bash</p>
-<p>11.03/ Set env variable, create directories and download source code
-mkdir -p /tmp/LIEF
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If anything goes wrong, make sure that you check MISP's logs for errors:
+<div class="codehilite"><pre><span></span># /var/www/MISP/app/tmp/logs/error.log
+# /var/www/MISP/app/tmp/logs/resque-worker-error.log
+# /var/www/MISP/app/tmp/logs/resque-scheduler-error.log
+# /var/www/MISP/app/tmp/logs/resque-2015-01-01.log //where the actual date is the current date
+</pre></div></p>
+</div>
+<h1 id="10-post-install">10/ Post Install<a class="headerlink" href="#10-post-install" title="Permanent link">&para;</a></h1>
+<h2 id="1001-allow-apache-to-write-to-varwwwmispapptmplogs">10.01/ Allow apache to write to /var/www/MISP/app/tmp/logs<a class="headerlink" href="#1001-allow-apache-to-write-to-varwwwmispapptmplogs" title="Permanent link">&para;</a></h2>
+<p>If the result from the diagnostic page is that the directory is not writable, try the following.
+<div class="codehilite"><pre><span></span>chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp/logs/
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This may mean that logrotate cannot access the logs directory, will require further investigation</p>
+</div>
+<h2 id="1002-change-phpini-settings-to-suggested-limits-from-diagnostic-page">10.02/ Change php.ini settings to suggested limits from diagnostic page.<a class="headerlink" href="#1002-change-phpini-settings-to-suggested-limits-from-diagnostic-page" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="c1"># Edit /etc/opt/rh/rh-php71/php.ini and set the following settings</span>
+<span class="nv">max_execution_time</span> <span class="o">=</span> <span class="m">300</span>
+<span class="nv">memory_limit</span> <span class="o">=</span> 512M
+<span class="nv">upload_max_filesize</span> <span class="o">=</span> 50M
+<span class="nv">post_max_size</span> <span class="o">=</span> 50M
+</pre></div>
+
+<h2 id="1003-restart-rh-php71-for-settings-to-take-effect">10.03/ Restart rh-php71 for settings to take effect<a class="headerlink" href="#1003-restart-rh-php71-for-settings-to-take-effect" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>systemctl restart rh-php71-php-fpm
+</pre></div>
+
+<h2 id="1004-install-pymisp-and-pydeep-for-advanced-attachment-handler">10.04/ Install pymisp and pydeep for Advanced Attachment handler<a class="headerlink" href="#1004-install-pymisp-and-pydeep-for-advanced-attachment-handler" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>pip install pymisp
+pip install git+https://github.com/kbandla/pydeep.git
+</pre></div>
+
+<h2 id="1005-install-pymisp-also-in-python-3">10.05/ Install pymisp also in Python 3<a class="headerlink" href="#1005-install-pymisp-also-in-python-3" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>scl <span class="nb">enable</span> rh-python36 pip3 install pymisp
+</pre></div>
+
+<h1 id="11-lief-installation">11/ LIEF Installation<a class="headerlink" href="#11-lief-installation" title="Permanent link">&para;</a></h1>
+<p><em>lief</em> is required for the Advanced Attachment Handler and requires manual compilation</p>
+<h2 id="1101-install-cmake3-devtoolset-7-from-scl">11.01/ Install cmake3 devtoolset-7 from SCL<a class="headerlink" href="#1101-install-cmake3-devtoolset-7-from-scl" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>yum install devtoolset-7 cmake3
+</pre></div>
+
+<h2 id="1102-enable-devtoolset-7">11.02/ Enable devtoolset-7<a class="headerlink" href="#1102-enable-devtoolset-7" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>scl <span class="nb">enable</span> devtoolset-7 bash
+</pre></div>
+
+<h2 id="1103-set-env-variable-create-directories-and-download-source-code">11.03/ Set env variable, create directories and download source code<a class="headerlink" href="#1103-set-env-variable-create-directories-and-download-source-code" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>mkdir -p /tmp/LIEF
 mkdir -p /tmp/LIEF_INSTALL
-export LIEF_TMP=/tmp/LIEF
-export LIEF_INSTALL=/tmp/LIEF_INSTALL
-export LIEF_BRANCH=master
-cd $LIEF_TMP
-git clone --branch $LIEF_BRANCH --single-branch <a href="https://github.com/lief-project/LIEF.git">https://github.com/lief-project/LIEF.git</a> LIEF</p>
-<p>11.04/ Compile lief and install
-cd <span><span class="MathJax_Preview">LIEF_TMP/LIEF
+<span class="nb">export</span> <span class="nv">LIEF_TMP</span><span class="o">=</span>/tmp/LIEF
+<span class="nb">export</span> <span class="nv">LIEF_INSTALL</span><span class="o">=</span>/tmp/LIEF_INSTALL
+<span class="nb">export</span> <span class="nv">LIEF_BRANCH</span><span class="o">=</span>master
+<span class="nb">cd</span> <span class="nv">$LIEF_TMP</span>
+git clone --branch <span class="nv">$LIEF_BRANCH</span> --single-branch https://github.com/lief-project/LIEF.git LIEF
+</pre></div>
+
+<h2 id="1104-compile-lief-and-install">11.04/ Compile lief and install<a class="headerlink" href="#1104-compile-lief-and-install" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> <span class="nv">$LIEF_TMP</span>/LIEF
 mkdir -p build
-cd build
-scl enable devtoolset-7 'bash -c "cmake3 \
--DLIEF_PYTHON_API=on \
--DLIEF_DOC=off \
--DCMAKE_INSTALL_PREFIX=</span><script type="math/tex">LIEF_TMP/LIEF
-mkdir -p build
-cd build
-scl enable devtoolset-7 'bash -c "cmake3 \
--DLIEF_PYTHON_API=on \
--DLIEF_DOC=off \
--DCMAKE_INSTALL_PREFIX=</script></span>LIEF_INSTALL \
--DCMAKE_BUILD_TYPE=Release \
--DPYTHON_VERSION=2.7 \
-.."'
+<span class="nb">cd</span> build
+scl <span class="nb">enable</span> devtoolset-7 <span class="s1">&#39;bash -c &quot;cmake3 \</span>
+<span class="s1">-DLIEF_PYTHON_API=on \</span>
+<span class="s1">-DLIEF_DOC=off \</span>
+<span class="s1">-DCMAKE_INSTALL_PREFIX=$LIEF_INSTALL \</span>
+<span class="s1">-DCMAKE_BUILD_TYPE=Release \</span>
+<span class="s1">-DPYTHON_VERSION=2.7 \</span>
+<span class="s1">..&quot;&#39;</span>
 make -j3
-cd api/python
-scl enable rh-python36 python3 setup.py install || :</p>
-<h1 id="you-can-ignore-the-error-about-finding-suitable-distribution">you can ignore the error about finding suitable distribution<a class="headerlink" href="#you-can-ignore-the-error-about-finding-suitable-distribution" title="Permanent link">&para;</a></h1>
-<p>cd $LIEF_TMP/LIEF/build
+<span class="nb">cd</span> api/python
+scl <span class="nb">enable</span> rh-python36 python3 setup.py install <span class="o">||</span> :
+<span class="c1"># you can ignore the error about finding suitable distribution</span>
+<span class="nb">cd</span> <span class="nv">$LIEF_TMP</span>/LIEF/build
 make install
-make package</p>
-<p>11.05/ Test lief installation, if no error, package installed
-python</p>
-<blockquote>
-<blockquote>
-<p>import lief</p>
-</blockquote>
-</blockquote>
-<p>+---------------------------+
-|   12/ Known Issues        |
-+---------------------------+</p>
-<p>12.01/ PHP CLI cannot determine version</p>
-<h1 id="php-cli-version-cannot-be-determined-possibly-due-to-php-being-installed-through-scl">PHP CLI Version cannot be determined. Possibly due to PHP being installed through SCL<a class="headerlink" href="#php-cli-version-cannot-be-determined-possibly-due-to-php-being-installed-through-scl" title="Permanent link">&para;</a></h1>
-<p>12.02/ Workers cannot be started or restarted from the web page</p>
-<h1 id="possible-also-due-to-package-being-installed-via-scl-attempting-to-start-workers-through-the-web-page-will-result-in">Possible also due to package being installed via SCL, attempting to start workers through the web page will result in<a class="headerlink" href="#possible-also-due-to-package-being-installed-via-scl-attempting-to-start-workers-through-the-web-page-will-result-in" title="Permanent link">&para;</a></h1>
-<h1 id="error-workers-can-be-restarted-via-the-cli-using-the-following-command">error. Worker's can be restarted via the CLI using the following command.<a class="headerlink" href="#error-workers-can-be-restarted-via-the-cli-using-the-following-command" title="Permanent link">&para;</a></h1>
-<p>su -s /bin/bash apache -c 'scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh'</p>
-<h2 id="note-no-other-functions-were-tested-after-the-conclusion-of-this-install-there-may-be-issue-that-arent-addressed">NOTE: No other functions were tested after the conclusion of this install. There may be issue that aren't addressed<a class="headerlink" href="#note-no-other-functions-were-tested-after-the-conclusion-of-this-install-there-may-be-issue-that-arent-addressed" title="Permanent link">&para;</a></h2>
-<h2 id="via-this-guide-and-will-need-additional-investigation">via this guide and will need additional investigation.<a class="headerlink" href="#via-this-guide-and-will-need-additional-investigation" title="Permanent link">&para;</a></h2>
+make package
+</pre></div>
+
+<h2 id="1105-test-lief-installation-if-no-error-package-installed">11.05/ Test lief installation, if no error, package installed<a class="headerlink" href="#1105-test-lief-installation-if-no-error-package-installed" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>python
+&gt;&gt; import lief
+</pre></div>
+
+<h1 id="12-known-issues">12/ Known Issues<a class="headerlink" href="#12-known-issues" title="Permanent link">&para;</a></h1>
+<h2 id="1201-php-cli-cannot-determine-version">12.01/ PHP CLI cannot determine version<a class="headerlink" href="#1201-php-cli-cannot-determine-version" title="Permanent link">&para;</a></h2>
+<p>PHP CLI Version cannot be determined. Possibly due to PHP being installed through SCL</p>
+<h2 id="1202-workers-cannot-be-started-or-restarted-from-the-web-page">12.02/ Workers cannot be started or restarted from the web page<a class="headerlink" href="#1202-workers-cannot-be-started-or-restarted-from-the-web-page" title="Permanent link">&para;</a></h2>
+<p>Possible also due to package being installed via SCL, attempting to start workers through the web page will result in
+error. Worker's can be restarted via the CLI using the following command.
+<div class="codehilite"><pre><span></span>su -s /bin/bash apache -c <span class="s1">&#39;scl enable rh-php71 rh-redis32 rh-mariadb102 /var/www/MISP/app/Console/worker/start.sh&#39;</span>
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>No other functions were tested after the conclusion of this install. There may be issue that aren't addressed<br />
+via this guide and will need additional investigation.</p>
+</div>
                 
                   
                 

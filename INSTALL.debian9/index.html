@@ -524,11 +524,6 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#misp-dashboard" title="MISP Dashboard" class="md-nav__link">
     MISP Dashboard
@@ -547,6 +542,11 @@
   <a href="#install-mail-to-misp" title="Install mail to misp" class="md-nav__link">
     Install mail to misp
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1069,11 +1069,6 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#misp-dashboard" title="MISP Dashboard" class="md-nav__link">
     MISP Dashboard
@@ -1092,6 +1087,11 @@
   <a href="#install-mail-to-misp" title="Install mail to misp" class="md-nav__link">
     Install mail to misp
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1714,14 +1714,14 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <h3 id="optional-features">Optional features<a class="headerlink" href="#optional-features" title="Permanent link">&para;</a></h3>
 <hr />
 <h4 id="misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands">MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands<a class="headerlink" href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span># ZeroMQ depends on the Python client for Redis
+<div class="codehilite"><pre><span></span><span class="c1"># ZeroMQ depends on the Python client for Redis</span>
 sudo pip3 install redis
 
-## install pyzmq
+<span class="c1">## install pyzmq</span>
 sudo pip3 install pyzmq
 </pre></div>
 
-<h3 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h3>
+<h4 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www
 sudo mkdir misp-dashboard
@@ -1794,7 +1794,7 @@ sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugi
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
 </pre></div>
 
-<h3 id="install-viper-framework">Install viper framework<a class="headerlink" href="#install-viper-framework" title="Permanent link">&para;</a></h3>
+<h4 id="install-viper-framework">Install viper framework<a class="headerlink" href="#install-viper-framework" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
 sudo apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2
@@ -1812,7 +1812,7 @@ sed -i <span class="s2">&quot;s/^misp_key\ =/misp_key\ =\ </span><span class="nv
 sqlite3 ~/.viper/admin.db <span class="s1">&#39;UPDATE auth_user SET password=&quot;pbkdf2_sha256$100000$iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U=&quot;&#39;</span>
 </pre></div>
 
-<h3 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h3>
+<h4 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
 sudo apt-get install -y cmake
