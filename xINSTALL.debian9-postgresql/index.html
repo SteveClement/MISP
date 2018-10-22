@@ -96,7 +96,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="../#warning" tabindex="1" class="md-skip">
+      <a href="../#installation-instructions" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -412,9 +412,45 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Debian 9 \w postgresql
+      </label>
+    
     <a href="./" title="Debian 9 \w postgresql" class="md-nav__link md-nav__link--active">
       Debian 9 \w postgresql
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#for-debian-8-jessie-server-postgresql" title="for Debian ---&gt;8&lt;--- "jessie" server + PostgreSQL" class="md-nav__link">
+    for Debian ---&gt;8&lt;--- "jessie" server + PostgreSQL
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#please-follow-debian-8-install-instructions-installdebian8txt" title="please follow Debian 8 install instructions - INSTALL.debian8.txt" class="md-nav__link">
+    please follow Debian 8 install instructions - INSTALL.debian8.txt
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -621,6 +657,29 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#for-debian-8-jessie-server-postgresql" title="for Debian ---&gt;8&lt;--- "jessie" server + PostgreSQL" class="md-nav__link">
+    for Debian ---&gt;8&lt;--- "jessie" server + PostgreSQL
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#please-follow-debian-8-install-instructions-installdebian8txt" title="please follow Debian 8 install instructions - INSTALL.debian8.txt" class="md-nav__link">
+    please follow Debian 8 install instructions - INSTALL.debian8.txt
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -632,19 +691,27 @@
               
                 
                 
-                <p>INSTALLATION INSTRUCTIONS
-------------------------- for Debian 8 "jessie" server + PostgreSQL</p>
-<h6 id="warning">### WARNING<a class="headerlink" href="#warning" title="Permanent link">&para;</a></h6>
+                <h1 id="installation-instructions">INSTALLATION INSTRUCTIONS<a class="headerlink" href="#installation-instructions" title="Permanent link">&para;</a></h1>
+<h2 id="for-debian-8-jessie-server-postgresql">for Debian ---&gt;8&lt;--- "jessie" server + PostgreSQL<a class="headerlink" href="#for-debian-8-jessie-server-postgresql" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the old Deian 8 jessie Guide, needs updating.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>PostgreSQL support in MISP is experimental.
 We strongly discourage you from use on production systems.
 Testing &amp; development: most recent MISP codebase on Debian 8 "jessie" (PHP 5.6 &amp; PostgreSQL 9.4).
 There may be serious bugs!
 We also don't support updates (e.g. 2.4.49 -&gt; 2.4.50) on PostgreSQL yet, so your installation may break.</p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
 <p>If you want to help improving PostgreSQL-support,
 Please make sure you have tried the newest commit from GitHub first.
 Also, please activate debug mode.
 After that, you may open an issue on Github and provide us with as much information on the issue as possible.</p>
-<h6 id="_1"><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h6>
+</div>
 <h2 id="please-follow-debian-8-install-instructions-installdebian8txt">please follow Debian 8 install instructions - INSTALL.debian8.txt<a class="headerlink" href="#please-follow-debian-8-install-instructions-installdebian8txt" title="Permanent link">&para;</a></h2>
 <h1 id="when-it-comes-to-installing-mariadb-in-step-2-skip-that-part-instead">when it comes to installing mariadb in step 2, skip that part, instead:<a class="headerlink" href="#when-it-comes-to-installing-mariadb-in-step-2-skip-that-part-instead" title="Permanent link">&para;</a></h1>
 <p>sudo apt-get install postgresql</p>
