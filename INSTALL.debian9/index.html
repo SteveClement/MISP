@@ -537,8 +537,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-viper-framework" title="Install viper framework" class="md-nav__link">
-    Install viper framework
+  <a href="#install-viper-framework-with-a-virtualenv" title="Install viper framework (with a virtualenv)" class="md-nav__link">
+    Install viper framework (with a virtualenv)
   </a>
   
 </li>
@@ -1111,8 +1111,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-viper-framework" title="Install viper framework" class="md-nav__link">
-    Install viper framework
+  <a href="#install-viper-framework-with-a-virtualenv" title="Install viper framework (with a virtualenv)" class="md-nav__link">
+    Install viper framework (with a virtualenv)
   </a>
   
 </li>
@@ -1217,6 +1217,8 @@
 apt install -y etckeeper
 apt install -y sudo
 adduser misp sudo
+<span class="c1"># Add the user to the staff group to be able to write to /usr/local/src</span>
+adduser misp staff
 </pre></div>
 
 <h4 id="make-sure-your-system-is-up2date">Make sure your system is up2date<a class="headerlink" href="#make-sure-your-system-is-up2date" title="Permanent link">&para;</a></h4>
@@ -1852,15 +1854,19 @@ sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugi
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
 </pre></div>
 
-<h4 id="install-viper-framework">Install viper framework<a class="headerlink" href="#install-viper-framework" title="Permanent link">&para;</a></h4>
+<h4 id="install-viper-framework-with-a-virtualenv">Install viper framework (with a virtualenv)<a class="headerlink" href="#install-viper-framework-with-a-virtualenv" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
 sudo apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2 python3-magic python3-sqlalchemy python3-prettytable
-sudo git clone https://github.com/viper-framework/viper.git
+git clone https://github.com/viper-framework/viper.git
 <span class="nb">cd</span> viper
-sudo git submodule update --init --recursive
-sudo pip3 install -r requirements.txt
-sudo pip3 uninstall yara -y
+virtualenv -p python3 venv
+git submodule update --init --recursive
+./venv/bin/pip install -r requirements.txt
+./venv/bin/pip uninstall yara -y
+sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-cli
+sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-web
+
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p <span class="m">8888</span> -H <span class="m">0</span>.0.0.0 <span class="p">&amp;</span>
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
@@ -1873,21 +1879,22 @@ sqlite3 ~/.viper/admin.db <span class="s1">&#39;UPDATE auth_user SET password=&q
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
 sudo apt-get install -y cmake
-sudo git clone https://github.com/MISP/mail_to_misp.git
-sudo git clone git://github.com/stricaud/faup.git
+git clone https://github.com/MISP/mail_to_misp.git
+git clone https://github.com/stricaud/faup.git
 <span class="nb">cd</span> faup
 sudo mkdir -p build
 <span class="nb">cd</span> build
-sudo cmake .. <span class="o">&amp;&amp;</span> sudo make
+cmake .. <span class="o">&amp;&amp;</span> make
 sudo make install
 sudo ldconfig
 <span class="nb">cd</span> ../../
 <span class="nb">cd</span> mail_to_misp
-sudo pip3 install -r requirements.txt
-sudo cp mail_to_misp_config.py-example mail_to_misp_config.py
+virtualenv -p python3 venv
+./venv/bin/pip install -r requirements.txt
+cp mail_to_misp_config.py-example mail_to_misp_config.py
 
-sudo sed -i <span class="s2">&quot;s/^misp_url\ =\ &#39;YOUR_MISP_URL&#39;/misp_url\ =\ &#39;http:\/\/localhost&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
-sudo sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ =\ &#39;</span><span class="nv">$AUTH_KEY</span><span class="s2">&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
+sed -i <span class="s2">&quot;s/^misp_url\ =\ &#39;YOUR_MISP_URL&#39;/misp_url\ =\ &#39;http:\/\/localhost&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
+sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ =\ &#39;</span><span class="nv">$AUTH_KEY</span><span class="s2">&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
 </pre></div>
                 
                   
