@@ -519,13 +519,6 @@
     Recommended actions
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-features" title="Optional features" class="md-nav__link">
-    Optional features
-  </a>
-  
     <nav class="md-nav">
       <ul class="md-nav__list">
         
@@ -1098,13 +1091,6 @@
           <li class="md-nav__item">
   <a href="#recommended-actions" title="Recommended actions" class="md-nav__link">
     Recommended actions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-features" title="Optional features" class="md-nav__link">
-    Optional features
   </a>
   
     <nav class="md-nav">
@@ -1771,8 +1757,9 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <li>Keep your software up2date (OS, MISP, CakePHP and everything else)</li>
 <li>Log and audit</li>
 </ul>
-<h3 id="optional-features">Optional features<a class="headerlink" href="#optional-features" title="Permanent link">&para;</a></h3>
-<hr />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can add the following to your shell startup rc scripts to have the <em>cake</em> and <em>viper-cli</em> commands in your $PATH
 <div class="codehilite"><pre><span></span><span class="c1"># set PATH so it includes viper if it exists</span>
 <span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/usr/local/src/viper&quot;</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
     <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/usr/local/src/viper&quot;</span>
@@ -1782,8 +1769,8 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/var/www/MISP/app/Console&quot;</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
     <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/var/www/MISP/app/Console&quot;</span>
 <span class="k">fi</span>
-</pre></div>
-
+</pre></div></p>
+</div>
 <h4 id="misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands">MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands<a class="headerlink" href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="c1"># ZeroMQ depends on the Python client for Redis</span>
 sudo apt install python3-redis -y
