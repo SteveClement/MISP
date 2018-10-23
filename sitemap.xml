@@ -61,6 +61,11 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
+     <loc>https://www.misp-project.org/xINSTALL.rhel7/</loc>
+     <lastmod>2018-10-23</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>https://www.misp-project.org/CONFIG.elasticsearch-logging/</loc>
      <lastmod>2018-10-23</lastmod>
      <changefreq>daily</changefreq>
