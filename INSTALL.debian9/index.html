@@ -366,8 +366,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-etckeeper-optional" title="install etckeeper (optional)" class="md-nav__link">
-    install etckeeper (optional)
+  <a href="#install-etckeeper-and-sudo-optional" title="install etckeeper and sudo (optional)" class="md-nav__link">
+    install etckeeper and sudo (optional)
   </a>
   
 </li>
@@ -387,8 +387,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-postfix-there-will-be-some-questions-optional" title="install postfix, there will be some questions. *(optional)" class="md-nav__link">
-    install postfix, there will be some questions. *(optional)
+  <a href="#install-postfix-there-will-be-some-questions-optional" title="install postfix, there will be some questions. (optional)" class="md-nav__link">
+    install postfix, there will be some questions. (optional)
   </a>
   
 </li>
@@ -947,8 +947,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-etckeeper-optional" title="install etckeeper (optional)" class="md-nav__link">
-    install etckeeper (optional)
+  <a href="#install-etckeeper-and-sudo-optional" title="install etckeeper and sudo (optional)" class="md-nav__link">
+    install etckeeper and sudo (optional)
   </a>
   
 </li>
@@ -968,8 +968,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-postfix-there-will-be-some-questions-optional" title="install postfix, there will be some questions. *(optional)" class="md-nav__link">
-    install postfix, there will be some questions. *(optional)
+  <a href="#install-postfix-there-will-be-some-questions-optional" title="install postfix, there will be some questions. (optional)" class="md-nav__link">
+    install postfix, there will be some questions. (optional)
   </a>
   
 </li>
@@ -1226,10 +1226,10 @@
 <li>Web server, apache FTW!</li>
 <li>This guide assumes a user name of 'misp'</li>
 </ul>
-<h4 id="install-etckeeper-optional">install etckeeper (optional)<a class="headerlink" href="#install-etckeeper-optional" title="Permanent link">&para;</a></h4>
+<h4 id="install-etckeeper-and-sudo-optional">install etckeeper and sudo (optional)<a class="headerlink" href="#install-etckeeper-and-sudo-optional" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>su -
-apt install etckeeper
-apt install sudo
+apt install -y etckeeper
+apt install -y sudo
 adduser misp sudo
 </pre></div>
 
@@ -1249,7 +1249,7 @@ sudo apt -y dist-upgrade
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 </pre></div>
 
-<h4 id="install-postfix-there-will-be-some-questions-optional">install postfix, there will be some questions. *(optional)<a class="headerlink" href="#install-postfix-there-will-be-some-questions-optional" title="Permanent link">&para;</a></h4>
+<h4 id="install-postfix-there-will-be-some-questions-optional">install postfix, there will be some questions. (optional)<a class="headerlink" href="#install-postfix-there-will-be-some-questions-optional" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="c1"># Postfix Configuration: Satellite system</span>
 sudo apt install -y postfix
 </pre></div>
@@ -1761,12 +1761,23 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 </ul>
 <h3 id="optional-features">Optional features<a class="headerlink" href="#optional-features" title="Permanent link">&para;</a></h3>
 <hr />
+<div class="codehilite"><pre><span></span><span class="c1"># set PATH so it includes viper if it exists</span>
+<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/usr/local/src/viper&quot;</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
+    <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/usr/local/src/viper&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># set PATH so it includes viper if it exists</span>
+<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/var/www/MISP/app/Console&quot;</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then</span>
+    <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/var/www/MISP/app/Console&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+
 <h4 id="misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands">MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands<a class="headerlink" href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="c1"># ZeroMQ depends on the Python client for Redis</span>
-sudo pip3 install redis
+sudo apt install python3-redis -y
 
 <span class="c1">## install pyzmq</span>
-sudo pip3 install pyzmq
+sudo apt install python3-zmq -y
 </pre></div>
 
 <h4 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
