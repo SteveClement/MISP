@@ -1728,7 +1728,7 @@ sudo -u www-data /var/www/MISP/venv/bin/pip install maec lief python-magic wand 
 sudo -u www-data /var/www/MISP/venv/bin/pip install git+https://github.com/kbandla/pydeep.git
 <span class="c1"># install STIX2.0 library to support STIX 2.0 export:</span>
 sudo -u www-data /var/www/MISP/venv/bin/pip install stix2
-sudo gem install pygments.rb
+sudo apt install ruby-pygments.rb
 sudo gem install asciidoctor-pdf --pre
 
 <span class="c1"># Once done, have a look at the diagnostics</span>
@@ -1751,6 +1751,12 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
 </pre></div>
 
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you have install a python virtualenv to the recommended place of <em>/var/www/MISP/venv</em> set the following MISP configurable
+<div class="codehilite"><pre><span></span>sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;/var/www/MISP/venv&quot;</span>
+</pre></div></p>
+</div>
 <h3 id="recommended-actions">Recommended actions<a class="headerlink" href="#recommended-actions" title="Permanent link">&para;</a></h3>
 <hr />
 <ul>
@@ -1797,7 +1803,7 @@ sudo /var/www/misp-dashboard/install_dependencies.sh
 sudo sed -i <span class="s2">&quot;s/^host\ =\ localhost/host\ =\ 0.0.0.0/g&quot;</span> /var/www/misp-dashboard/config/config.cfg
 sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n&#39;</span> /etc/rc.local
 sudo sed -i <span class="s1">&#39;/Listen 80/a Listen 0.0.0.0:8001&#39;</span> /etc/apache2/ports.conf
-sudo apt install libapache2-mod-wsgi-py3
+sudo apt install libapache2-mod-wsgi-py3 -y
 
 <span class="nb">echo</span> <span class="s2">&quot;&lt;VirtualHost *:8001&gt;</span>
 <span class="s2">    ServerAdmin admin@misp.local</span>
@@ -1838,7 +1844,7 @@ sudo apt install libapache2-mod-wsgi-py3
 <span class="s2">&lt;/VirtualHost&gt;&quot;</span> <span class="p">|</span> sudo tee /etc/apache2/sites-available/misp-dashboard.conf
 
 sudo a2ensite misp-dashboard
-
+sudo systemctl reload apache2
 
 <span class="c1"># Enable ZeroMQ for misp-dashboard</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
