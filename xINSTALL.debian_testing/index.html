@@ -1271,11 +1271,11 @@ sudo apt install expect -y
 <span class="c1"># expect spawn sudo and wants your password</span>
 
 
+<span class="c1"># Add your credentials if needed, if sudo has NOPASS, comment out the relevant lines</span>
+<span class="nv">pw</span><span class="o">=</span><span class="s2">&quot;Password1234&quot;</span>
+
 expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">  set timeout 10</span>
-
-<span class="s">  # Add your credentials if needed, if sudo has NOPASS, comment out the relevant lines</span>
-<span class="s">  set pw Password1234</span>
 
 <span class="s">  spawn sudo mysql_secure_installation</span>
 <span class="s">  expect &quot;*?assword*&quot;</span>
