@@ -1275,8 +1275,9 @@ expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">  set timeout 10</span>
 
 <span class="s">  set pw Password1234</span>
+<span class="s">  set user misp</span>
 <span class="s">  spawn sudo mysql_secure_installation</span>
-<span class="s">  expect &quot;\\\[sudo\\\] password for misp: &quot;</span>
+<span class="s">  expect {\[sudo\] password for $user:}</span>
 <span class="s">  send &quot;$pw\r&quot;</span>
 <span class="s">  expect &quot;Enter current password for root (enter for none):&quot;</span>
 <span class="s">  send -- &quot;\r&quot;</span>
