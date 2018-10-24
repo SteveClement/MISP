@@ -972,14 +972,10 @@ It is still considered experimental as not everything works seemlessly.</p>
 </div>
 <p>CentOS 7.5-1804 <a href="http://mirror.centos.org/centos/7.5.1804/os/x86_64/">NetInstallURL</a></p>
 <h4 id="misp-configuration-variables">MISP configuration variables<a class="headerlink" href="#misp-configuration-variables" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="c1"># CentOS Specific</span>
-<span class="nv">RUN_PHP</span><span class="o">=</span><span class="s1">&#39;/usr/bin/scl enable rh-php56 &#39;</span>
-<span class="nv">RUN_PYTHON</span><span class="o">=</span><span class="s1">&#39;/usr/bin/scl enable rh-python36 &#39;</span>
-
-<span class="c1"># MISP configuration variables</span>
+<div class="codehilite"><pre><span></span><span class="c1"># MISP configuration variables</span>
 <span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s1">&#39;/var/www/MISP&#39;</span>
 <span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
-<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&quot;&quot;&#39;</span>
 <span class="nv">MISP_LIVE</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
 
 <span class="c1"># Database configuration</span>
@@ -1014,10 +1010,16 @@ It is still considered experimental as not everything works seemlessly.</p>
 <span class="nv">post_max_size</span><span class="o">=</span>50M
 <span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
 <span class="nv">memory_limit</span><span class="o">=</span>512M
-<span class="nv">PHP_INI</span><span class="o">=</span>/etc/opt/rh/rh-php56/php.ini
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="c1"># CentOS Specific</span>
+<span class="nv">RUN_PHP</span><span class="o">=</span><span class="s1">&#39;/usr/bin/scl enable rh-php56 &#39;</span>
+<span class="nv">RUN_PYTHON</span><span class="o">=</span><span class="s1">&#39;/usr/bin/scl enable rh-python36 &#39;</span>
+
+<span class="nv">PHP_INI</span><span class="o">=</span>/etc/opt/rh/rh-php56/php.ini
 </pre></div>
 
 <h3 id="1-minimal-centos-install">1/ Minimal CentOS install<a class="headerlink" href="#1-minimal-centos-install" title="Permanent link">&para;</a></h3>

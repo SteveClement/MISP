@@ -1035,7 +1035,6 @@ It is also partially the basis of the <a href="https://github.com/MISP/misp-pack
 <span class="nv">post_max_size</span><span class="o">=</span>50M
 <span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
 <span class="nv">memory_limit</span><span class="o">=</span>512M
-<span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.0/apache2/php.ini
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
@@ -1314,7 +1313,8 @@ sudo -u www-data gpg --homedir /var/www/MISP/.gnupg --gen-key
 
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
-<p>If entropy is not high enough, you can install rng-tools and then run rngd -r /dev/urandom do fix it quickly</p>
+<p>If entropy is not high enough, you can install rng-tools and then run rngd -r /dev/urandom do fix it quickly<br />
+In case rng-tools gives you troubles, haveged is an alternative.</p>
 </div>
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>

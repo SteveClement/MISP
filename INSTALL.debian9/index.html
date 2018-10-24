@@ -1238,10 +1238,12 @@
 <span class="nv">post_max_size</span><span class="o">=</span>50M
 <span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
 <span class="nv">memory_limit</span><span class="o">=</span>512M
-<span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.0/apache2/php.ini
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.0/apache2/php.ini
 </pre></div>
 
 <h3 id="1-minimal-debian-install">1/ Minimal Debian install<a class="headerlink" href="#1-minimal-debian-install" title="Permanent link">&para;</a></h3>
@@ -1298,11 +1300,13 @@ mariadb-server <span class="se">\</span>
 apache2 apache2-doc apache2-utils <span class="se">\</span>
 libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-mbstring php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.2-opcache php7.0-readline php-redis php-gnupg <span class="se">\</span>
 libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor <span class="se">\</span>
+jq ntp ntpdate jupyter-notebook imagemagick tesseract-ocr <span class="se">\</span>
 libxml2-dev libxslt1-dev zlib1g-dev
 
 <span class="c1"># Start rng-tools to get more entropy (optional)</span>
 <span class="c1"># If you get TPM errors, enable &quot;Security chip&quot; in BIOS (keep secure boot disabled)</span>
-sudo apt install rng-tools
+<span class="c1"># On virtual machines this might fail by default. haveged should work</span>
+sudo apt install rng-tools haveged -y
 sudo service rng-tools start
 
 sudo apt install expect -y
@@ -1334,7 +1338,7 @@ expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">  send -- &quot;y\r&quot;</span>
 <span class="s">  expect eof</span>
 <span class="s">EOF</span>
-sudo apt-get purge -y expect
+sudo apt-get purge -y expect <span class="p">;</span> sudo apt autoremove -y
 
 <span class="c1"># Enable modules, settings, and default of SSL in Apache</span>
 sudo a2dismod status
@@ -1564,6 +1568,7 @@ sudo -u www-data cp -a <span class="nv">$PATH_TO_MISP</span>/app/Config/config.d
 <span class="c1"># and make sure the file permissions are still OK</span>
 sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/app/Config
 sudo chmod -R <span class="m">750</span> <span class="nv">$PATH_TO_MISP</span>/app/Config
+
 <span class="c1"># Set some MISP directives with the command line tool</span>
 
 <span class="c1"># Change base url</span>
@@ -1731,17 +1736,9 @@ sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Secur
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
+</pre></div>
 
-<span class="c1"># Now log in using the webinterface:</span>
-<span class="c1"># The default user/pass = admin@admin.test/admin</span>
-
-<span class="c1"># Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference</span>
-<span class="c1"># It is especially vital that no critical issues remain!</span>
-<span class="c1"># start the workers by navigating to the workers tab and clicking restart all workers</span>
-
-<span class="c1"># Don&#39;t forget to change the email, password and authentication key after installation.</span>
-
-<span class="c1"># Set MISP Live</span>
+<div class="codehilite"><pre><span></span><span class="c1"># Set MISP Live</span>
 sudo <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
 
 <span class="c1"># Update the galaxies…</span>
@@ -1751,7 +1748,8 @@ sudo <span class="nv">$CAKE</span> Admin updateGalaxies
 sudo <span class="nv">$CAKE</span> Admin updateTaxonomies
 
 <span class="c1"># Updating the warning lists…</span>
-sudo <span class="nv">$CAKE</span> Admin updateWarningLists
+<span class="c1">##sudo $CAKE Admin updateWarningLists</span>
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/warninglists/update
 
 <span class="c1"># Updating the notice lists…</span>
 <span class="c1">## sudo $CAKE Admin updateNoticeLists</span>
@@ -1771,9 +1769,8 @@ sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data /var/www/MISP/venv/bin
 <span class="c1"># Start the workers</span>
 sudo -u www-data bash <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/start.sh
 
-<span class="c1">## /!\ Check wtf is going on with yara.</span>
-<span class="c1"># Start misp-modules</span>
-sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
+<span class="c1"># some misp-modules dependencies</span>
+sudo apt-get install -y libpq5 libjpeg-dev libfuzzy-dev
 
 sudo chmod <span class="m">2775</span> /usr/local/src
 sudo chown root:staff /usr/local/src
@@ -1783,33 +1780,55 @@ git clone https://github.com/MISP/misp-modules.git
 <span class="c1"># pip install</span>
 sudo -u www-data /var/www/MISP/venv/bin/pip install -I -r REQUIREMENTS
 sudo -u www-data /var/www/MISP/venv/bin/pip install .
-sudo -u www-data /var/www/MISP/venv/bin/pip install maec lief python-magic wand yara
+sudo -u www-data /var/www/MISP/venv/bin/pip install maec lief python-magic wand yara pathlib pymisp
 sudo -u www-data /var/www/MISP/venv/bin/pip install git+https://github.com/kbandla/pydeep.git
 <span class="c1"># install STIX2.0 library to support STIX 2.0 export:</span>
 sudo -u www-data /var/www/MISP/venv/bin/pip install stix2
-sudo apt install ruby-pygments.rb
+sudo apt install ruby-pygments.rb -y
 sudo gem install asciidoctor-pdf --pre
 
-<span class="c1"># Once done, have a look at the diagnostics</span>
-
-<span class="c1"># If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions</span>
-<span class="c1"># you can do this by running the following commands:</span>
-
-sudo chmod -R <span class="m">750</span> <span class="nv">$PATH_TO_MISP</span>/&lt;directory path with an indicated issue&gt;
-sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;directory path with an indicated issue&gt;
-
-<span class="c1"># Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt&#39;s paragraphs dealing with these two items</span>
-
-<span class="c1"># If anything goes wrong, make sure that you check MISP&#39;s logs for errors:</span>
-<span class="c1"># $PATH_TO_MISP/app/tmp/logs/error.log</span>
-<span class="c1"># $PATH_TO_MISP/app/tmp/logs/resque-worker-error.log</span>
-<span class="c1"># $PATH_TO_MISP/app/tmp/logs/resque-scheduler-error.log</span>
-<span class="c1"># $PATH_TO_MISP/app/tmp/logs/resque-2015-01-01.log // where the actual date is the current date</span>
+<span class="c1"># Start misp-modules</span>
+<span class="c1">## /!\ Check wtf is going on with yara.</span>
+sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
 </pre></div>
 
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Now log in using the webinterface:<br />
+The default user/pass = <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;">&#97;&#100;&#109;&#105;&#110;&#64;&#97;&#100;&#109;&#105;&#110;&#46;&#116;&#101;&#115;&#116;</a>/admin<br />
+Using the server settings tool in the admin interface (Administration -&gt; Server Settings), set MISP up to your preference<br />
+It is especially vital that no critical issues remain!<br />
+Don't forget to change the email, password and authentication key after installation.</p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Start the workers by navigating to the workers tab and clicking restart all workers</p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Once done, have a look at the diagnostics
+If any of the directories that MISP uses to store files is not writeable to the apache user, change the permissions
+you can do this by running the following commands:
+<div class="codehilite"><pre><span></span>sudo chmod -R 750 $PATH_TO_MISP/&lt;directory path with an indicated issue&gt;
+sudo chown -R www-data:www-data $PATH_TO_MISP/&lt;directory path with an indicated issue&gt;
+</pre></div></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that the STIX libraries and GnuPG work as intended, if not, refer to INSTALL.txt's paragraphs dealing with these two items</p>
+</div>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>If anything goes wrong, make sure that you check MISP's logs for errors:
+<div class="codehilite"><pre><span></span># $PATH_TO_MISP/app/tmp/logs/error.log
+# $PATH_TO_MISP/app/tmp/logs/resque-worker-error.log
+# $PATH_TO_MISP/app/tmp/logs/resque-scheduler-error.log
+# $PATH_TO_MISP/app/tmp/logs/resque-2015-01-01.log // where the actual date is the current date
+</pre></div></p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If you have install a python virtualenv to the recommended place of <em>/var/www/MISP/venv</em> set the following MISP configurable
@@ -1929,7 +1948,7 @@ sudo a2ensite misp-dashboard
 sudo systemctl reload apache2
 
 <span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
-sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
+sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
 
 <span class="c1"># Enable ZeroMQ for misp-dashboard</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
@@ -1958,12 +1977,13 @@ git clone https://github.com/viper-framework/viper.git
 <span class="nb">cd</span> viper
 virtualenv -p python3 venv
 git submodule update --init --recursive
+./venv/bin/pip install scrapy
 ./venv/bin/pip install -r requirements.txt
-./venv/bin/pip uninstall yara -y
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-cli
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-web
 <span class="c1">## /!\ Check wtf is going on with yara.</span>
-sudo pip3 uninstall yara -y
+<span class="c1">###sudo pip3 uninstall yara -y</span>
+<span class="c1">###./venv/bin/pip uninstall yara -y</span>
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p <span class="m">8888</span> -H <span class="m">0</span>.0.0.0 <span class="p">&amp;</span>
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
@@ -1972,7 +1992,7 @@ sed -i <span class="s2">&quot;s/^misp_key\ =/misp_key\ =\ </span><span class="nv
 <span class="c1"># Reset admin password to: admin/Password1234</span>
 sqlite3 ~/.viper/admin.db <span class="s1">&#39;UPDATE auth_user SET password=&quot;pbkdf2_sha256$100000$iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U=&quot;&#39;</span>
 <span class="c1"># Add viper-web to rc.local to be started on boot</span>
-sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &gt; /tmp/viper-web_rc.local.log &amp;\n&#39;</span> /etc/rc.local
+sudo sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &gt; /tmp/viper-web_rc.local.log &amp;\n&#39;</span> /etc/rc.local
 </pre></div>
 
 <h4 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h4>
