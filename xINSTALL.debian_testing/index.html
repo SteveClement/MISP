@@ -1270,7 +1270,7 @@ sudo apt install expect -y
 
 expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">  set timeout 10</span>
-<span class="s">  spawn mysql_secure_installation</span>
+<span class="s">  spawn sudo mysql_secure_installation</span>
 <span class="s">  expect &quot;Enter current password for root (enter for none):&quot;</span>
 <span class="s">  send -- &quot;\r&quot;</span>
 <span class="s">  expect &quot;Set root password?&quot;</span>
