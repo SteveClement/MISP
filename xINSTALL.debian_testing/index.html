@@ -1266,6 +1266,31 @@ libxml2-dev libxslt1-dev zlib1g-dev python3-setuptools
 sudo apt install rng-tools
 sudo service rng-tools start
 
+sudo apt install expect -y
+
+expect -f - <span class="s">&lt;&lt;-EOF</span>
+<span class="s">  set timeout 10</span>
+<span class="s">  spawn mysql_secure_installation</span>
+<span class="s">  expect &quot;Enter current password for root (enter for none):&quot;</span>
+<span class="s">  send -- &quot;\r&quot;</span>
+<span class="s">  expect &quot;Set root password?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;New password:&quot;</span>
+<span class="s">  send -- &quot;${DBPASSWORD_ADMIN}\r&quot;</span>
+<span class="s">  expect &quot;Re-enter new password:&quot;</span>
+<span class="s">  send -- &quot;${DBPASSWORD_ADMIN}\r&quot;</span>
+<span class="s">  expect &quot;Remove anonymous users?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Disallow root login remotely?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Remove test database and access to it?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Reload privilege tables now?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect eof</span>
+<span class="s">EOF</span>
+sudo apt-get purge -y expect &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
 <span class="c1"># Secure the MariaDB installation (especially by setting a strong root password)</span>
 sudo mysql_secure_installation
 
