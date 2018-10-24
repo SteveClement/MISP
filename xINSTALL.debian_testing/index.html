@@ -1200,7 +1200,7 @@ Maintained and tested by @SteveClement on 20181023</p>
 <span class="nv">post_max_size</span><span class="o">=</span>50M
 <span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
 <span class="nv">memory_limit</span><span class="o">=</span>512M
-<span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.2/apache2/php.ini
+<span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.3/apache2/php.ini
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
@@ -1257,7 +1257,7 @@ curl gcc git gnupg-agent make openssl redis-server neovim zip libyara-dev python
 mariadb-client <span class="se">\</span>
 mariadb-server <span class="se">\</span>
 apache2 apache2-doc apache2-utils <span class="se">\</span>
-libapache2-mod-php7.2 php7.2 php7.2-cli  php7.2-mbstring php-pear php7.2-dev php7.2-json php7.2-xml php7.2-mysql php7.2-opcache php7.2-readline <span class="se">\</span>
+libapache2-mod-php php php-cli  php-mbstring php-pear php-dev php-json php-xml php-mysql php-opcache php-readline <span class="se">\</span>
 python3-dev python3-pip libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor <span class="se">\</span>
 libxml2-dev libxslt1-dev zlib1g-dev python3-setuptools
 
@@ -1306,9 +1306,9 @@ sudo a2ensite default-ssl
 <span class="c1"># Install PHP external dependencies</span>
 sudo pear channel-update pear.php.net
 sudo pear install Crypt_GPG
-sudo pecl channel-update pecl.php.net
-sudo pecl install redis
-<span class="nb">echo</span> <span class="s2">&quot;extension=redis.so&quot;</span> <span class="p">|</span> sudo tee /etc/php/7.2/mods-available/redis.ini
+<span class="c1">#sudo pecl channel-update pecl.php.net</span>
+<span class="c1">#sudo pecl install redis</span>
+<span class="c1">#echo &quot;extension=redis.so&quot; | sudo tee /etc/php/7.3/mods-available/redis.ini</span>
 
 <span class="c1"># Switch to python3 by default (optional)</span>
 
@@ -1480,7 +1480,7 @@ sudo openssl req -newkey rsa:4096 -days <span class="m">365</span> -nodes -x509 
 sudo a2dissite default-ssl
 sudo a2ensite misp-ssl
 
-<span class="c1"># Recommended: Change some PHP settings in /etc/php/7.2/apache2/php.ini</span>
+<span class="c1"># Recommended: Change some PHP settings in /etc/php/7.3/apache2/php.ini</span>
 <span class="c1"># max_execution_time = 300</span>
 <span class="c1"># memory_limit = 512M</span>
 <span class="c1"># upload_max_filesize = 50M</span>
