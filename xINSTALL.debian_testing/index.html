@@ -1716,6 +1716,8 @@ sudo -u www-data bash <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/s
 <span class="c1"># Start misp-modules</span>
 sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
 
+sudo <span class="m">2775</span> /usr/local/src
+sudo chown root:staff
 <span class="nb">cd</span> /usr/local/src/
 git clone https://github.com/MISP/misp-modules.git
 <span class="nb">cd</span> misp-modules
@@ -1889,6 +1891,7 @@ sudo pip3 uninstall yara -y
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
 sed -i <span class="s2">&quot;s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g&quot;</span> ~/.viper/viper.conf
 sed -i <span class="s2">&quot;s/^misp_key\ =/misp_key\ =\ </span><span class="nv">$AUTH_KEY</span><span class="s2">/g&quot;</span> ~/.viper/viper.conf
+<span class="c1"># Reset admin password to: admin/Password1234</span>
 sqlite3 ~/.viper/admin.db <span class="s1">&#39;UPDATE auth_user SET password=&quot;pbkdf2_sha256$100000$iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U=&quot;&#39;</span>
 <span class="c1"># Add viper-web to rc.local to be started on boot</span>
 sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &gt; /tmp/viper-web_rc.local.log &amp;\n&#39;</span> /etc/rc.local
