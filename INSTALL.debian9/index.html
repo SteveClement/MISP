@@ -1701,13 +1701,13 @@ sudo sed -i -e <span class="s1">&#39;$i \echo never &gt; /sys/kernel/mm/transpar
 sudo sed -i -e <span class="s1">&#39;$i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n&#39;</span> /etc/rc.local
 sudo sed -i -e <span class="s1">&#39;$i \sysctl vm.overcommit_memory=1\n&#39;</span> /etc/rc.local
 sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n&#39;</span> /etc/rc.local
-sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data misp-modules -l 0.0.0.0 -s &amp;\n&#39;</span> /etc/rc.local
+sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 0.0.0.0 -s &amp;\n&#39;</span> /etc/rc.local
 
 <span class="c1"># Start the workers</span>
 sudo -u www-data bash <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/start.sh
 
 <span class="nb">cd</span> /usr/local/src/
-sudo git clone https://github.com/MISP/misp-modules.git
+git clone https://github.com/MISP/misp-modules.git
 <span class="nb">cd</span> misp-modules
 <span class="c1"># pip install</span>
 sudo -u www-data /var/www/MISP/venv/bin/pip install -I -r REQUIREMENTS
@@ -1742,7 +1742,7 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If you have install a python virtualenv to the recommended place of <em>/var/www/MISP/venv</em> set the following MISP configurable
-<div class="codehilite"><pre><span></span>sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;/var/www/MISP/venv&quot;</span>
+<div class="codehilite"><pre><span></span>sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;/var/www/MISP/venv/bin/python&quot;</span>
 </pre></div></p>
 </div>
 <h3 id="recommended-actions">Recommended actions<a class="headerlink" href="#recommended-actions" title="Permanent link">&para;</a></h3>
@@ -1777,10 +1777,13 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <div class="codehilite"><pre><span></span><span class="c1"># ZeroMQ depends on the Python client for Redis</span>
 sudo apt install python3-redis -y
 
-<span class="c1">## install pyzmq</span>
+<span class="c1"># install pyzmq</span>
 sudo apt install python3-zmq -y
 </pre></div>
 
+<p>In case you are using a virtualenv make sure pyzmq is installed therein.
+<div class="codehilite"><pre><span></span>sudo -u www-data /var/www/MISP/venv/bin/pip install pyzmq
+</pre></div></p>
 <h4 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www
