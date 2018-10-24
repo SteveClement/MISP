@@ -1268,9 +1268,6 @@ sudo service rng-tools start
 
 sudo apt install expect -y
 
-<span class="c1"># expect spawn sudo and wants your password</span>
-
-
 <span class="c1"># Add your credentials if needed, if sudo has NOPASS, comment out the relevant lines</span>
 <span class="nv">pw</span><span class="o">=</span><span class="s2">&quot;Password1234&quot;</span>
 
@@ -1298,7 +1295,7 @@ expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">  send -- &quot;y\r&quot;</span>
 <span class="s">  expect eof</span>
 <span class="s">EOF</span>
-sudo apt-get purge -y expect &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+sudo apt-get purge -y expect
 
 <span class="c1"># Secure the MariaDB installation (especially by setting a strong root password)</span>
 sudo mysql_secure_installation
