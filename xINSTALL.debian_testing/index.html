@@ -1297,9 +1297,6 @@ expect -f - <span class="s">&lt;&lt;-EOF</span>
 <span class="s">EOF</span>
 sudo apt-get purge -y expect
 
-<span class="c1"># Secure the MariaDB installation (especially by setting a strong root password)</span>
-sudo mysql_secure_installation
-
 <span class="c1"># Enable modules, settings, and default of SSL in Apache</span>
 sudo a2dismod status
 sudo a2enmod ssl rewrite
