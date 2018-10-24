@@ -523,6 +523,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#experimental-ssdeep-correlations" title="Experimental ssdeep correlations¶" class="md-nav__link">
+    Experimental ssdeep correlations¶
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-ssdeep" title="installing ssdeep" class="md-nav__link">
+    installing ssdeep
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands" class="md-nav__link">
     MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands
   </a>
@@ -1097,6 +1117,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#experimental-ssdeep-correlations" title="Experimental ssdeep correlations¶" class="md-nav__link">
+    Experimental ssdeep correlations¶
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-ssdeep" title="installing ssdeep" class="md-nav__link">
+    installing ssdeep
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands" class="md-nav__link">
     MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands
   </a>
@@ -1163,7 +1203,7 @@
 <div class="codehilite"><pre><span></span><span class="c1"># MISP configuration variables</span>
 <span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s1">&#39;/var/www/MISP&#39;</span>
 <span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
-<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&quot;&quot;&#39;</span>
 <span class="nv">MISP_LIVE</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
 
 <span class="c1"># Database configuration</span>
@@ -1251,31 +1291,56 @@ sudo postfix reload
 <hr />
 <h4 id="install-all-the-dependencies-some-might-already-be-installed">Install all the dependencies (some might already be installed)<a class="headerlink" href="#install-all-the-dependencies-some-might-already-be-installed" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>sudo apt install -y <span class="se">\</span>
-curl gcc git gnupg-agent make openssl redis-server vim zip libyara-dev python3-yara python3-redis python3-zmq <span class="se">\</span>
+curl gcc git gnupg-agent make openssl redis-server vim zip libyara-dev <span class="se">\</span>
+python3-setuptools python3-dev python3-pip python3-yara python3-redis python3-zmq virtualenv <span class="se">\</span>
 mariadb-client <span class="se">\</span>
 mariadb-server <span class="se">\</span>
 apache2 apache2-doc apache2-utils <span class="se">\</span>
-libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.0-readline php-redis php7.0-mbstring php-pear python3 <span class="se">\</span>
-python3-dev python3-pip libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor <span class="se">\</span>
-libxml2-dev libxslt1-dev zlib1g-dev python3-setuptools virtualenv
+libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-mbstring php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.2-opcache php7.0-readline php-redis php-gnupg <span class="se">\</span>
+libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor <span class="se">\</span>
+libxml2-dev libxslt1-dev zlib1g-dev
 
 <span class="c1"># Start rng-tools to get more entropy (optional)</span>
 <span class="c1"># If you get TPM errors, enable &quot;Security chip&quot; in BIOS (keep secure boot disabled)</span>
 sudo apt install rng-tools
 sudo service rng-tools start
 
-<span class="c1"># Secure the MariaDB installation (especially by setting a strong root password)</span>
-sudo mysql_secure_installation
+sudo apt install expect -y
+
+<span class="c1"># Add your credentials if needed, if sudo has NOPASS, comment out the relevant lines</span>
+<span class="nv">pw</span><span class="o">=</span><span class="s2">&quot;Password1234&quot;</span>
+
+expect -f - <span class="s">&lt;&lt;-EOF</span>
+<span class="s">  set timeout 10</span>
+
+<span class="s">  spawn sudo mysql_secure_installation</span>
+<span class="s">  expect &quot;*?assword*&quot;</span>
+<span class="s">  send -- &quot;$pw\r&quot;</span>
+<span class="s">  expect &quot;Enter current password for root (enter for none):&quot;</span>
+<span class="s">  send -- &quot;\r&quot;</span>
+<span class="s">  expect &quot;Set root password?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;New password:&quot;</span>
+<span class="s">  send -- &quot;${DBPASSWORD_ADMIN}\r&quot;</span>
+<span class="s">  expect &quot;Re-enter new password:&quot;</span>
+<span class="s">  send -- &quot;${DBPASSWORD_ADMIN}\r&quot;</span>
+<span class="s">  expect &quot;Remove anonymous users?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Disallow root login remotely?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Remove test database and access to it?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect &quot;Reload privilege tables now?&quot;</span>
+<span class="s">  send -- &quot;y\r&quot;</span>
+<span class="s">  expect eof</span>
+<span class="s">EOF</span>
+sudo apt-get purge -y expect
 
 <span class="c1"># Enable modules, settings, and default of SSL in Apache</span>
 sudo a2dismod status
 sudo a2enmod ssl rewrite
 sudo a2dissite <span class="m">000</span>-default
 sudo a2ensite default-ssl
-
-<span class="c1"># Install PHP external dependencies</span>
-sudo pear channel-update pear.php.net
-sudo pear install Crypt_GPG
 
 <span class="c1"># Switch to python3 by default (optional)</span>
 
@@ -1347,6 +1412,7 @@ sudo -u www-data php composer.phar install
 
 <span class="c1"># Enable CakeResque with php-redis</span>
 sudo phpenmod redis
+sudo phpenmod gnupg
 
 <span class="c1"># To use the scheduler worker for scheduled tasks, do the following:</span>
 sudo -u www-data cp -fa <span class="nv">$PATH_TO_MISP</span>/INSTALL/setup/config.php <span class="nv">$PATH_TO_MISP</span>/app/Plugin/CakeResque/Config/config.php
@@ -1499,7 +1565,6 @@ sudo -u www-data cp -a <span class="nv">$PATH_TO_MISP</span>/app/Config/config.d
 sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/app/Config
 sudo chmod -R <span class="m">750</span> <span class="nv">$PATH_TO_MISP</span>/app/Config
 <span class="c1"># Set some MISP directives with the command line tool</span>
-sudo <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
 
 <span class="c1"># Change base url</span>
 sudo <span class="nv">$CAKE</span> Baseurl <span class="nv">$MISP_BASEURL</span>
@@ -1700,12 +1765,18 @@ curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUT
 sudo sed -i -e <span class="s1">&#39;$i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n&#39;</span> /etc/rc.local
 sudo sed -i -e <span class="s1">&#39;$i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n&#39;</span> /etc/rc.local
 sudo sed -i -e <span class="s1">&#39;$i \sysctl vm.overcommit_memory=1\n&#39;</span> /etc/rc.local
-sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n&#39;</span> /etc/rc.local
-sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 0.0.0.0 -s &amp;\n&#39;</span> /etc/rc.local
+sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh &gt; /tmp/worker_start_rc.local.log\n&#39;</span> /etc/rc.local
+sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 0.0.0.0 -s &gt; /tmp/misp-modules_rc.local.log &amp;\n&#39;</span> /etc/rc.local
 
 <span class="c1"># Start the workers</span>
 sudo -u www-data bash <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/start.sh
 
+<span class="c1">## /!\ Check wtf is going on with yara.</span>
+<span class="c1"># Start misp-modules</span>
+sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
+
+sudo chmod <span class="m">2775</span> /usr/local/src
+sudo chown root:staff /usr/local/src
 <span class="nb">cd</span> /usr/local/src/
 git clone https://github.com/MISP/misp-modules.git
 <span class="nb">cd</span> misp-modules
@@ -1773,6 +1844,25 @@ sudo chown -R www-data:www-data <span class="nv">$PATH_TO_MISP</span>/&lt;direct
 <span class="k">fi</span>
 </pre></div></p>
 </div>
+<h4 id="experimental-ssdeep-correlations">Experimental ssdeep correlations¶<a class="headerlink" href="#experimental-ssdeep-correlations" title="Permanent link">&para;</a></h4>
+<h5 id="installing-ssdeep">installing ssdeep<a class="headerlink" href="#installing-ssdeep" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span>cd /usr/local/src
+wget https://github.com/ssdeep-project/ssdeep/releases/download/release-2.14.1/ssdeep-2.14.1.tar.gz
+tar zxvf ssdeep-2.14.1.tar.gz
+cd ssdeep-2.14.1
+./configure
+make
+sudo make install
+
+#installing ssdeep_php
+sudo pecl install ssdeep
+
+# You should add &quot;extension=ssdeep.so&quot; to mods-available - Check /etc/php for your current version
+echo &quot;extension=ssdeep.so&quot; | sudo tee /etc/php/7.2/mods-available/ssdeep.ini
+sudo phpenmod ssdeep
+sudo service apache2 restart
+</pre></div>
+
 <h4 id="misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands">MISP has a new pub/sub feature, using ZeroMQ. To enable it, simply run the following commands<a class="headerlink" href="#misp-has-a-new-pubsub-feature-using-zeromq-to-enable-it-simply-run-the-following-commands" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="c1"># ZeroMQ depends on the Python client for Redis</span>
 sudo apt install python3-redis -y
@@ -1838,6 +1928,9 @@ sudo apt install libapache2-mod-wsgi-py3 -y
 sudo a2ensite misp-dashboard
 sudo systemctl reload apache2
 
+<span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
+sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
+
 <span class="c1"># Enable ZeroMQ for misp-dashboard</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
 sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_event_notifications_enable&quot;</span> <span class="nb">true</span>
@@ -1869,13 +1962,17 @@ git submodule update --init --recursive
 ./venv/bin/pip uninstall yara -y
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-cli
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-web
-
+<span class="c1">## /!\ Check wtf is going on with yara.</span>
+sudo pip3 uninstall yara -y
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p <span class="m">8888</span> -H <span class="m">0</span>.0.0.0 <span class="p">&amp;</span>
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
 sed -i <span class="s2">&quot;s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g&quot;</span> ~/.viper/viper.conf
 sed -i <span class="s2">&quot;s/^misp_key\ =/misp_key\ =\ </span><span class="nv">$AUTH_KEY</span><span class="s2">/g&quot;</span> ~/.viper/viper.conf
+<span class="c1"># Reset admin password to: admin/Password1234</span>
 sqlite3 ~/.viper/admin.db <span class="s1">&#39;UPDATE auth_user SET password=&quot;pbkdf2_sha256$100000$iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U=&quot;&#39;</span>
+<span class="c1"># Add viper-web to rc.local to be started on boot</span>
+sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &gt; /tmp/viper-web_rc.local.log &amp;\n&#39;</span> /etc/rc.local
 </pre></div>
 
 <h4 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h4>
