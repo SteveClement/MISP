@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -274,18 +275,6 @@
   <li class="md-nav__item">
     <a href="../INSTALL.ubuntu1804/" title="Ubuntu 18.04" class="md-nav__link">
       Ubuntu 18.04
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
     </a>
   </li>
 
@@ -751,6 +740,30 @@
 
 
   <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.4" class="md-nav__link">
       OpenBSD 6.4
     </a>
@@ -897,6 +910,18 @@
   <li class="md-nav__item">
     <a href="../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
       Ubuntu 16.04
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
     </a>
   </li>
 
@@ -1304,50 +1329,73 @@
 <p>Maintained and tested by @SteveClement on 20181023</p>
 </div>
 <h4 id="misp-configuration-variables">MISP configuration variables<a class="headerlink" href="#misp-configuration-variables" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="c1"># MISP configuration variables</span>
-<span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s1">&#39;/var/www/MISP&#39;</span>
-<span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
-<span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&quot;&quot;&#39;</span>
-<span class="nv">MISP_LIVE</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 0_global-vars.sh&gt;</span>
+<span class="c1"># Setting generic MISP variables shared by all flavours</span>
+MISPvars <span class="o">()</span> <span class="o">{</span>
+  <span class="c1"># Local non-root MISP user</span>
+  <span class="nv">MISP_USER</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
+  <span class="nv">MISP_PASSWORD</span><span class="o">=</span><span class="s1">&#39;Password1234&#39;</span>
 
-<span class="c1"># Database configuration</span>
-<span class="nv">DBHOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
-<span class="nv">DBNAME</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
-<span class="nv">DBUSER_ADMIN</span><span class="o">=</span><span class="s1">&#39;root&#39;</span>
-<span class="nv">DBPASSWORD_ADMIN</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
-<span class="nv">DBUSER_MISP</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
-<span class="nv">DBPASSWORD_MISP</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
+  <span class="c1"># MISP configuration variables</span>
+  <span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s1">&#39;/var/www/MISP&#39;</span>
+  <span class="c1"># Todo: IF run from CLI set MISP_BASEURL accordingly</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;https://misp.local&#39;</span>
+    <span class="c1"># Webserver configuration</span>
+    <span class="nv">FQDN</span><span class="o">=</span><span class="s1">&#39;misp.local&#39;</span>
+  <span class="k">else</span>
+    <span class="nv">MISP_BASEURL</span><span class="o">=</span><span class="s1">&#39;&quot;&quot;&#39;</span>
+    <span class="c1"># Webserver configuration</span>
+    <span class="nv">FQDN</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+  <span class="k">fi</span>
+  <span class="nv">MISP_LIVE</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>
+  <span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
 
-<span class="c1"># Webserver configuration</span>
-<span class="nv">FQDN</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+  <span class="c1"># Database configuration</span>
+  <span class="nv">DBHOST</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span>
+  <span class="nv">DBNAME</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
+  <span class="nv">DBUSER_ADMIN</span><span class="o">=</span><span class="s1">&#39;root&#39;</span>
+  <span class="nv">DBPASSWORD_ADMIN</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
+  <span class="nv">DBUSER_MISP</span><span class="o">=</span><span class="s1">&#39;misp&#39;</span>
+  <span class="nv">DBPASSWORD_MISP</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>openssl rand -hex <span class="m">32</span><span class="k">)</span><span class="s2">&quot;</span>
 
-<span class="c1"># OpenSSL configuration</span>
-<span class="nv">OPENSSL_CN</span><span class="o">=</span><span class="s1">&#39;Common Name&#39;</span>
-<span class="nv">OPENSSL_C</span><span class="o">=</span><span class="s1">&#39;LU&#39;</span>
-<span class="nv">OPENSSL_ST</span><span class="o">=</span><span class="s1">&#39;State&#39;</span>
-<span class="nv">OPENSSL_L</span><span class="o">=</span><span class="s1">&#39;Location&#39;</span>
-<span class="nv">OPENSSL_O</span><span class="o">=</span><span class="s1">&#39;Organization&#39;</span>
-<span class="nv">OPENSSL_OU</span><span class="o">=</span><span class="s1">&#39;Organizational Unit&#39;</span>
-<span class="nv">OPENSSL_EMAILADDRESS</span><span class="o">=</span><span class="s1">&#39;info@localhost&#39;</span>
+  <span class="c1"># OpenSSL configuration</span>
+  <span class="nv">OPENSSL_CN</span><span class="o">=</span><span class="nv">$FQDN</span>
+  <span class="nv">OPENSSL_C</span><span class="o">=</span><span class="s1">&#39;LU&#39;</span>
+  <span class="nv">OPENSSL_ST</span><span class="o">=</span><span class="s1">&#39;State&#39;</span>
+  <span class="nv">OPENSSL_L</span><span class="o">=</span><span class="s1">&#39;Location&#39;</span>
+  <span class="nv">OPENSSL_O</span><span class="o">=</span><span class="s1">&#39;Organization&#39;</span>
+  <span class="nv">OPENSSL_OU</span><span class="o">=</span><span class="s1">&#39;Organizational Unit&#39;</span>
+  <span class="nv">OPENSSL_EMAILADDRESS</span><span class="o">=</span><span class="s2">&quot;info@</span><span class="nv">$FQDN</span><span class="s2">&quot;</span>
 
-<span class="c1"># GPG configuration</span>
-<span class="nv">GPG_REAL_NAME</span><span class="o">=</span><span class="s1">&#39;Autogenerated Key&#39;</span>
-<span class="nv">GPG_COMMENT</span><span class="o">=</span><span class="s1">&#39;WARNING: MISP AutoGenerated Key consider this Key VOID!&#39;</span>
-<span class="nv">GPG_EMAIL_ADDRESS</span><span class="o">=</span><span class="s1">&#39;admin@admin.test&#39;</span>
-<span class="nv">GPG_KEY_LENGTH</span><span class="o">=</span><span class="s1">&#39;2048&#39;</span>
-<span class="nv">GPG_PASSPHRASE</span><span class="o">=</span><span class="s1">&#39;Password1234&#39;</span>
+  <span class="c1"># GPG configuration</span>
+  <span class="nv">GPG_REAL_NAME</span><span class="o">=</span><span class="s1">&#39;Autogenerated Key&#39;</span>
+  <span class="nv">GPG_COMMENT</span><span class="o">=</span><span class="s1">&#39;WARNING: MISP AutoGenerated Key consider this Key VOID!&#39;</span>
+  <span class="nv">GPG_EMAIL_ADDRESS</span><span class="o">=</span><span class="s1">&#39;admin@admin.test&#39;</span>
+  <span class="nv">GPG_KEY_LENGTH</span><span class="o">=</span><span class="s1">&#39;2048&#39;</span>
+  <span class="nv">GPG_PASSPHRASE</span><span class="o">=</span><span class="s1">&#39;Password1234&#39;</span>
 
-<span class="c1"># php.ini configuration</span>
-<span class="nv">upload_max_filesize</span><span class="o">=</span>50M
-<span class="nv">post_max_size</span><span class="o">=</span>50M
-<span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
-<span class="nv">memory_limit</span><span class="o">=</span>512M
+  <span class="c1"># php.ini configuration</span>
+  <span class="nv">upload_max_filesize</span><span class="o">=</span>50M
+  <span class="nv">post_max_size</span><span class="o">=</span>50M
+  <span class="nv">max_execution_time</span><span class="o">=</span><span class="m">300</span>
+  <span class="nv">memory_limit</span><span class="o">=</span>512M
 
-<span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
+  <span class="c1"># apt config</span>
+  <span class="nb">export</span> <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+
+  <span class="c1"># sudo config to run $LUSER commands</span>
+  <span class="nv">SUDO_USER</span><span class="o">=</span><span class="s2">&quot;sudo -u </span><span class="si">${</span><span class="nv">MISP_USER</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="nv">SUDO_WWW</span><span class="o">=</span><span class="s2">&quot;sudo -u www-data&quot;</span>
+
+  <span class="nb">echo</span> <span class="s2">&quot;Admin (</span><span class="si">${</span><span class="nv">DBUSER_ADMIN</span><span class="si">}</span><span class="s2">) DB Password: </span><span class="si">${</span><span class="nv">DBPASSWORD_ADMIN</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="nb">echo</span> <span class="s2">&quot;User  (</span><span class="si">${</span><span class="nv">DBUSER_MISP</span><span class="si">}</span><span class="s2">) DB Password: </span><span class="si">${</span><span class="nv">DBPASSWORD_MISP</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-end 0_global-vars.sh&gt;</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span><span class="nv">PHP_INI</span><span class="o">=</span>/etc/php/7.0/apache2/php.ini
+<div class="codehilite"><pre><span></span><span class="nv">PHP_ETC_BASE</span><span class="o">=</span>/etc/php/7.0
+<span class="nv">PHP_INI</span><span class="o">=</span><span class="si">${</span><span class="nv">PHP_ETC_BASE</span><span class="si">}</span>/apache2/php.ini
 </pre></div>
 
 <h3 id="1-minimal-debian-install">1/ Minimal Debian install<a class="headerlink" href="#1-minimal-debian-install" title="Permanent link">&para;</a></h3>
@@ -1358,16 +1406,30 @@
 <li>This guide assumes a user name of 'misp' with sudo working</li>
 </ul>
 <h4 id="install-etckeeper-and-sudo-optional">install etckeeper and sudo (optional)<a class="headerlink" href="#install-etckeeper-and-sudo-optional" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span>su -
-apt install -y etckeeper
-apt install -y sudo
-adduser misp sudo
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 0_sudoKeeper.sh&gt;</span>
+<span class="c1"># check if sudo is installed</span>
+checkSudoKeeper <span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> -ne <span class="k">$(</span>which sudo<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    su -c <span class="s2">&quot;apt install -y etckeeper&quot;</span>
+    su -c <span class="s2">&quot;apt install -y sudo&quot;</span>
+    <span class="c1"># TODO: Fix this, user misp might not exist</span>
+    su -c <span class="s2">&quot;adduser misp sudo&quot;</span>
+  <span class="k">else</span>
+    sudo apt install etckeeper -y
+  <span class="k">fi</span>
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-begin 0_sudoKeeper.sh&gt;</span>
 </pre></div>
 
 <h5 id="add-the-misp-user-to-staff-and-www-data-mandatory">add the misp user to staff and www-data (mandatory)<a class="headerlink" href="#add-the-misp-user-to-staff-and-www-data-mandatory" title="Permanent link">&para;</a></h5>
-<div class="codehilite"><pre><span></span><span class="c1"># Add the user to the staff group to be able to write to /usr/local/src</span>
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin apt-upgrade.sh&gt;</span>
+<span class="c1"># Add the user to the staff group to be able to write to /usr/local/src</span>
+<span class="c1"># TODO: Fix this, user misp might not exist</span>
 sudo adduser misp staff
 sudo adduser misp www-data
+<span class="c1"># TODO: FIXME: this breaks a script...</span>
+sudo su - misp
+<span class="c1"># &lt;snippet-begin apt-upgrade.sh&gt;</span>
 <span class="nb">logout</span>
 </pre></div>
 
@@ -1386,6 +1448,9 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 <p class="admonition-title">Notice</p>
 <p>On recent Ubuntu install Netplan is default and you need to change the Network name.
 <div class="codehilite"><pre><span></span>sudo sed -i &quot;s/enp0s3/eth0/&quot; /etc/netplan/50-cloud-init.yaml
+</pre></div>
+OR on Ubuntu 19.04 (yay for changing this every 5 commits... #n00bs)
+<div class="codehilite"><pre><span></span>sudo sed -i &quot;s/enp0s3/eth0/&quot; /etc/netplan/01-netcfg.yaml
 </pre></div></p>
 </div>
 <h4 id="make-sure-your-system-is-up2date">Make sure your system is up2date<a class="headerlink" href="#make-sure-your-system-is-up2date" title="Permanent link">&para;</a></h4>
@@ -1408,11 +1473,11 @@ sudo postfix reload
 <h4 id="install-all-the-dependencies-some-might-already-be-installed">Install all the dependencies (some might already be installed)<a class="headerlink" href="#install-all-the-dependencies-some-might-already-be-installed" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>sudo apt install -y <span class="se">\</span>
 curl gcc git gnupg-agent make openssl redis-server vim zip libyara-dev <span class="se">\</span>
-python3-setuptools python3-dev python3-pip python3-yara python3-redis python3-zmq virtualenv <span class="se">\</span>
+python3-setuptools python3-dev python3-pip python3-redis python3-zmq virtualenv <span class="se">\</span>
 mariadb-client <span class="se">\</span>
 mariadb-server <span class="se">\</span>
 apache2 apache2-doc apache2-utils <span class="se">\</span>
-libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-mbstring php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.2-opcache php7.0-readline php-redis php-gnupg <span class="se">\</span>
+libapache2-mod-php7.0 php7.0 php7.0-cli php7.0-mbstring php7.0-dev php7.0-json php7.0-xml php7.0-mysql php7.0-opcache php7.0-readline php-redis php-gnupg <span class="se">\</span>
 libpq5 libjpeg-dev libfuzzy-dev ruby asciidoctor <span class="se">\</span>
 jq ntp ntpdate jupyter-notebook imagemagick tesseract-ocr <span class="se">\</span>
 libxml2-dev libxslt1-dev zlib1g-dev
@@ -1457,16 +1522,9 @@ sudo a2dismod status
 sudo a2enmod ssl rewrite
 sudo a2dissite <span class="m">000</span>-default
 sudo a2ensite default-ssl
-
-<span class="c1"># Switch to python3 by default (optional)</span>
-
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 <span class="m">1</span>
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.5 <span class="m">2</span>
+sudo a2enmod headers
 </pre></div>
 
-<p>To flip between the 2 pythons use <em>update-alternatives</em>
-<div class="codehilite"><pre><span></span>sudo update-alternatives --config python
-</pre></div></p>
 <h4 id="apply-all-changes">Apply all changes<a class="headerlink" href="#apply-all-changes" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span>sudo systemctl restart apache2
 </pre></div>
@@ -1483,7 +1541,7 @@ sudo -u www-data git clone https://github.com/MISP/MISP.git <span class="nv">$PA
 sudo -u www-data git config core.filemode <span class="nb">false</span>
 
 <span class="c1"># Create a python3 virtualenv</span>
-sudo -u www-data virtualenv -p python3 /var/www/MISP/venv
+sudo -u www-data virtualenv -p python3 <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv
 
 <span class="c1"># make pip happy</span>
 sudo mkdir /var/www/.cache/
@@ -1493,18 +1551,19 @@ sudo chown www-data:www-data /var/www/.cache
 sudo -u www-data git clone https://github.com/CybOXProject/python-cybox.git
 sudo -u www-data git clone https://github.com/STIXProject/python-stix.git
 sudo -u www-data git clone https://github.com/MAECProject/python-maec.git
-<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-cybox
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
-<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-stix
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
-<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-maec
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
-
 <span class="c1"># install mixbox to accommodate the new STIX dependencies:</span>
-<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/
 sudo -u www-data git clone https://github.com/CybOXProject/mixbox.git
+<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-cybox
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
+<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-stix
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
+<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/python-maec
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
 <span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app/files/scripts/mixbox
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
+<span class="c1"># install STIX 2.0 library to support STIX 2.0 export:</span>
+<span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/cti-python-stix2
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
 
 <span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>
 sudo -u www-data git submodule update --init --recursive
@@ -1513,7 +1572,11 @@ sudo -u www-data git submodule foreach --recursive git config core.filemode <spa
 
 <span class="c1"># install PyMISP</span>
 <span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/PyMISP
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
+
+<span class="c1"># Install Crypt_GPG and Console_CommandLine</span>
+sudo -H -u www-data pear install <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/INSTALL/dependencies/Console_CommandLine/package.xml
+sudo -H -u www-data pear install <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/INSTALL/dependencies/Crypt_GPG/package.xml
 </pre></div>
 
 <h3 id="4-cakephp">4/ CakePHP<a class="headerlink" href="#4-cakephp" title="Permanent link">&para;</a></h3>
@@ -1523,9 +1586,9 @@ sudo -u www-data /var/www/MISP/venv/bin/pip install .
 <span class="nb">cd</span> <span class="nv">$PATH_TO_MISP</span>/app
 <span class="c1"># Make composer cache happy</span>
 sudo mkdir /var/www/.composer <span class="p">;</span> sudo chown www-data:www-data /var/www/.composer
-sudo -u www-data php composer.phar require kamisama/cake-resque:4.1.2
-sudo -u www-data php composer.phar config vendor-dir Vendor
-sudo -u www-data php composer.phar install
+sudo -H -u www-data php composer.phar require kamisama/cake-resque:4.1.2
+sudo -H -u www-data php composer.phar config vendor-dir Vendor
+sudo -H -u www-data php composer.phar install
 
 <span class="c1"># Enable CakeResque with php-redis</span>
 sudo phpenmod redis
@@ -1716,155 +1779,272 @@ sudo chmod +x <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/start.sh
 </pre></div>
 
 <h4 id="initialize-misp-configuration-and-set-some-defaults">Initialize MISP configuration and set some defaults<a class="headerlink" href="#initialize-misp-configuration-and-set-some-defaults" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="c1"># Initialize user and fetch Auth Key</span>
-sudo -E <span class="nv">$CAKE</span> userInit -q
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-start core-cake.sh&gt;</span>
+<span class="c1"># Core cake commands</span>
+coreCAKE <span class="o">()</span> <span class="o">{</span>
+  <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
+  <span class="nv">$CAKE</span> Baseurl <span class="nv">$MISP_BASEURL</span>
+
+  <span class="nv">$CAKE</span> userInit -q
+
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_event_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_reference_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_attribute_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_sighting_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_user_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_organisation_notifications_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_port&quot;</span> <span class="m">50000</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_host&quot;</span> <span class="s2">&quot;localhost&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_port&quot;</span> <span class="m">6379</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_database&quot;</span> <span class="m">1</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_namespace&quot;</span> <span class="s2">&quot;mispq&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_include_attachments&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_tag_notifications_enable&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.email&quot;</span> <span class="s2">&quot;admin@admin.test&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.homedir&quot;</span> <span class="s2">&quot;/var/www/MISP/.gnupg&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.password&quot;</span> <span class="s2">&quot;Password1234&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_timeout&quot;</span> <span class="m">300</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_timeout&quot;</span> <span class="m">150</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_cve_enabled&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_dns_enabled&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_port&quot;</span> <span class="m">6666</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_port&quot;</span> <span class="m">6666</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_timeout&quot;</span> <span class="m">300</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_ocr_enabled&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_csvimport_enabled&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_enable&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_port&quot;</span> <span class="m">6666</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_timeout&quot;</span> <span class="m">300</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_pdfexport_enabled&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.host_org_id&quot;</span> <span class="m">1</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.email&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disable_emailing&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.contact&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disablerestalert&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.showCorrelationsOnIndex&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_enable&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_timeout&quot;</span> <span class="m">120</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_timeout&quot;</span> <span class="m">120</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_authkey&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_peer&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_host&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_allow_self_signed&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_policy&quot;</span> <span class="m">0</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_anonymise&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_range&quot;</span> <span class="m">365</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.CustomAuth_disable_logout&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_policy&quot;</span> <span class="s2">&quot;DROP&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_walled_garden&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_serial&quot;</span> <span class="s2">&quot;\$date00&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_refresh&quot;</span> <span class="s2">&quot;2h&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_retry&quot;</span> <span class="s2">&quot;30m&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_expiry&quot;</span> <span class="s2">&quot;30d&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_minimum_ttl&quot;</span> <span class="s2">&quot;1h&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ttl&quot;</span> <span class="s2">&quot;1w&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns&quot;</span> <span class="s2">&quot;localhost.&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns_alt&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_email&quot;</span> <span class="s2">&quot;root.localhost&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.language&quot;</span> <span class="s2">&quot;eng&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.proposals_block_attributes&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_host&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_port&quot;</span> <span class="m">6379</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_database&quot;</span> <span class="m">13</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_password&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.ssdeep_correlation_threshold&quot;</span> <span class="m">40</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.extended_alert_subject&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.default_event_threat_level&quot;</span> <span class="m">4</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.newUserText&quot;</span> <span class="s2">&quot;Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.passwordResetText&quot;</span> <span class="s2">&quot;Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableEventBlacklisting&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableOrgBlacklisting&quot;</span> <span class="nb">true</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_client_ip&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_auth&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disableUserSelfManagement&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert_tag&quot;</span> <span class="s2">&quot;no-alerts=\&quot;true\&quot;&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert_age&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.incoming_tags_disabled_by_default&quot;</span> <span class="nb">false</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidleft&quot;</span> <span class="s2">&quot;This is an autogenerated install&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidright&quot;</span> <span class="s2">&quot;Please configure accordingly and do not use in production&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_top&quot;</span> <span class="s2">&quot;Autogenerated install, please configure and harden accordingly&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_bottom&quot;</span> <span class="s2">&quot;Welcome to MISP on Kali&quot;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_length&quot;</span> <span class="m">12</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_complexity&quot;</span> <span class="s1">&#39;/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/&#39;</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
+  <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
+  <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-end core-cake.sh&gt;</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="c1"># Default Cake path</span>
+<span class="nb">export</span> <span class="nv">CAKE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/app/Console/cake&quot;</span>
+<span class="c1"># Initialize user and fetch Auth Key</span>
+sudo -H -u www-data -E <span class="nv">$CAKE</span> userInit -q
 <span class="nv">AUTH_KEY</span><span class="o">=</span><span class="k">$(</span>mysql -u <span class="nv">$DBUSER_MISP</span> -p<span class="nv">$DBPASSWORD_MISP</span> misp -e <span class="s2">&quot;SELECT authkey FROM users;&quot;</span> <span class="p">|</span> tail -1<span class="k">)</span>
 
 <span class="c1"># Setup some more MISP default via cake CLI</span>
 
 <span class="c1"># Change base url, either with this CLI command or in the UI</span>
-sudo <span class="nv">$CAKE</span> Baseurl <span class="nv">$MISP_BASEURL</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Baseurl <span class="nv">$MISP_BASEURL</span>
 <span class="c1"># example: &#39;baseurl&#39; =&gt; &#39;https://&lt;your.FQDN.here&gt;&#39;,</span>
 <span class="c1"># alternatively, you can leave this field empty if you would like to use relative pathing in MISP</span>
 <span class="c1"># &#39;baseurl&#39; =&gt; &#39;&#39;,</span>
 
 <span class="c1"># Tune global time outs</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
 
 <span class="c1"># Enable GnuPG</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.email&quot;</span> <span class="s2">&quot;admin@admin.test&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.homedir&quot;</span> <span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/.gnupg&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.password&quot;</span> <span class="s2">&quot;Password1234&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.email&quot;</span> <span class="s2">&quot;admin@admin.test&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.homedir&quot;</span> <span class="s2">&quot;</span><span class="nv">$PATH_TO_MISP</span><span class="s2">/.gnupg&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;GnuPG.password&quot;</span> <span class="s2">&quot;Password1234&quot;</span>
 
 <span class="c1"># Enable Enrichment set better timeouts</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_timeout&quot;</span> <span class="m">300</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_timeout&quot;</span> <span class="m">150</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_cve_enabled&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_dns_enabled&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_port&quot;</span> <span class="m">6666</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_enable&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_enable&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_timeout&quot;</span> <span class="m">300</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_hover_timeout&quot;</span> <span class="m">150</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_cve_enabled&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_dns_enabled&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Enrichment_services_port&quot;</span> <span class="m">6666</span>
 
 <span class="c1"># Enable Import modules set better timout</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_port&quot;</span> <span class="m">6666</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_timeout&quot;</span> <span class="m">300</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_ocr_enabled&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_csvimport_enabled&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_enable&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_services_port&quot;</span> <span class="m">6666</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_timeout&quot;</span> <span class="m">300</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_ocr_enabled&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Import_csvimport_enabled&quot;</span> <span class="nb">true</span>
 
 <span class="c1"># Enable Export modules set better timout</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_port&quot;</span> <span class="m">6666</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_timeout&quot;</span> <span class="m">300</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_pdfexport_enabled&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_enable&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_services_port&quot;</span> <span class="m">6666</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_timeout&quot;</span> <span class="m">300</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Export_pdfexport_enabled&quot;</span> <span class="nb">true</span>
 
 <span class="c1"># Enable installer org and tune some configurables</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.host_org_id&quot;</span> <span class="m">1</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.email&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disable_emailing&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.contact&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disablerestalert&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.showCorrelationsOnIndex&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.host_org_id&quot;</span> <span class="m">1</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.email&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disable_emailing&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.contact&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disablerestalert&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.showCorrelationsOnIndex&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.default_event_tag_collection&quot;</span> <span class="m">0</span>
 
 <span class="c1"># Provisional Cortex tunes</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_enable&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_timeout&quot;</span> <span class="m">120</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_timeout&quot;</span> <span class="m">120</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_authkey&quot;</span> <span class="s2">&quot;&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_peer&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_host&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_allow_self_signed&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_enable&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_timeout&quot;</span> <span class="m">120</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_timeout&quot;</span> <span class="m">120</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_authkey&quot;</span> <span class="s2">&quot;&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_peer&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_host&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_allow_self_signed&quot;</span> <span class="nb">true</span>
 
 <span class="c1"># Various plugin sightings settings</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_policy&quot;</span> <span class="m">0</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_anonymise&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_range&quot;</span> <span class="m">365</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_policy&quot;</span> <span class="m">0</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_anonymise&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Sightings_range&quot;</span> <span class="m">365</span>
 
 <span class="c1"># Plugin CustomAuth tuneable</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.CustomAuth_disable_logout&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.CustomAuth_disable_logout&quot;</span> <span class="nb">false</span>
 
 <span class="c1"># RPZ Plugin settings</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_policy&quot;</span> <span class="s2">&quot;DROP&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_walled_garden&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_serial&quot;</span> <span class="s2">&quot;\$date00&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_refresh&quot;</span> <span class="s2">&quot;2h&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_retry&quot;</span> <span class="s2">&quot;30m&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_expiry&quot;</span> <span class="s2">&quot;30d&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_minimum_ttl&quot;</span> <span class="s2">&quot;1h&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ttl&quot;</span> <span class="s2">&quot;1w&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns&quot;</span> <span class="s2">&quot;localhost.&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns_alt&quot;</span> <span class="s2">&quot;&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_email&quot;</span> <span class="s2">&quot;root.localhost&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_policy&quot;</span> <span class="s2">&quot;DROP&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_walled_garden&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_serial&quot;</span> <span class="s2">&quot;\$date00&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_refresh&quot;</span> <span class="s2">&quot;2h&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_retry&quot;</span> <span class="s2">&quot;30m&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_expiry&quot;</span> <span class="s2">&quot;30d&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_minimum_ttl&quot;</span> <span class="s2">&quot;1h&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ttl&quot;</span> <span class="s2">&quot;1w&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns&quot;</span> <span class="s2">&quot;localhost.&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns_alt&quot;</span> <span class="s2">&quot;&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_email&quot;</span> <span class="s2">&quot;root.localhost&quot;</span>
 
 <span class="c1"># Force defaults to make MISP Server Settings less RED</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.language&quot;</span> <span class="s2">&quot;eng&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.proposals_block_attributes&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.language&quot;</span> <span class="s2">&quot;eng&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.proposals_block_attributes&quot;</span> <span class="nb">false</span>
 
 <span class="c1">## Redis block</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_host&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_port&quot;</span> <span class="m">6379</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_database&quot;</span> <span class="m">13</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_password&quot;</span> <span class="s2">&quot;&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_host&quot;</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_port&quot;</span> <span class="m">6379</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_database&quot;</span> <span class="m">13</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.redis_password&quot;</span> <span class="s2">&quot;&quot;</span>
 
 <span class="c1"># Force defaults to make MISP Server Settings less YELLOW</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.ssdeep_correlation_threshold&quot;</span> <span class="m">40</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.extended_alert_subject&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.default_event_threat_level&quot;</span> <span class="m">4</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.newUserText&quot;</span> <span class="s2">&quot;Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.passwordResetText&quot;</span> <span class="s2">&quot;Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableEventBlacklisting&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableOrgBlacklisting&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_client_ip&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_auth&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disableUserSelfManagement&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert_tag&quot;</span> <span class="s2">&quot;no-alerts=\&quot;true\&quot;&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert_age&quot;</span> <span class="s2">&quot;&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.incoming_tags_disabled_by_default&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidleft&quot;</span> <span class="s2">&quot;This is an initial install&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidright&quot;</span> <span class="s2">&quot;Please configure and harden accordingly&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_top&quot;</span> <span class="s2">&quot;Initial Install, please configure&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_bottom&quot;</span> <span class="s2">&quot;Welcome to MISP, change this message in MISP Settings&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.ssdeep_correlation_threshold&quot;</span> <span class="m">40</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.extended_alert_subject&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.default_event_threat_level&quot;</span> <span class="m">4</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.newUserText&quot;</span> <span class="s2">&quot;Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.passwordResetText&quot;</span> <span class="s2">&quot;Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableEventBlacklisting&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.enableOrgBlacklisting&quot;</span> <span class="nb">true</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_client_ip&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.log_auth&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disableUserSelfManagement&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_event_alert_tag&quot;</span> <span class="s2">&quot;no-alerts=\&quot;true\&quot;&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.block_old_event_alert_age&quot;</span> <span class="s2">&quot;&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.incoming_tags_disabled_by_default&quot;</span> <span class="nb">false</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidleft&quot;</span> <span class="s2">&quot;This is an initial install&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.footermidright&quot;</span> <span class="s2">&quot;Please configure and harden accordingly&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_top&quot;</span> <span class="s2">&quot;Initial Install, please configure&quot;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.welcome_text_bottom&quot;</span> <span class="s2">&quot;Welcome to MISP, change this message in MISP Settings&quot;</span>
 
 <span class="c1"># Force defaults to make MISP Server Settings less GREEN</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_length&quot;</span> <span class="m">12</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_complexity&quot;</span> <span class="s1">&#39;/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/&#39;</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_length&quot;</span> <span class="m">12</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Security.password_policy_complexity&quot;</span> <span class="s1">&#39;/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*$|.{16,}/&#39;</span>
 
 <span class="c1"># Tune global time outs</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.cookie_timeout&quot;</span> <span class="m">3600</span>
 
 <span class="c1"># Update the galaxies…</span>
-sudo <span class="nv">$CAKE</span> Admin updateGalaxies
+<span class="c1">##sudo -H -u www-data $CAKE Admin updateGalaxies</span>
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/galaxies/update
 
 <span class="c1"># Updating the taxonomies…</span>
-sudo <span class="nv">$CAKE</span> Admin updateTaxonomies
+sudo -H -u www-data <span class="nv">$CAKE</span> Admin updateTaxonomies
 
 <span class="c1"># Updating the warning lists…</span>
-<span class="c1">##sudo $CAKE Admin updateWarningLists</span>
+<span class="c1">##sudo -H -u www-data $CAKE Admin updateWarningLists</span>
 curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/warninglists/update
 
 <span class="c1"># Updating the notice lists…</span>
-<span class="c1">## sudo $CAKE Admin updateNoticeLists</span>
+<span class="c1">## sudo -H -u www-data $CAKE Admin updateNoticeLists</span>
 curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/noticelists/update
 
 <span class="c1"># Updating the object templates…</span>
-<span class="c1">##sudo $CAKE Admin updateObjectTemplates</span>
+<span class="c1">##sudo -H -u www-data $CAKE Admin updateObjectTemplates</span>
 curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/objectTemplates/update
 
 <span class="c1"># Set MISP Live</span>
-sudo <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
+sudo -H -u www-data <span class="nv">$CAKE</span> Live <span class="nv">$MISP_LIVE</span>
 </pre></div>
 
 <div class="codehilite"><pre><span></span><span class="c1"># Add the following lines before the last line (exit 0). Make sure that you replace www-data with your apache user:</span>
@@ -1878,7 +2058,7 @@ sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data /var/www/MISP/venv/bin
 sudo -u www-data bash <span class="nv">$PATH_TO_MISP</span>/app/Console/worker/start.sh
 
 <span class="c1"># some misp-modules dependencies</span>
-sudo apt-get install -y libpq5 libjpeg-dev libfuzzy-dev
+sudo apt-get install -y libfuzzy-dev python3-dev python3-pip libpq5 libjpeg-dev tesseract-ocr imagemagick
 
 sudo chmod <span class="m">2775</span> /usr/local/src
 sudo chown root:staff /usr/local/src
@@ -1886,21 +2066,17 @@ sudo chown root:staff /usr/local/src
 git clone https://github.com/MISP/misp-modules.git
 <span class="nb">cd</span> misp-modules
 <span class="c1"># pip install</span>
-sudo -u www-data /var/www/MISP/venv/bin/pip install -I -r REQUIREMENTS
-sudo -u www-data /var/www/MISP/venv/bin/pip install .
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install -I -r REQUIREMENTS
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install .
 sudo apt install ruby-pygments.rb -y
 sudo gem install asciidoctor-pdf --pre
 
-<span class="c1"># install STIX2.0 library to support STIX 2.0 export:</span>
-sudo -u www-data /var/www/MISP/venv/bin/pip install stix2
-
 <span class="c1"># install additional dependencies for extended object generation and extraction</span>
-sudo -u www-data /var/www/MISP/venv/bin/pip install maec lief python-magic pathlib
-sudo -u www-data /var/www/MISP/venv/bin/pip install git+https://github.com/kbandla/pydeep.git
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install maec lief python-magic pathlib
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install git+https://github.com/kbandla/pydeep.git
 
 <span class="c1"># Start misp-modules</span>
-<span class="c1">## /!\ Check wtf is going on with yara.</span>
-sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
+sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/misp-modules -l <span class="m">0</span>.0.0.0 -s <span class="p">&amp;</span>
 
 <span class="nb">echo</span> <span class="s2">&quot;Admin (root) DB Password: </span><span class="nv">$DBPASSWORD_ADMIN</span><span class="s2">&quot;</span>
 <span class="nb">echo</span> <span class="s2">&quot;User  (misp) DB Password: </span><span class="nv">$DBPASSWORD_MISP</span><span class="s2">&quot;</span>
@@ -1909,7 +2085,7 @@ sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l <span class="m">0</span>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If you have installed the recommended Python 3 virtualenv to the recommended place of <strong>${PATH_TO_MISP}/venv</strong> set the following MISP configurable
-<div class="codehilite"><pre><span></span>sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
+<div class="codehilite"><pre><span></span>sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
 </pre></div>
 or on CentOS
 <div class="codehilite"><pre><span></span>sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.python_bin<span class="s2">&quot; &quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/python<span class="s2">&quot;&quot;</span>
@@ -1950,7 +2126,7 @@ chown -R www-data:www-data <span class="si">${</span><span class="nv">PATH_TO_MI
 <hr />
 <ul>
 <li>
-<p>By default CakePHP exposes his name and version in email headers. Apply a patch to remove this behavior.</p>
+<p>By default CakePHP exposes its name and version in email headers. Apply a patch to remove this behavior.</p>
 </li>
 <li>
 <p>You should really harden your OS</p>
@@ -1988,7 +2164,7 @@ sudo make install
 sudo pecl install ssdeep
 
 # You should add &quot;extension=ssdeep.so&quot; to mods-available - Check /etc/php for your current version
-echo &quot;extension=ssdeep.so&quot; | sudo tee /etc/php/7.2/mods-available/ssdeep.ini
+echo &quot;extension=ssdeep.so&quot; | sudo tee ${PHP_ETC_BASE}/mods-available/ssdeep.ini
 sudo phpenmod ssdeep
 sudo service apache2 restart
 </pre></div>
@@ -2002,99 +2178,116 @@ sudo apt install python3-zmq -y
 </pre></div>
 
 <p>In case you are using a virtualenv make sure pyzmq is installed therein.
-<div class="codehilite"><pre><span></span>sudo -u www-data /var/www/MISP/venv/bin/pip install pyzmq
+<div class="codehilite"><pre><span></span>sudo -u www-data <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install pyzmq
 </pre></div></p>
 <h4 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
 <hr />
-<div class="codehilite"><pre><span></span><span class="nb">cd</span> /var/www
-sudo mkdir misp-dashboard
-sudo chown www-data:www-data misp-dashboard
-sudo -u www-data git clone https://github.com/MISP/misp-dashboard.git
-<span class="nb">cd</span> misp-dashboard
-sudo -H /var/www/misp-dashboard/install_dependencies.sh
-sudo sed -i <span class="s2">&quot;s/^host\ =\ localhost/host\ =\ 0.0.0.0/g&quot;</span> /var/www/misp-dashboard/config/config.cfg
-sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n&#39;</span> /etc/rc.local
-sudo sed -i <span class="s1">&#39;/Listen 80/a Listen 0.0.0.0:8001&#39;</span> /etc/apache2/ports.conf
-sudo apt install libapache2-mod-wsgi-py3 -y
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-start 0_misp-dashboard.sh&gt;</span>
+<span class="c1"># Main MISP Dashboard install function</span>
+mispDashboard <span class="o">()</span> <span class="o">{</span>
+  <span class="nb">cd</span> /var/www
+  sudo mkdir misp-dashboard
+  sudo chown www-data:www-data misp-dashboard
 
-<span class="nb">echo</span> <span class="s2">&quot;&lt;VirtualHost *:8001&gt;</span>
-<span class="s2">    ServerAdmin admin@misp.local</span>
-<span class="s2">    ServerName misp.local</span>
-<span class="s2">    DocumentRoot /var/www/misp-dashboard</span>
+  <span class="nv">$SUDO_WWW</span> git clone https://github.com/MISP/misp-dashboard.git
+  <span class="nb">cd</span> misp-dashboard
+  sudo -H /var/www/misp-dashboard/install_dependencies.sh
+  sudo sed -i <span class="s2">&quot;s/^host\ =\ localhost/host\ =\ 0.0.0.0/g&quot;</span> /var/www/misp-dashboard/config/config.cfg
+  sudo sed -i <span class="s1">&#39;/Listen 80/a Listen 0.0.0.0:8001&#39;</span> /etc/apache2/ports.conf
+  sudo apt install libapache2-mod-wsgi-py3 -y
+  <span class="nv">$SUDO_WWW</span> bash /var/www/misp-dashboard/start_all.sh
+  sudo apt install libapache2-mod-wsgi-py3 -y
+  <span class="nb">echo</span> <span class="s2">&quot;&lt;VirtualHost *:8001&gt;</span>
+<span class="s2">      ServerAdmin admin@misp.local</span>
+<span class="s2">      ServerName misp.local</span>
 
-<span class="s2">    WSGIDaemonProcess misp-dashboard \</span>
-<span class="s2">       user=misp group=misp \</span>
-<span class="s2">       python-home=/var/www/misp-dashboard/DASHENV \</span>
-<span class="s2">       processes=1 \</span>
-<span class="s2">       threads=15 \</span>
-<span class="s2">       maximum-requests=5000 \</span>
-<span class="s2">       listen-backlog=100 \</span>
-<span class="s2">       queue-timeout=45 \</span>
-<span class="s2">       socket-timeout=60 \</span>
-<span class="s2">       connect-timeout=15 \</span>
-<span class="s2">       request-timeout=60 \</span>
-<span class="s2">       inactivity-timeout=0 \</span>
-<span class="s2">       deadlock-timeout=60 \</span>
-<span class="s2">       graceful-timeout=15 \</span>
-<span class="s2">       eviction-timeout=0 \</span>
-<span class="s2">       shutdown-timeout=5 \</span>
-<span class="s2">       send-buffer-size=0 \</span>
-<span class="s2">       receive-buffer-size=0 \</span>
-<span class="s2">       header-buffer-size=0 \</span>
-<span class="s2">       response-buffer-size=0 \</span>
-<span class="s2">       server-metrics=Off</span>
-<span class="s2">    WSGIScriptAlias / /var/www/misp-dashboard/misp-dashboard.wsgi</span>
-<span class="s2">    &lt;Directory /var/www/misp-dashboard&gt;</span>
-<span class="s2">        WSGIProcessGroup misp-dashboard</span>
-<span class="s2">        WSGIApplicationGroup %{GLOBAL}</span>
-<span class="s2">        Require all granted</span>
-<span class="s2">    &lt;/Directory&gt;</span>
-<span class="s2">    LogLevel info</span>
-<span class="s2">    ErrorLog /var/log/apache2/misp-dashboard.local_error.log</span>
-<span class="s2">    CustomLog /var/log/apache2/misp-dashboard.local_access.log combined</span>
-<span class="s2">    ServerSignature Off</span>
-<span class="s2">&lt;/VirtualHost&gt;&quot;</span> <span class="p">|</span> sudo tee /etc/apache2/sites-available/misp-dashboard.conf
+<span class="s2">      DocumentRoot /var/www/misp-dashboard</span>
 
-sudo a2ensite misp-dashboard
-sudo systemctl reload apache2
+<span class="s2">      WSGIDaemonProcess misp-dashboard \</span>
+<span class="s2">         user=misp group=misp \</span>
+<span class="s2">         python-home=/var/www/misp-dashboard/DASHENV \</span>
+<span class="s2">         processes=1 \</span>
+<span class="s2">         threads=15 \</span>
+<span class="s2">         maximum-requests=5000 \</span>
+<span class="s2">         listen-backlog=100 \</span>
+<span class="s2">         queue-timeout=45 \</span>
+<span class="s2">         socket-timeout=60 \</span>
+<span class="s2">         connect-timeout=15 \</span>
+<span class="s2">         request-timeout=60 \</span>
+<span class="s2">         inactivity-timeout=0 \</span>
+<span class="s2">         deadlock-timeout=60 \</span>
+<span class="s2">         graceful-timeout=15 \</span>
+<span class="s2">         eviction-timeout=0 \</span>
+<span class="s2">         shutdown-timeout=5 \</span>
+<span class="s2">         send-buffer-size=0 \</span>
+<span class="s2">         receive-buffer-size=0 \</span>
+<span class="s2">         header-buffer-size=0 \</span>
+<span class="s2">         response-buffer-size=0 \</span>
+<span class="s2">         server-metrics=Off</span>
 
-<span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
-sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
+<span class="s2">      WSGIScriptAlias / /var/www/misp-dashboard/misp-dashboard.wsgi</span>
 
-<span class="c1"># Enable ZeroMQ for misp-dashboard</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_event_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_reference_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_attribute_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_sighting_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_user_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_organisation_notifications_enable&quot;</span> <span class="nb">true</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_port&quot;</span> <span class="m">50000</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_host&quot;</span> <span class="s2">&quot;localhost&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_port&quot;</span> <span class="m">6379</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_database&quot;</span> <span class="m">1</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_namespace&quot;</span> <span class="s2">&quot;mispq&quot;</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_include_attachments&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_tag_notifications_enable&quot;</span> <span class="nb">false</span>
-sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
+<span class="s2">      &lt;Directory /var/www/misp-dashboard&gt;</span>
+<span class="s2">          WSGIProcessGroup misp-dashboard</span>
+<span class="s2">          WSGIApplicationGroup %{GLOBAL}</span>
+<span class="s2">          Require all granted</span>
+<span class="s2">      &lt;/Directory&gt;</span>
+
+<span class="s2">      LogLevel info</span>
+<span class="s2">      ErrorLog /var/log/apache2/misp-dashboard.local_error.log</span>
+<span class="s2">      CustomLog /var/log/apache2/misp-dashboard.local_access.log combined</span>
+<span class="s2">      ServerSignature Off</span>
+<span class="s2">  &lt;/VirtualHost&gt;&quot;</span> <span class="p">|</span> sudo tee /etc/apache2/sites-available/misp-dashboard.conf
+  sudo a2ensite misp-dashboard
+  sudo systemctl reload apache2
+
+  <span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
+  sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-end 0_misp-dashboard.sh&gt;</span>
+
+<span class="c1"># &lt;snippet-start 0_misp-dashboard-cake.sh&gt;</span>
+dashboardCAKE <span class="o">()</span> <span class="o">{</span>
+  <span class="c1"># Enable ZeroMQ for misp-dashboard</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_event_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_object_reference_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_attribute_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_sighting_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_user_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_organisation_notifications_enable&quot;</span> <span class="nb">true</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_port&quot;</span> <span class="m">50000</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_host&quot;</span> <span class="s2">&quot;localhost&quot;</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_port&quot;</span> <span class="m">6379</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_database&quot;</span> <span class="m">1</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_redis_namespace&quot;</span> <span class="s2">&quot;mispq&quot;</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_include_attachments&quot;</span> <span class="nb">false</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_tag_notifications_enable&quot;</span> <span class="nb">false</span>
+  sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-end 0_misp-dashboard-cake.sh&gt;</span>
 </pre></div>
 
 <h4 id="install-viper-framework-with-a-virtualenv">Install viper framework (with a virtualenv)<a class="headerlink" href="#install-viper-framework-with-a-virtualenv" title="Permanent link">&para;</a></h4>
 <hr />
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Viper has <strong>lief</strong> as a dependency, lief only has an .egg for Python3.6 NOT Python3.7<br />
+If you have python3.7 installed make sure <strong>virtualenv</strong> uses <strong>python3.6</strong><br />
+<div class="codehilite"><pre><span></span>virtualenv -p python3.6 venv
+</pre></div></p>
+</div>
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
-sudo apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2 python3-magic python3-sqlalchemy python3-prettytable
+sudo apt-get install libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2 python3-magic python3-sqlalchemy python3-prettytable -y
 git clone https://github.com/viper-framework/viper.git
 <span class="nb">cd</span> viper
-virtualenv -p python3 venv
+virtualenv -p python3.6 venv
 git submodule update --init --recursive
 ./venv/bin/pip install scrapy
 ./venv/bin/pip install -r requirements.txt
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-cli
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-web
-<span class="c1">## /!\ Check wtf is going on with yara.</span>
-<span class="c1">###sudo pip3 uninstall yara -y</span>
-<span class="c1">###./venv/bin/pip uninstall yara -y</span>
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p <span class="m">8888</span> -H <span class="m">0</span>.0.0.0 <span class="p">&amp;</span>
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
@@ -2112,7 +2305,7 @@ sudo sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper
 wget https://github.com/ssdeep-project/ssdeep/releases/download/release-2.14.1/ssdeep-2.14.1.tar.gz
 tar zxvf ssdeep-2.14.1.tar.gz
 cd ssdeep-2.14.1
-./configure
+./configure --datadir=/usr --prefix=/usr --localstatedir=/var --sysconfdir=/etc
 make
 sudo make install
 
@@ -2127,8 +2320,15 @@ sudo service apache2 restart
 
 <h4 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h4>
 <hr />
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>mail_to_misp has <strong>lief</strong> as a dependency, lief only has an .egg for Python3.6 NOT Python3.7<br />
+If you have python3.7 installed make sure <strong>virtualenv</strong> uses <strong>python3.6</strong><br />
+<div class="codehilite"><pre><span></span>virtualenv -p python3.6 venv
+</pre></div></p>
+</div>
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
-sudo apt-get install -y cmake
+sudo apt-get install cmake -y
 git clone https://github.com/MISP/mail_to_misp.git
 git clone https://github.com/stricaud/faup.git
 <span class="nb">cd</span> faup
@@ -2138,13 +2338,37 @@ cmake .. <span class="o">&amp;&amp;</span> make
 sudo make install
 sudo ldconfig
 <span class="nb">cd</span> ../../mail_to_misp
-virtualenv -p python3 venv
+virtualenv -p python3.6 venv
 ./venv/bin/pip install -r requirements.txt
 cp mail_to_misp_config.py-example mail_to_misp_config.py
 
 sed -i <span class="s2">&quot;s/^misp_url\ =\ &#39;YOUR_MISP_URL&#39;/misp_url\ =\ &#39;http:\/\/localhost&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
 sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ =\ &#39;</span><span class="si">${</span><span class="nv">AUTH_KEY</span><span class="si">}</span><span class="s2">&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
 </pre></div>
+
+<h1 id="hardening-a-base-system">Hardening a base system<a class="headerlink" href="#hardening-a-base-system" title="Permanent link">&para;</a></h1>
+<h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
+<p>MISP is a web-based <strong>information sharing platform</strong>, by design it is kept rather simple and hardening can be done by following the common best practices.</p>
+<p>Bare in mind that neither the MISP documentation efforts or the core MISP project can give you the ultimate guide on how to harden your system.
+This is not the purpose of the MISP Project but the purpose and care of those individuals and organizations deploying MISP Instances.</p>
+<p>Nevertheless here is a very rough <strong>food for thoughts</strong> bulletpoint list for you to consider, and a list of some hardening ressources below.</p>
+<ul>
+<li>Are we using SSL by default? (Especially when syncing over the internet and exposing the API)</li>
+<li>How to we access the machine remotely? Via ssh? What is the path to get there? Does a <a href="https://en.wikipedia.org/wiki/Bastion_host">bastion host</a> make sense?</li>
+<li>Is the machine shared with other user accounts? Do I need to care about useri-land security due to this sharing?</li>
+<li>Is the instance deployed in the "<strong>cloud</strong>"? Is it a VPS? AWS? docker? ansible? kubernetes? whateverCloudContainterMagicIsFancibleNow?</li>
+<li>Do we need to encrypt the partitions where some data is stored?</li>
+<li>Are we redundant in case one MISP instance might fail?</li>
+<li>Is the database server and any other servers running on the machine bound to <strong>localhost</strong>? Do we need to expose because our setup is more complex?</li>
+<li>Do we have enough storage? What about <a href="https://misp-project.org/MISP-sizer/">MISP and size estimation</a> anyways?</li>
+<li>Do we care about BIOS updates?</li>
+<li>Do we care about physical access to the servers? (Disabling USB ports etc...)</li>
+<li>Is any fancy management engine à la <a href="https://en.wikipedia.org/wiki/Intel_Management_Engine">IME</a> in use?</li>
+</ul>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<p><a href="https://wiki.debian.org/Hardening">Debian Wiki Hardening</a></p>
+<p><a href="https://wiki.centos.org/HowTos/OS_Protection">CentOS Hardening</a></p>
+<p><a href="https://www.cyberciti.biz/tips/linux-security.html">Some Linux hardening tips</a></p>
                 
                   
                 
@@ -2165,7 +2389,7 @@ sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ 
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../INSTALL.ubuntu1804/" title="Ubuntu 18.04" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2174,7 +2398,7 @@ sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ 
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Ubuntu 18.04 \w webmin
+                Ubuntu 18.04
               </span>
             </div>
           </a>
@@ -2231,7 +2455,7 @@ sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ 
       
     </div>
     
-      <script src="../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

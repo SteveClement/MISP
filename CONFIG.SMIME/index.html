@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -282,18 +283,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../INSTALL.debian9/" title="Debian stable" class="md-nav__link">
       Debian stable
     </a>
@@ -404,6 +393,30 @@
   <li class="md-nav__item">
     <a href="../xINSTALL.debian9-postgresql/" title="Debian 9 \w postgresql" class="md-nav__link">
       Debian 9 \w postgresql
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
     </a>
   </li>
 
@@ -658,6 +671,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -811,21 +836,32 @@
                 
                 <h1 id="smime-patch">SMIME patch<a class="headerlink" href="#smime-patch" title="Permanent link">&para;</a></h1>
 <h2 id="create-smime-directory">Create SMIME directory<a class="headerlink" href="#create-smime-directory" title="Permanent link">&para;</a></h2>
-<p>mkdir /var/www/MISP/.smime</p>
+<div class="codehilite"><pre><span></span>mkdir /var/www/MISP/.smime
+</pre></div>
+
 <h2 id="copy-your-public-x509-certificate-for-signing-in-pem-format">Copy your public x509 certificate (for signing) in PEM format<a class="headerlink" href="#copy-your-public-x509-certificate-for-signing-in-pem-format" title="Permanent link">&para;</a></h2>
-<p>cp <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#109;&#97;&#105;&#108;&#64;&#97;&#100;&#100;&#114;&#101;&#115;&#115;&#46;&#99;&#111;&#109;&#46;&#112;&#101;&#109;">&#101;&#109;&#97;&#105;&#108;&#64;&#97;&#100;&#100;&#114;&#101;&#115;&#115;&#46;&#99;&#111;&#109;&#46;&#112;&#101;&#109;</a> /var/www/MISP/.smime/email@address.com.pem</p>
+<div class="codehilite"><pre><span></span>cp email@address.com.pem /var/www/MISP/.smime/email@address.com.pem
+</pre></div>
+
 <h2 id="copy-your-private-key-for-signing-email">Copy your private key for signing email<a class="headerlink" href="#copy-your-private-key-for-signing-email" title="Permanent link">&para;</a></h2>
-<p>cp <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#109;&#97;&#105;&#108;&#64;&#97;&#100;&#100;&#114;&#101;&#115;&#115;&#46;&#99;&#111;&#109;&#46;&#107;&#101;&#121;">&#101;&#109;&#97;&#105;&#108;&#64;&#97;&#100;&#100;&#114;&#101;&#115;&#115;&#46;&#99;&#111;&#109;&#46;&#107;&#101;&#121;</a> /var/www/MISP/.smime/email@address.com.key</p>
+<div class="codehilite"><pre><span></span>cp email@address.com.key /var/www/MISP/.smime/email@address.com.key
+</pre></div>
+
 <h3 id="set-permissions">Set permissions<a class="headerlink" href="#set-permissions" title="Permanent link">&para;</a></h3>
-<p>chown www-data:www-data /var/www/MISP/.smime
-chmod 500 /var/www/MISP/.smime
-chmod 440 /var/www/MISP/.smime/*</p>
+<div class="codehilite"><pre><span></span>chown www-data:www-data /var/www/MISP/.smime
+chmod <span class="m">500</span> /var/www/MISP/.smime
+chmod <span class="m">440</span> /var/www/MISP/.smime/*
+</pre></div>
+
 <h2 id="export-the-public-certificate-for-encipherment-to-the-webroot">Export the public certificate (for Encipherment) to the webroot<a class="headerlink" href="#export-the-public-certificate-for-encipherment-to-the-webroot" title="Permanent link">&para;</a></h2>
-<p>cp public_certificate.pem /var/www/MISP/app/webroot/public_certificate.pem</p>
-<p>Due to this action, the MISP users will be able to download your public certificate (for Encipherment) by clicking on the footer</p>
+<p><div class="codehilite"><pre><span></span>cp public_certificate.pem /var/www/MISP/app/webroot/public_certificate.pem
+</pre></div>
+Due to this action, the MISP users will be able to download your public certificate (for Encipherment) by clicking on the footer</p>
 <h3 id="set-permissions_1">Set permissions<a class="headerlink" href="#set-permissions_1" title="Permanent link">&para;</a></h3>
-<p>chown www-data:www-data /var/www/MISP/app/webroot/public_certificate.pem
-chmod 440 /var/www/MISP/app/webroot/public_certificate.pem</p>
+<div class="codehilite"><pre><span></span>chown www-data:www-data /var/www/MISP/app/webroot/public_certificate.pem
+chmod <span class="m">440</span> /var/www/MISP/app/webroot/public_certificate.pem
+</pre></div>
+
 <h2 id="configure-the-section-smime-in-the-server-settings-administration-server-settings-encryption-tab">Configure the section "SMIME" in the server settings (Administration -&gt; Server settings -&gt; Encryption tab)<a class="headerlink" href="#configure-the-section-smime-in-the-server-settings-administration-server-settings-encryption-tab" title="Permanent link">&para;</a></h2>
                 
                   
@@ -913,7 +949,7 @@ chmod 440 /var/www/MISP/app/webroot/public_certificate.pem</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

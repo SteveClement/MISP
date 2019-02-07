@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -282,18 +283,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../INSTALL.debian9/" title="Debian stable" class="md-nav__link">
       Debian stable
     </a>
@@ -461,6 +450,30 @@
 
 
   <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.4" class="md-nav__link">
       OpenBSD 6.4
     </a>
@@ -607,6 +620,18 @@
   <li class="md-nav__item">
     <a href="../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
       Ubuntu 16.04
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
     </a>
   </li>
 
@@ -793,6 +818,29 @@ EOF</p>
 <h1 id="if-you-only-want-to-stopdisable-it">if you only want to stop&amp;disable it:<a class="headerlink" href="#if-you-only-want-to-stopdisable-it" title="Permanent link">&para;</a></h1>
 <p>systemctl stop mysql
 systemctl disable mysql</p>
+<h1 id="hardening-a-base-system">Hardening a base system<a class="headerlink" href="#hardening-a-base-system" title="Permanent link">&para;</a></h1>
+<h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
+<p>MISP is a web-based <strong>information sharing platform</strong>, by design it is kept rather simple and hardening can be done by following the common best practices.</p>
+<p>Bare in mind that neither the MISP documentation efforts or the core MISP project can give you the ultimate guide on how to harden your system.
+This is not the purpose of the MISP Project but the purpose and care of those individuals and organizations deploying MISP Instances.</p>
+<p>Nevertheless here is a very rough <strong>food for thoughts</strong> bulletpoint list for you to consider, and a list of some hardening ressources below.</p>
+<ul>
+<li>Are we using SSL by default? (Especially when syncing over the internet and exposing the API)</li>
+<li>How to we access the machine remotely? Via ssh? What is the path to get there? Does a <a href="https://en.wikipedia.org/wiki/Bastion_host">bastion host</a> make sense?</li>
+<li>Is the machine shared with other user accounts? Do I need to care about useri-land security due to this sharing?</li>
+<li>Is the instance deployed in the "<strong>cloud</strong>"? Is it a VPS? AWS? docker? ansible? kubernetes? whateverCloudContainterMagicIsFancibleNow?</li>
+<li>Do we need to encrypt the partitions where some data is stored?</li>
+<li>Are we redundant in case one MISP instance might fail?</li>
+<li>Is the database server and any other servers running on the machine bound to <strong>localhost</strong>? Do we need to expose because our setup is more complex?</li>
+<li>Do we have enough storage? What about <a href="https://misp-project.org/MISP-sizer/">MISP and size estimation</a> anyways?</li>
+<li>Do we care about BIOS updates?</li>
+<li>Do we care about physical access to the servers? (Disabling USB ports etc...)</li>
+<li>Is any fancy management engine à la <a href="https://en.wikipedia.org/wiki/Intel_Management_Engine">IME</a> in use?</li>
+</ul>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<p><a href="https://wiki.debian.org/Hardening">Debian Wiki Hardening</a></p>
+<p><a href="https://wiki.centos.org/HowTos/OS_Protection">CentOS Hardening</a></p>
+<p><a href="https://www.cyberciti.biz/tips/linux-security.html">Some Linux hardening tips</a></p>
                 
                   
                 
@@ -828,13 +876,13 @@ systemctl disable mysql</p>
           </a>
         
         
-          <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.4" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                OpenBSD 6.4
+                Ubuntu 18.04 \w webmin
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -879,7 +927,7 @@ systemctl disable mysql</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

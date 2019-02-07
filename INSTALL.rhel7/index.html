@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -284,18 +285,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../INSTALL.debian9/" title="Debian stable" class="md-nav__link">
       Debian stable
     </a>
@@ -488,6 +477,30 @@
 
 
   <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.4" class="md-nav__link">
       OpenBSD 6.4
     </a>
@@ -638,6 +651,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -774,8 +799,8 @@
 <h2 id="0-overview-and-assumptions">0/ Overview and Assumptions<a class="headerlink" href="#0-overview-and-assumptions" title="Permanent link">&para;</a></h2>
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
-<p>Maintained and tested by the community.<br />
-Parts of the installation procedures can also be found in the automatic VM generator script <a href="https://github.com/MISP/misp-packer/blob/18.04/scripts/bootstrap.sh">bootstrap.sh</a> of misp-packer.</p>
+<p>There are technically only minor differences between CentOS and RHEL.<br />
+For more information on what might differ, <a href="https://unix.stackexchange.com/questions/27323/is-centos-exactly-the-same-as-rhel">this StackExchange</a> question might answer some questions.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -984,6 +1009,11 @@ ln -s ../php-fpm.d/timezone.ini /etc/opt/rh/rh-php71/php.d/99-timezone.ini
 <div class="codehilite"><pre><span></span>cp -fa /var/www/MISP/INSTALL/setup/config.php /var/www/MISP/app/Plugin/CakeResque/Config/config.php
 </pre></div>
 
+<h2 id="406-install-crypt_gpg-and-console_commandline">4.06/ Install Crypt_GPG and Console_CommandLine<a class="headerlink" href="#406-install-crypt_gpg-and-console_commandline" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span>sudo -H -u www-data pear install <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/INSTALL/dependencies/Console_CommandLine/package.xml
+sudo -H -u www-data pear install <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/INSTALL/dependencies/Crypt_GPG/package.xml
+</pre></div>
+
 <h1 id="5-set-file-permissions">5/ Set file permissions<a class="headerlink" href="#5-set-file-permissions" title="Permanent link">&para;</a></h1>
 <h2 id="501-make-sure-the-permissions-are-set-correctly-using-the-following-commands-as-root">5.01/ Make sure the permissions are set correctly using the following commands as root:<a class="headerlink" href="#501-make-sure-the-permissions-are-set-correctly-using-the-following-commands-as-root" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>chown -R root:apache /var/www/MISP
@@ -1154,7 +1184,7 @@ su -s /bin/bash apache -c <span class="s1">&#39;scl enable rh-php71 rh-redis32 r
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If you have installed the recommended Python 3 virtualenv to the recommended place of <strong>${PATH_TO_MISP}/venv</strong> set the following MISP configurable
-<div class="codehilite"><pre><span></span>sudo <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
+<div class="codehilite"><pre><span></span>sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
 </pre></div>
 or on CentOS
 <div class="codehilite"><pre><span></span>sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.python_bin<span class="s2">&quot; &quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/python<span class="s2">&quot;&quot;</span>
@@ -1195,7 +1225,7 @@ chown -R www-data:www-data <span class="si">${</span><span class="nv">PATH_TO_MI
 <hr />
 <ul>
 <li>
-<p>By default CakePHP exposes his name and version in email headers. Apply a patch to remove this behavior.</p>
+<p>By default CakePHP exposes its name and version in email headers. Apply a patch to remove this behavior.</p>
 </li>
 <li>
 <p>You should really harden your OS</p>
@@ -1293,6 +1323,29 @@ error. Worker's can be restarted via the CLI using the following command.
 <p>No other functions were tested after the conclusion of this install. There may be issue that aren't addressed<br />
 via this guide and will need additional investigation.</p>
 </div>
+<h1 id="hardening-a-base-system">Hardening a base system<a class="headerlink" href="#hardening-a-base-system" title="Permanent link">&para;</a></h1>
+<h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
+<p>MISP is a web-based <strong>information sharing platform</strong>, by design it is kept rather simple and hardening can be done by following the common best practices.</p>
+<p>Bare in mind that neither the MISP documentation efforts or the core MISP project can give you the ultimate guide on how to harden your system.
+This is not the purpose of the MISP Project but the purpose and care of those individuals and organizations deploying MISP Instances.</p>
+<p>Nevertheless here is a very rough <strong>food for thoughts</strong> bulletpoint list for you to consider, and a list of some hardening ressources below.</p>
+<ul>
+<li>Are we using SSL by default? (Especially when syncing over the internet and exposing the API)</li>
+<li>How to we access the machine remotely? Via ssh? What is the path to get there? Does a <a href="https://en.wikipedia.org/wiki/Bastion_host">bastion host</a> make sense?</li>
+<li>Is the machine shared with other user accounts? Do I need to care about useri-land security due to this sharing?</li>
+<li>Is the instance deployed in the "<strong>cloud</strong>"? Is it a VPS? AWS? docker? ansible? kubernetes? whateverCloudContainterMagicIsFancibleNow?</li>
+<li>Do we need to encrypt the partitions where some data is stored?</li>
+<li>Are we redundant in case one MISP instance might fail?</li>
+<li>Is the database server and any other servers running on the machine bound to <strong>localhost</strong>? Do we need to expose because our setup is more complex?</li>
+<li>Do we have enough storage? What about <a href="https://misp-project.org/MISP-sizer/">MISP and size estimation</a> anyways?</li>
+<li>Do we care about BIOS updates?</li>
+<li>Do we care about physical access to the servers? (Disabling USB ports etc...)</li>
+<li>Is any fancy management engine à la <a href="https://en.wikipedia.org/wiki/Intel_Management_Engine">IME</a> in use?</li>
+</ul>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<p><a href="https://wiki.debian.org/Hardening">Debian Wiki Hardening</a></p>
+<p><a href="https://wiki.centos.org/HowTos/OS_Protection">CentOS Hardening</a></p>
+<p><a href="https://www.cyberciti.biz/tips/linux-security.html">Some Linux hardening tips</a></p>
                 
                   
                 
@@ -1379,7 +1432,7 @@ via this guide and will need additional investigation.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

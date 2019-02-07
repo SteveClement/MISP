@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -282,18 +283,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../INSTALL.debian9/" title="Debian stable" class="md-nav__link">
       Debian stable
     </a>
@@ -404,6 +393,30 @@
   <li class="md-nav__item">
     <a href="../../xINSTALL.debian9-postgresql/" title="Debian 9 \w postgresql" class="md-nav__link">
       Debian 9 \w postgresql
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
     </a>
   </li>
 
@@ -564,6 +577,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -663,19 +688,23 @@
                 
                 <h4 id="install-viper-framework-with-a-virtualenv">Install viper framework (with a virtualenv)<a class="headerlink" href="#install-viper-framework-with-a-virtualenv" title="Permanent link">&para;</a></h4>
 <hr />
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Viper has <strong>lief</strong> as a dependency, lief only has an .egg for Python3.6 NOT Python3.7<br />
+If you have python3.7 installed make sure <strong>virtualenv</strong> uses <strong>python3.6</strong><br />
+<div class="codehilite"><pre><span></span>virtualenv -p python3.6 venv
+</pre></div></p>
+</div>
 <div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
-sudo apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2 python3-magic python3-sqlalchemy python3-prettytable
+sudo apt-get install libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2 python3-magic python3-sqlalchemy python3-prettytable -y
 git clone https://github.com/viper-framework/viper.git
 <span class="nb">cd</span> viper
-virtualenv -p python3 venv
+virtualenv -p python3.6 venv
 git submodule update --init --recursive
 ./venv/bin/pip install scrapy
 ./venv/bin/pip install -r requirements.txt
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-cli
 sed -i <span class="s1">&#39;1 s/^.*$/\#!\/usr\/local\/src\/viper\/venv\/bin\/python/&#39;</span> viper-web
-<span class="c1">## /!\ Check wtf is going on with yara.</span>
-<span class="c1">###sudo pip3 uninstall yara -y</span>
-<span class="c1">###./venv/bin/pip uninstall yara -y</span>
 /usr/local/src/viper/viper-cli -h
 /usr/local/src/viper/viper-web -p <span class="m">8888</span> -H <span class="m">0</span>.0.0.0 <span class="p">&amp;</span>
 <span class="nb">echo</span> <span class="s1">&#39;PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper&quot;&#39;</span> <span class="p">|</span>sudo tee /etc/environment
@@ -737,7 +766,7 @@ sudo sed -i -e <span class="s1">&#39;$i \sudo -u misp /usr/local/src/viper/viper
       
     </div>
     
-      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

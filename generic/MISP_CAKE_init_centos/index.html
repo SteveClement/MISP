@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.6">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
     
     
       
@@ -46,12 +46,12 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
     
     
       
@@ -61,6 +61,7 @@
       
     
     <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
     
     
   </head>
@@ -282,18 +283,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../INSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../INSTALL.debian9/" title="Debian stable" class="md-nav__link">
       Debian stable
     </a>
@@ -404,6 +393,30 @@
   <li class="md-nav__item">
     <a href="../../xINSTALL.debian9-postgresql/" title="Debian 9 \w postgresql" class="md-nav__link">
       Debian 9 \w postgresql
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.tsurugi/" title="Tsurugi Linux" class="md-nav__link">
+      Tsurugi Linux
     </a>
   </li>
 
@@ -564,6 +577,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../archive/xINSTALL.FreeBSD/" title="FreeBSD" class="md-nav__link">
+      FreeBSD
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -666,6 +691,9 @@
 sudo -E <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> userInit -q&quot;</span>
 <span class="nv">AUTH_KEY</span><span class="o">=</span><span class="k">$(</span>mysql -u <span class="nv">$DBUSER_MISP</span> -p<span class="nv">$DBPASSWORD_MISP</span> misp -e <span class="s2">&quot;SELECT authkey FROM users;&quot;</span> <span class="p">|</span> tail -1<span class="k">)</span>
 
+<span class="c1"># A small sleep to make sure all the db migrations are done, in case of copy-pasta</span>
+sleep <span class="m">30</span>
+
 <span class="c1"># Setup some more MISP default via cake CLI</span>
 
 <span class="c1"># Change base url, either with this CLI command or in the UI</span>
@@ -716,6 +744,7 @@ sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class=
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.contact<span class="s2">&quot; &quot;</span>info@admin.test<span class="s2">&quot;&quot;</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.disablerestalert<span class="s2">&quot; true&quot;</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.showCorrelationsOnIndex<span class="s2">&quot; true&quot;</span>
+sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.default_event_tag_collection<span class="s2">&quot; 0&quot;</span>
 
 <span class="c1"># Provisional Cortex tunes</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>Plugin.Cortex_services_enable<span class="s2">&quot; false&quot;</span>
@@ -767,7 +796,7 @@ sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class=
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.extended_alert_subject<span class="s2">&quot; false&quot;</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.default_event_threat_level<span class="s2">&quot; 4&quot;</span>
 
-<span class="c1">##sudo $RUN_PHP &quot;$CAKE Admin setSetting &quot;MISP.newUserText&quot; &quot;Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;&quot;</span>
+<span class="c1">##sudo $RUN_PHP &#39;$CAKE Admin setSetting &quot;MISP.newUserText&quot; &quot;Dear new MISP user,\\n\\nWe would hereby like to welcome you to the \$org MISP community.\\n\\n Use the credentials below to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nPassword: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;&#39;</span>
 <span class="c1">##sudo $CAKE Admin setSetting &quot;MISP.passwordResetText&quot; &quot;Dear MISP user,\\n\\nA password reset has been triggered for your account. Use the below provided temporary password to log into MISP at \$misp, where you will be prompted to manually change your password to something of your own choice.\\n\\nUsername: \$username\\nYour temporary password: \$password\\n\\nIf you have any questions, don&#39;t hesitate to contact us at: \$contact.\\n\\nBest regards,\\nYour \$org MISP support team&quot;&quot;</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.enableEventBlacklisting<span class="s2">&quot; true&quot;</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.enableOrgBlacklisting<span class="s2">&quot; true&quot;</span>
@@ -793,22 +822,23 @@ sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class=
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>Session.cookie_timeout<span class="s2">&quot; 3600&quot;</span>
 
 <span class="c1"># Update the galaxies…</span>
-sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin updateGalaxies&quot;</span>
+<span class="c1">##sudo $RUN_PHP &quot;$CAKE Admin updateGalaxies&quot;</span>
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/galaxies/update
 
 <span class="c1"># Updating the taxonomies…</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin updateTaxonomies&quot;</span>
 
 <span class="c1"># Updating the warning lists…</span>
 <span class="c1">##sudo $RUN_PHP &quot;$CAKE Admin updateWarningLists&quot;</span>
-curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST http://127.0.0.1/warninglists/update
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/warninglists/update
 
 <span class="c1"># Updating the notice lists…</span>
 <span class="c1">## sudo $RUN_PHP &quot;$CAKE Admin updateNoticeLists&quot;</span>
-curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST http://127.0.0.1/noticelists/update
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/noticelists/update
 
 <span class="c1"># Updating the object templates…</span>
 <span class="c1">##sudo $RUN_PHP &quot;$CAKE Admin updateObjectTemplates&quot;</span>
-curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST http://127.0.0.1/objectTemplates/update
+curl --header <span class="s2">&quot;Authorization: </span><span class="nv">$AUTH_KEY</span><span class="s2">&quot;</span> --header <span class="s2">&quot;Accept: application/json&quot;</span> --header <span class="s2">&quot;Content-Type: application/json&quot;</span> -k -X POST https://127.0.0.1/objectTemplates/update
 
 <span class="c1"># Set MISP Live</span>
 sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Live </span><span class="nv">$MISP_LIVE</span><span class="s2">&quot;</span>
@@ -864,7 +894,7 @@ sudo <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class=
       
     </div>
     
-      <script src="../../assets/javascripts/application.5e60981f.js"></script>
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
