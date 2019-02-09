@@ -1218,9 +1218,7 @@
 <h2 id="for-ubuntu-18041-server">for Ubuntu 18.04.1-server<a class="headerlink" href="#for-ubuntu-18041-server" title="Permanent link">&para;</a></h2>
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
-<p>Tested working by <a href="https://twitter.com/SteveClement">@SteveClement</a> on 20190209 (works with <strong>Ubuntu 18.10</strong> too)
-As of 20190118 on <strong>Ubuntu 19.04</strong> you need to use Python 3.6 as LIEF with 3.7 is not "eggED" yet.
-You will need to <strong>sudo apt install python3.6-dev</strong> to make everything work according to this guide.</p>
+<p>Tested working by <a href="https://twitter.com/SteveClement">@SteveClement</a> on 20190209 (works with <strong>Ubuntu 18.10</strong> too)</p>
 </div>
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
@@ -2205,13 +2203,6 @@ sudo service apache2 restart
 
 <h4 id="install-mail-to-misp">Install mail to misp<a class="headerlink" href="#install-mail-to-misp" title="Permanent link">&para;</a></h4>
 <hr />
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>mail_to_misp has <strong>lief</strong> as a dependency, lief only has an .egg for Python3.6 NOT Python3.7<br />
-If you have python3.7 installed make sure <strong>virtualenv</strong> uses <strong>python3.6</strong><br />
-<div class="codehilite"><pre><span></span>virtualenv -p python3.6 venv
-</pre></div></p>
-</div>
 <div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 5_mail_to_misp.sh&gt;</span>
 <span class="c1"># Main mail2misp install function</span>
 mail2misp <span class="o">()</span> <span class="o">{</span>
@@ -2230,7 +2221,8 @@ mail2misp <span class="o">()</span> <span class="o">{</span>
   sudo make install
   sudo ldconfig
   <span class="nb">cd</span> ../../mail_to_misp
-  virtualenv -p python3.6 venv
+  virtualenv -p python3 venv
+  ./venv/bin/pip install https://github.com/lief-project/packages/raw/lief-master-latest/pylief-0.9.0.dev.zip
   ./venv/bin/pip install -r requirements.txt
   cp mail_to_misp_config.py-example mail_to_misp_config.py
   <span class="c1">##$SUDO cp mail_to_misp_config.py-example mail_to_misp_config.py</span>
