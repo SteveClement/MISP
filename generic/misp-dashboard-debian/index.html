@@ -688,7 +688,7 @@
                 
                 <h4 id="misp-dashboard">MISP Dashboard<a class="headerlink" href="#misp-dashboard" title="Permanent link">&para;</a></h4>
 <hr />
-<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-start 0_misp-dashboard.sh&gt;</span>
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 4_misp-dashboard.sh&gt;</span>
 <span class="c1"># Main MISP Dashboard install function</span>
 mispDashboard <span class="o">()</span> <span class="o">{</span>
   <span class="nb">cd</span> /var/www
@@ -750,9 +750,9 @@ mispDashboard <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
   sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
 <span class="o">}</span>
-<span class="c1"># &lt;snippet-end 0_misp-dashboard.sh&gt;</span>
+<span class="c1"># &lt;snippet-end 4_misp-dashboard.sh&gt;</span>
 
-<span class="c1"># &lt;snippet-start 0_misp-dashboard-cake.sh&gt;</span>
+<span class="c1"># &lt;snippet-begin 4_misp-dashboard-cake.sh&gt;</span>
 dashboardCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># Enable ZeroMQ for misp-dashboard</span>
   sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_enable&quot;</span> <span class="nb">true</span>
@@ -772,7 +772,7 @@ dashboardCAKE <span class="o">()</span> <span class="o">{</span>
   sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_tag_notifications_enable&quot;</span> <span class="nb">false</span>
   sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.ZeroMQ_audit_notifications_enable&quot;</span> <span class="nb">false</span>
 <span class="o">}</span>
-<span class="c1"># &lt;snippet-end 0_misp-dashboard-cake.sh&gt;</span>
+<span class="c1"># &lt;snippet-end 4_misp-dashboard-cake.sh&gt;</span>
 </pre></div>
                 
                   

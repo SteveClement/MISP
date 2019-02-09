@@ -695,23 +695,32 @@ If you have python3.7 installed make sure <strong>virtualenv</strong> uses <stro
 <div class="codehilite"><pre><span></span>virtualenv -p python3.6 venv
 </pre></div></p>
 </div>
-<div class="codehilite"><pre><span></span><span class="nb">cd</span> /usr/local/src/
-sudo apt-get install cmake -y
-git clone https://github.com/MISP/mail_to_misp.git
-git clone https://github.com/stricaud/faup.git
-<span class="nb">cd</span> faup
-sudo mkdir -p build
-<span class="nb">cd</span> build
-cmake .. <span class="o">&amp;&amp;</span> make
-sudo make install
-sudo ldconfig
-<span class="nb">cd</span> ../../mail_to_misp
-virtualenv -p python3.6 venv
-./venv/bin/pip install -r requirements.txt
-cp mail_to_misp_config.py-example mail_to_misp_config.py
-
-sed -i <span class="s2">&quot;s/^misp_url\ =\ &#39;YOUR_MISP_URL&#39;/misp_url\ =\ &#39;http:\/\/localhost&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
-sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ =\ &#39;</span><span class="si">${</span><span class="nv">AUTH_KEY</span><span class="si">}</span><span class="s2">&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
+<div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 5_mail_to_misp.sh&gt;</span>
+<span class="c1"># Main mail2misp install function</span>
+mail2misp <span class="o">()</span> <span class="o">{</span>
+  <span class="nb">cd</span> /usr/local/src/
+  sudo apt-get install cmake -y
+  git clone https://github.com/MISP/mail_to_misp.git
+  git clone git://github.com/stricaud/faup.git faup
+  sudo chown -R <span class="si">${</span><span class="nv">MISP_USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">MISP_USER</span><span class="si">}</span> faup mail_to_misp
+  <span class="nb">cd</span> faup
+  <span class="c1"># TODO Check permissions</span>
+  <span class="c1">##$SUDO mkdir -p build</span>
+  mkdir -p build
+  <span class="nb">cd</span> build
+  cmake .. <span class="o">&amp;&amp;</span> make
+  <span class="c1">##$SUDO cmake .. &amp;&amp; $SUDO make</span>
+  sudo make install
+  sudo ldconfig
+  <span class="nb">cd</span> ../../mail_to_misp
+  virtualenv -p python3.6 venv
+  ./venv/bin/pip install -r requirements.txt
+  cp mail_to_misp_config.py-example mail_to_misp_config.py
+  <span class="c1">##$SUDO cp mail_to_misp_config.py-example mail_to_misp_config.py</span>
+  sed -i <span class="s2">&quot;s/^misp_url\ =\ &#39;YOUR_MISP_URL&#39;/misp_url\ =\ &#39;https:\/\/localhost&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
+  sed -i <span class="s2">&quot;s/^misp_key\ =\ &#39;YOUR_KEY_HERE&#39;/misp_key\ =\ &#39;</span><span class="si">${</span><span class="nv">AUTH_KEY</span><span class="si">}</span><span class="s2">&#39;/g&quot;</span> /usr/local/src/mail_to_misp/mail_to_misp_config.py
+<span class="o">}</span>
+<span class="c1"># &lt;snippet-end 5_mail_to_misp.sh&gt;</span>
 </pre></div>
                 
                   
