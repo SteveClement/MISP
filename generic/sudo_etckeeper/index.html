@@ -703,6 +703,7 @@
 <div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 0_sudoKeeper.sh&gt;</span>
 <span class="c1"># check if sudo is installed</span>
 checkSudoKeeper <span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Checking for sudo and installing etckeeper&quot;</span>
   <span class="k">if</span> <span class="o">[[</span> ! -f <span class="k">$(</span>which sudo<span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
     su -c <span class="s2">&quot;apt install etckeeper -y&quot;</span>
     su -c <span class="s2">&quot;apt install sudo -y&quot;</span>

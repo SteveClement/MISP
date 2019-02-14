@@ -690,9 +690,16 @@
 <div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 2_core-cake.sh&gt;</span>
 <span class="c1"># Core cake commands</span>
 coreCAKE <span class="o">()</span> <span class="o">{</span>
+  debug <span class="s2">&quot;Running core Cake commands to set sane defaults for </span><span class="si">${</span><span class="nv">LBLUE</span><span class="si">}</span><span class="s2">MISP</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
   <span class="nv">$SUDO_WWW</span> -E <span class="nv">$CAKE</span> userInit -q
 
+  <span class="c1"># This makes sure all Database upgrades are done, without logging in.</span>
+  <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin updateDatabase
+
   <span class="c1"># Setup some more MISP default via cake CLI</span>
+
+  <span class="c1"># The default install is Python in a virtualenv, setting accordingly</span>
+  <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
 
   <span class="c1"># Tune global time outs</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Session.autoRegenerate&quot;</span> <span class="m">0</span>
@@ -717,7 +724,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.contact&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.disablerestalert&quot;</span> <span class="nb">true</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.showCorrelationsOnIndex&quot;</span> <span class="nb">true</span>
-  <span class="c1">#$SUDO_WWW $CAKE Admin setSetting &quot;MISP.default_event_tag_collection&quot; 0</span>
+  <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.default_event_tag_collection&quot;</span> <span class="m">0</span>
 
   <span class="c1"># Provisional Cortex tunes</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_enable&quot;</span> <span class="nb">false</span>
@@ -796,6 +803,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
 
 <span class="c1"># This updates Galaxies, ObjectTemplates, Warninglists, Noticelists, Templates</span>
 updateGOWNT <span class="o">()</span> <span class="o">{</span>
+  debug <span class="s2">&quot;Updating Galaxies, ObjectTemplates, Warninglists, Noticelists and Templates&quot;</span>
   <span class="nv">AUTH_KEY</span><span class="o">=</span><span class="k">$(</span>mysql -u <span class="nv">$DBUSER_MISP</span> -p<span class="nv">$DBPASSWORD_MISP</span> misp -e <span class="s2">&quot;SELECT authkey FROM users;&quot;</span> <span class="p">|</span> tail -1<span class="k">)</span>
 
   <span class="c1"># Update the galaxies…</span>

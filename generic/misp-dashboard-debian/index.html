@@ -691,6 +691,10 @@
 <div class="codehilite"><pre><span></span><span class="c1"># &lt;snippet-begin 4_misp-dashboard.sh&gt;</span>
 <span class="c1"># Main MISP Dashboard install function</span>
 mispDashboard <span class="o">()</span> <span class="o">{</span>
+  debug <span class="s2">&quot;Install misp-dashboard&quot;</span>
+  <span class="c1"># Install pyzmq to main MISP venv</span>
+  debug <span class="s2">&quot;Installing PyZMQ&quot;</span>
+  <span class="nv">$SUDO_WWW</span> <span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/pip install pyzmq
   <span class="nb">cd</span> /var/www
   sudo mkdir misp-dashboard
   sudo chown www-data:www-data misp-dashboard
@@ -700,8 +704,6 @@ mispDashboard <span class="o">()</span> <span class="o">{</span>
   sudo -H /var/www/misp-dashboard/install_dependencies.sh
   sudo sed -i <span class="s2">&quot;s/^host\ =\ localhost/host\ =\ 0.0.0.0/g&quot;</span> /var/www/misp-dashboard/config/config.cfg
   sudo sed -i <span class="s1">&#39;/Listen 80/a Listen 0.0.0.0:8001&#39;</span> /etc/apache2/ports.conf
-  sudo apt install libapache2-mod-wsgi-py3 -y
-  <span class="nv">$SUDO_WWW</span> bash /var/www/misp-dashboard/start_all.sh
   sudo apt install libapache2-mod-wsgi-py3 -y
   <span class="nb">echo</span> <span class="s2">&quot;&lt;VirtualHost *:8001&gt;</span>
 <span class="s2">      ServerAdmin admin@misp.local</span>
@@ -744,8 +746,13 @@ mispDashboard <span class="o">()</span> <span class="o">{</span>
 <span class="s2">      CustomLog /var/log/apache2/misp-dashboard.local_access.log combined</span>
 <span class="s2">      ServerSignature Off</span>
 <span class="s2">  &lt;/VirtualHost&gt;&quot;</span> <span class="p">|</span> sudo tee /etc/apache2/sites-available/misp-dashboard.conf
+
+  <span class="c1"># Enable misp-dashboard in apache and reload</span>
   sudo a2ensite misp-dashboard
-  sudo systemctl reload apache2
+  sudo systemctl restart apache2
+
+  <span class="c1"># Needs to be started after apache2 is reloaded so the port status check works</span>
+  <span class="nv">$SUDO_WWW</span> bash /var/www/misp-dashboard/start_all.sh
 
   <span class="c1"># Add misp-dashboard to rc.local to start on boot.</span>
   sudo sed -i -e <span class="s1">&#39;$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh &gt; /tmp/misp-dashboard_rc.local.log\n&#39;</span> /etc/rc.local
