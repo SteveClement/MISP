@@ -163,6 +163,23 @@
             <th title="<?php echo $attrDescriptions['distribution']['desc'];?>"><?php echo $this->Paginator->sort('distribution');?></th>
             <th><?php echo __('Sightings');?></th>
             <th><?php echo __('Activity');?></th>
+            <?php
+                if ($includeSightingdb) {
+                    echo sprintf(
+                        '<th>%s</th>',
+                        __('SightingDB')
+                    );
+                    $fieldCount += 1;
+                }
+                if ($includeDecayScore) {
+                    sprintf(
+                        '<th class="decayingScoreField" title="%s">%s</th>',
+                        __('Decaying Score'),
+                        __('Score')
+                    );
+                    $fieldCount += 1;
+                }
+            ?>
             <th class="actions"><?php echo __('Actions');?></th>
         </tr>
         <?php
@@ -182,7 +199,9 @@
                     'mayChangeCorrelation' => $mayChangeCorrelation,
                     'page' => $page,
                     'fieldCount' => $fieldCount,
-                    'includeRelatedTags' => !empty($includeRelatedTags) ? 1 : 0
+                    'includeRelatedTags' => !empty($includeRelatedTags) ? 1 : 0,
+                    'includeDecayingScore' => !empty($includeDecayingScore) ? 1 : 0,
+                    'includeSightingdb' => !empty($includeSightingdb) ? 1 : 0
                 ));
                 if (!empty($focus) && ($object['objectType'] == 'object' || $object['objectType'] == 'attribute') && $object['uuid'] == $focus) {
                     $focusedRow = $k;

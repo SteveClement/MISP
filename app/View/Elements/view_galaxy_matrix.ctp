@@ -88,7 +88,7 @@ foreach($tabs as $tabName => $column):
         <span id="matrix-heatmap-maxval"><?php echo h($maxScore); ?></span>
     </div>
     <?php endif; ?>
-    <label style="display: inline-block; margin-left: 30px;"><input type="checkbox" id="checkbox_attackMatrix_showAll" checked><span class="fa fa-filter"><?php echo __('Show all');?></span></input></label>
+    <label style="display: inline-block; margin-left: 30px;"><input type="checkbox" id="checkbox_attackMatrix_showAll" checked><span class="fa fa-filter"><?php echo __('Show all');?></span></label>
 </div>
 
 <?php if (isset($eventId)): ?>
@@ -174,6 +174,7 @@ foreach($tabs as $tabName => $column):
                                 $td .= ' data-target-id="'.h($target_id).'"';
                             }
                             $td .= ' title="' . h($externalId) . (strlen($shortDescription) > 0 ? ': &#10;' . h($shortDescription) : '') . '"';
+			    $td .= ' tabindex="0" aria-label="' . h($externalId) . '"';
                             $td .= '>' . h($name);
 
                         } else { // empty cell

@@ -155,7 +155,7 @@ class EventGraph {
             $("#select_graph_scope").val(value);
         }
 
-        if (value == "Rotation key") {
+        if (value == "Pivot key") {
             $("#network-scope-badge").text(value + ": " + eventGraph.scope_keyType);
         } else {
             $("#network-scope-badge").text(value);
@@ -176,30 +176,30 @@ class EventGraph {
             label: "Scope",
             tooltip: "The scope represented by the network",
             event: function(value) {
-                if (value == "Rotation key" && $('#input_graph_scope_jsonkey').val() == "") { // no key selected  for Rotation key scope
+                if (value == "Pivot key" && $('#input_graph_scope_jsonkey').val() == "") { // no key selected  for Pivot key scope
                     return;
                 } else {
                     eventGraph.update_scope(value);
                     dataHandler.fetch_data_and_update();
                 }
             },
-            options: ["Reference", "Tag", "Rotation key"],
+            options: ["Reference", "Tag", "Pivot key"],
             default: "Reference"
         });
         menu_scope.add_select({
             id: "input_graph_scope_jsonkey",
-            label: "Rotation key",
+            label: "Pivot key",
             tooltip: "The key around which the network will be constructed",
             event: function(value) {
-                if (value == "Rotation key" && $('#input_graph_scope_jsonkey').val() == "") { // no key selected for Rotation key scope
+                if (value == "Pivot key" && $('#input_graph_scope_jsonkey').val() == "") { // no key selected for Pivot key scope
                     return;
                 } else {
                     eventGraph.scope_keyType = value;
-                    eventGraph.update_scope("Rotation key");
+                    eventGraph.update_scope("Pivot key");
                     dataHandler.fetch_data_and_update();
                 }
             },
-            options: dataHandler.available_rotation_key ? dataHandler.available_rotation_key : [],
+            options: dataHandler.available_pivot_key ? dataHandler.available_pivot_key : [],
             default: ""
         });
         return menu_scope;
@@ -298,7 +298,8 @@ class EventGraph {
                 for(var nodeId of objectIds) {
                     eventGraph.expand_node(nodeId);
                 }
-            }
+            },
+            title: "Expanding all nodes may takes some time"
         });
         menu_display.add_button({
             label: "Collapse all nodes",
@@ -310,7 +311,8 @@ class EventGraph {
                 for(var nodeId of objectIds) {
                     eventGraph.collapse_node(nodeId);
                 }
-            }
+            },
+            title: "Collapsing all nodes may takes some time"
         });
         menu_display.add_slider({
             id: 'slider_display_max_char_num',
@@ -715,7 +717,7 @@ class EventGraph {
                         code: that.get_FA_icon(node['meta-category']),
                     }
                 };
-                dataHandler.mapping_value_to_nodeID.set(striped_value, node.id);
+                dataHandler.mapping_value_to_nodeID.set(label, node.id);
             } else if (node.node_type == 'tag') {
                 var tag_color = node.tagContent.colour;
                 group =  'tag';
@@ -740,7 +742,7 @@ class EventGraph {
                         borderRadius: 6
                     }
                 };
-                dataHandler.mapping_value_to_nodeID.set(striped_value, node.id);
+                dataHandler.mapping_value_to_nodeID.set(label, node.id);
             } else if (node.node_type == 'keyType') {
                 group = 'keyType';
                 label = that.scope_keyType + ": " + node.label;
@@ -751,7 +753,7 @@ class EventGraph {
                     title: label,
                     group: group
                 };
-                dataHandler.mapping_value_to_nodeID.set(striped_value, node.id);
+                dataHandler.mapping_value_to_nodeID.set(label, node.id);
             } else {
                 group =  'attribute';
                 label = node.type + ': ' + node.label;
@@ -770,7 +772,7 @@ class EventGraph {
                     node_conf.size = $('#slider_display_picture_size').val();
                     node_conf.image = baseurl + '/attributes/viewPicture/' + node.id + '/1';
                 }
-                dataHandler.mapping_value_to_nodeID.set(striped_value, node.id);
+                dataHandler.mapping_value_to_nodeID.set(label, node.id);
             }
 
             newNodes.push(node_conf);
@@ -1023,7 +1025,7 @@ class EventGraph {
                         node.image = baseurl + '/attributes/viewPicture/' + attr.id + '/1';
                     }
                     newNodes.push(node);
-                    dataHandler.mapping_obj_relation_value_to_nodeID.set(striped_value, node.id);
+                    dataHandler.mapping_obj_relation_value_to_nodeID.set(attr.value, node.id);
 
                     var rel = {
                         from: parent_id,
@@ -1399,7 +1401,7 @@ class DataHandler {
         eventGraph.menu_filter.items["table_attr_value"].add_options("table_control_select_attr_value", available_object_references);
     }
 
-    fetch_data_and_update(stabilize, callback) {
+    fetch_data_and_update(stabilize, updateOnly, callback) {
         eventGraph.network_loading(true, loadingText_fetching);
         $.when(this.fetch_objects_template()).done(function() {
             var filtering_rules = eventGraph.get_filtering_rules();
@@ -1417,7 +1419,9 @@ class DataHandler {
                 data: JSON.stringify( payload ),
                 processData: false,
                 success: function( data, textStatus, jQxhr ){
-                    eventGraph.reset_graphs(true);
+                    if (updateOnly === undefined || updateOnly === false) {
+                        eventGraph.reset_graphs(true);
+                    }
                     eventGraph.is_filtered = (filtering_rules.presence.length > 0 || filtering_rules.value.length > 0);
                     eventGraph.first_draw = true;
                     // update object state
@@ -1427,8 +1431,8 @@ class DataHandler {
                         return [[index, value]];
                     });
                     dataHandler.update_filtering_selectors(available_object_references, available_tags);
-                    dataHandler.available_rotation_key = data.available_rotation_key;
-                    eventGraph.menu_scope.add_options("input_graph_scope_jsonkey", dataHandler.available_rotation_key);
+                    dataHandler.available_pivot_key = data.available_pivot_key;
+                    eventGraph.menu_scope.add_options("input_graph_scope_jsonkey", dataHandler.available_pivot_key);
                     if (data.items.length < nodes_ask_threshold) {
                         eventGraph.update_graph(data);
                     } else if (data.items.length > nodes_ask_threshold && confirm("The network contains a lot of nodes, displaying it may slow down your browser. Continue?")) {
@@ -1572,7 +1576,8 @@ class MispInteraction {
         if (!that.can_create_reference(edgeData.from) || !that.can_be_referenced(edgeData.to)) {
             return;
         }
-        genericPopup('/objectReferences/add/'+edgeData.from, '#popover_form', function() {
+        var edgeFromId = edgeData.from.startsWith('o-') ? edgeData.from.substr(2) : edgeData.from;
+        genericPopup('/objectReferences/add/'+edgeFromId, '#popover_form', function() {
             $('#ObjectReferenceReferencedUuid').val(uuid);
             objectReferenceInput();
         });
@@ -1637,6 +1642,7 @@ class MispInteraction {
         var selected_nodes = nodeData.nodes;
         for (var nodeID of selected_nodes) {
             var node = this.nodes.get(nodeID)
+            nodeID = nodeID.startsWith('o-') ? nodeID.substr(2) : nodeID;
             if (node.group.slice(0, 9) == "attribute") {
                 deleteObject('attributes', 'delete', nodeID, scope_id);
             } else if (node.group == "object") {
@@ -1649,6 +1655,7 @@ class MispInteraction {
         var that = mispInteraction;
         var id = nodeData.id
         var group = nodes.get(id).group;
+        id = id.startsWith('o-') ? id.substr(2) : id;
         if (group.slice(0, 9) == 'attribute') {
             simplePopup('/attributes/edit/'+id);
         } else if (group == 'object') {
@@ -1861,7 +1868,7 @@ function genericPopupCallback(result) {
     // sucess and eventgraph is enabled
     if (result == "success" && dataHandler !== undefined) {
         mispInteraction.apply_callback();
-        dataHandler.fetch_data_and_update(false);
+        dataHandler.fetch_data_and_update(false, true);
     }
 }
 
@@ -1958,7 +1965,7 @@ function import_graph_from_json(data) {
         $('#checkbox_physics_enable').prop('checked', data.physics.enabled);
 
         // update data
-        dataHandler.fetch_data_and_update(false, function() {
+        dataHandler.fetch_data_and_update(false, false, function() {
             eventGraph.nodes.update(data.nodes);
             eventGraph.expand_previous_expansion(data.nodes);
             eventGraph.hiddenNode.clear();
@@ -2088,18 +2095,11 @@ function enable_interactive_graph() {
             });
         });
 
-        $('#network-typeahead').typeahead(typeaheadOption);
 
         dataHandler = new DataHandler();
         eventGraph = new EventGraph(network_options, nodes, edges);
 
         $(document).on("keydown", function(evt) {
-            if($('#network-typeahead').is(":focus")) {
-                if (evt.keyCode == 27) { // <ESC>
-                    $('#network-typeahead').blur();
-                }
-                return;
-            }
             if (evt.target !== undefined && $(evt.target).is('input')) {
                 return;
             }
@@ -2187,7 +2187,38 @@ $(document).on("keyup", function(evt) {
 });
 
 eventGraph.update_scope();
-dataHandler.fetch_data_and_update();
+dataHandler.fetch_data_and_update(true, false, function() {
+    var $select = $('#network-typeahead');
+    dataHandler.get_typeaheadData_search().forEach(function(element) {
+        var $option = $('<option></option>');
+        $option.text(element);
+        $option.attr('value', $option.text());
+        $select.append($option);
+    });
+    $('#network-typeahead').chosen(chosen_options).on('change', function(evt, params) {
+        var value = params.selected;
+        var nodeID = dataHandler.mapping_value_to_nodeID.get(value);
+        // in case we searched for an object relation
+        nodeID = nodeID === undefined ? dataHandler.mapping_obj_relation_value_to_nodeID.get(value) : nodeID;
+        // check if node in cluster
+        nested_length = eventGraph.network.findNode(nodeID).length;
+        if (nested_length > 1) { // Node is in cluster
+            // As vis.js cannot supply a way to uncluster a single node, we remove it and add it again
+            searched_node = eventGraph.nodes.get(nodeID);
+            // Remove old node and edges
+            eventGraph.nodes.remove(nodeID);
+            eventGraph.nodes.add(searched_node);
+            /* don't need to re-add the edge as it is the same */
+            eventGraph.focus_on_stabilized(nodeID);
+        } else {
+            // set focus to the network
+            eventGraph.network.focus(nodeID, {animation: true, scale: 1});
+        }
+        // select node and focus on it
+        eventGraph.network.selectNodes([nodeID]);
+        $("#network-typeahead").blur();
+    });
+});
 }, 1);
 }
 
@@ -2406,37 +2437,9 @@ var network_options = {
     }
 };
 var default_layout_option = $.extend(true, {}, network_options);
-
-var typeaheadOption = {
-    source: function (query, process) {
-        if (typeaheadDataSearch === undefined) { // caching
-            typeaheadDataSearch = dataHandler.get_typeaheadData_search();
-        }
-        process(typeaheadDataSearch);
-    },
-    updater: function(value) {
-        var nodeID = dataHandler.mapping_value_to_nodeID.get(value);
-        // in case we searched for an object relation
-        nodeID = nodeID === undefined ? dataHandler.mapping_obj_relation_value_to_nodeID.get(value) : nodeID;
-        // check if node in cluster
-        nested_length = eventGraph.network.findNode(nodeID).length;
-        if (nested_length > 1) { // Node is in cluster
-            // As vis.js cannot supply a way to uncluster a single node, we remove it and add it again
-            searched_node = eventGraph.nodes.get(nodeID);
-            // Remove old node and edges
-            eventGraph.nodes.remove(nodeID);
-            eventGraph.nodes.add(searched_node);
-            /* don't need to re-add the edge as it is the same */
-            eventGraph.focus_on_stabilized(nodeID);
-        } else {
-            // set focus to the network
-            eventGraph.network.focus(nodeID, {animation: true, scale: 1});
-        }
-        // select node and focus on it
-        eventGraph.network.selectNodes([nodeID]);
-        $("#network-typeahead").blur();
-    },
-    autoSelect: true
+var chosen_options = {
+    max_shown_results: 20,
+    inherit_select_classes: true
 }
 var max_displayed_char = 32;
 var progressbar_length = 3; // divided by 100

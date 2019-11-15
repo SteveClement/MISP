@@ -22,7 +22,7 @@ class ServersController extends AppController
             ),
             'maxLimit' => 9999, // LATER we will bump here on a problem once we have more than 9999 events
             'order' => array(
-                    'Server.url' => 'ASC'
+                    'Server.priority' => 'ASC'
             ),
     );
 
@@ -44,12 +44,6 @@ class ServersController extends AppController
 
     public function index()
     {
-        if (!$this->_isSiteAdmin()) {
-            if (!$this->userRole['perm_sync'] && !$this->userRole['perm_admin']) {
-                $this->redirect(array('controller' => 'events', 'action' => 'index'));
-            }
-            $this->paginate['conditions'] = array('Server.org_id LIKE' => $this->Auth->user('org_id'));
-        }
         if ($this->_isRest()) {
             $params = array(
                 'recursive' => -1,
@@ -110,16 +104,28 @@ class ServersController extends AppController
             $combinedArgs['sort'] = 'timestamp';
             $combinedArgs['direction'] = 'desc';
         }
-        $events = $this->Server->previewIndex($id, $this->Auth->user(), $combinedArgs);
+        if (empty($combinedArgs['page'])) {
+            $combinedArgs['page'] = 1;
+        }
+        if (empty($combinedArgs['limit'])) {
+            $combinedArgs['limit'] = 60;
+        }
+        $total_count = 0;
+        $events = $this->Server->previewIndex($id, $this->Auth->user(), $combinedArgs, $total_count);
         $this->loadModel('Event');
         $threat_levels = $this->Event->ThreatLevel->find('all');
         $this->set('threatLevels', Set::combine($threat_levels, '{n}.ThreatLevel.id', '{n}.ThreatLevel.name'));
         App::uses('CustomPaginationTool', 'Tools');
         $customPagination = new CustomPaginationTool();
         $params = $customPagination->createPaginationRules($events, $this->passedArgs, $this->alias);
+        if (!empty($total_count)) {
+            $params['pageCount'] = ceil($total_count / $params['limit']);
+        }
         $this->params->params['paging'] = array($this->modelClass => $params);
         if (is_array($events)) {
-            $customPagination->truncateByPagination($events, $params);
+            if (count($events) > 60) {
+                $customPagination->truncateByPagination($events, $params);
+            }
         } else ($events = array());
         $this->set('events', $events);
         $this->set('eventDescriptions', $this->Event->fieldDescriptions);
@@ -304,6 +310,7 @@ class ServersController extends AppController
                                 $this->request->data['Server']['external_uuid'] = $json['uuid'];
                             } else {
                                 $this->request->data['Server']['remote_org_id'] = $this->Server->Organisation->id;
+                                $this->request->data['Server']['organisation_type'] = 1;
                             }
                         }
                     }
@@ -586,7 +593,7 @@ class ServersController extends AppController
     public function delete($id = null)
     {
         if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
+            throw new MethodNotAllowedException(__('This endpoint expects POST requests.'));
         }
         $this->Server->id = $id;
         if (!$this->Server->exists()) {
@@ -594,14 +601,31 @@ class ServersController extends AppController
         }
         $s = $this->Server->read(null, $id);
         if (!$this->_isSiteAdmin()) {
-            $this->redirect(array('controller' => 'servers', 'action' => 'index'));
+            $message = __('You don\'t have the privileges to do that.');
+            if ($this->_isRest()) {
+                throw new MethodNotAllowedException($message);
+            } else {
+                $this->Flash->error($message);
+                $this->redirect(array('controller' => 'servers', 'action' => 'index'));
+            }
         }
         if ($this->Server->delete()) {
-            $this->Flash->success(__('Server deleted'));
+            $message = __('Server deleted');
+            if ($this->_isRest()) {
+                return $this->RestResponse->saveSuccessResponse('Servers', 'delete', $message, $this->response->type());
+            } else {
+                $this->Flash->success($message);
+                $this->redirect(array('controller' => 'servers', 'action' => 'index'));
+            }
+
+        }
+        $message = __('Server was not deleted');
+        if ($this->_isRest()) {
+            return $this->RestResponse->saveFailResponse('Servers', 'delete', $id, $message, $this->response->type());
+        } else {
+            $this->Flash->error($message);
             $this->redirect(array('action' => 'index'));
         }
-        $this->Flash->error(__('Server was not deleted'));
-        $this->redirect(array('action' => 'index'));
     }
 
     /**
@@ -613,7 +637,13 @@ class ServersController extends AppController
      */
     public function pull($id = null, $technique='full')
     {
-        $this->Server->id = $id;
+        if (!empty($id)) {
+            $this->Server->id = $id;
+        } else if (!empty($this->request->data['id'])) {
+            $this->Server->id = $this->request->data['id'];
+        } else {
+            throw new NotFoundException(__('Invalid server'));
+        }
         if (!$this->Server->exists()) {
             throw new NotFoundException(__('Invalid server'));
         }
@@ -633,7 +663,7 @@ class ServersController extends AppController
             if (!Configure::read('MISP.background_jobs')) {
                 $result = $this->Server->pull($this->Auth->user(), $id, $technique, $s);
                 if (is_array($result)) {
-                    $success = sprintf(__('Pull completed. %s events pulled, %s events could not be pulled, %s proposals pulled.', count($result[0]), count($result[1]), count($result[2])));
+                    $success = sprintf(__('Pull completed. %s events pulled, %s events could not be pulled, %s proposals pulled.', count($result[0]), count($result[1]), $result[2]));
                 } else {
                     $error = $result;
                 }
@@ -682,7 +712,16 @@ class ServersController extends AppController
 
     public function push($id = null, $technique=false)
     {
-        $this->Server->id = $id;
+        if (!empty($id)) {
+            $this->Server->id = $id;
+        } else if (!empty($this->request->data['id'])) {
+            $this->Server->id = $this->request->data['id'];
+        } else {
+            throw new NotFoundException(__('Invalid server'));
+        }
+        if (!empty($this->request->data['technique'])) {
+            $technique = $this->request->data['technique'];
+        }
         if (!$this->Server->exists()) {
             throw new NotFoundException(__('Invalid server'));
         }
@@ -868,7 +907,7 @@ class ServersController extends AppController
             );
             $writeableErrors = array(0 => __('OK'), 1 => __('not found'), 2 => __('is not writeable'));
             $readableErrors = array(0 => __('OK'), 1 => __('not readable'));
-            $gpgErrors = array(0 => __('OK'), 1 => __('FAIL: settings not set'), 2 => __('FAIL: Failed to load GnuPG'), 3 => __('FAIL: Issues with the key/passphrase'), 4 => __('FAIL: encrypt failed'));
+            $gpgErrors = array(0 => __('OK'), 1 => __('FAIL: settings not set'), 2 => __('FAIL: Failed to load GnuPG'), 3 => __('FAIL: Issues with the key/passphrase'), 4 => __('FAIL: sign failed'));
             $proxyErrors = array(0 => __('OK'), 1 => __('not configured (so not tested)'), 2 => __('Getting URL via proxy failed'));
             $zmqErrors = array(0 => __('OK'), 1 => __('not enabled (so not tested)'), 2 => __('Python ZeroMQ library not installed correctly.'), 3 => __('ZeroMQ script not running.'));
             $stixOperational = array(0 => __('Some of the libraries related to STIX are not installed. Make sure that all libraries listed below are correctly installed.'), 1 => __('OK'));
@@ -967,7 +1006,7 @@ class ServersController extends AppController
                         ),
                         'memory_limit' => array(
                             'explanation' => 'The maximum memory that PHP can consume. It is recommended to raise this number since certain exports can generate a fair bit of memory usage',
-                            'recommended' => 512,
+                            'recommended' => 2048,
                             'unit' => 'M'
                         ),
                         'upload_max_filesize' => array(
@@ -1011,6 +1050,12 @@ class ServersController extends AppController
                 // if Proxy is set up in the settings, try to connect to a test URL
                 $proxyStatus = $this->Server->proxyDiagnostics($diagnostic_errors);
 
+                // get the DB diagnostics
+                $dbDiagnostics = $this->Server->dbSpaceUsage();
+                $dbSchemaDiagnostics = $this->Server->dbSchemaDiagnostic();
+
+                $redisInfo = $this->Server->redisInfo();
+
                 $moduleTypes = array('Enrichment', 'Import', 'Export', 'Cortex');
                 foreach ($moduleTypes as $type) {
                     $moduleStatus[$type] = $this->Server->moduleDiagnostics($diagnostic_errors, $type);
@@ -1021,7 +1066,7 @@ class ServersController extends AppController
                 $sessionStatus = $this->Server->sessionDiagnostics($diagnostic_errors, $sessionCount);
                 $this->set('sessionCount', $sessionCount);
 
-                $additionalViewVars = array('gpgStatus', 'sessionErrors', 'proxyStatus', 'sessionStatus', 'zmqStatus', 'stixVersion', 'cyboxVersion', 'mixboxVersion', 'maecVersion', 'stix2Version', 'pymispVersion', 'moduleStatus', 'yaraStatus', 'gpgErrors', 'proxyErrors', 'zmqErrors', 'stixOperational', 'stix', 'moduleErrors', 'moduleTypes');
+                $additionalViewVars = array('gpgStatus', 'sessionErrors', 'proxyStatus', 'sessionStatus', 'zmqStatus', 'stixVersion', 'cyboxVersion', 'mixboxVersion', 'maecVersion', 'stix2Version', 'pymispVersion', 'moduleStatus', 'yaraStatus', 'gpgErrors', 'proxyErrors', 'zmqErrors', 'stixOperational', 'stix', 'moduleErrors', 'moduleTypes', 'dbDiagnostics', 'dbSchemaDiagnostics', 'redisInfo');
             }
             // check whether the files are writeable
             $writeableDirs = $this->Server->writeableDirsDiagnostics($diagnostic_errors);
@@ -1062,6 +1107,9 @@ class ServersController extends AppController
                         'writeableDirs' => $writeableDirs,
                         'writeableFiles' => $writeableFiles,
                         'readableFiles' => $readableFiles,
+                        'dbDiagnostics' => $dbDiagnostics,
+                        'dbSchemaDiagnostics' => $dbSchemaDiagnostics,
+                        'redisInfo' => $redisInfo,
                         'finalSettings' => $dumpResults,
                         'extensions' => $extensions,
                         'workers' => $worker_array
@@ -1093,12 +1141,23 @@ class ServersController extends AppController
         if (!$this->_isSiteAdmin() || !$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
-        $validTypes = array('default', 'email', 'scheduler', 'cache', 'prio');
+        $validTypes = array('default', 'email', 'scheduler', 'cache', 'prio', 'update');
         if (!in_array($type, $validTypes)) {
             throw new MethodNotAllowedException('Invalid worker type.');
         }
         $prepend = '';
         if ($type != 'scheduler') {
+            $workerIssueCount = 0;
+            $workerDiagnostic = $this->Server->workerDiagnostics($workerIssueCount);
+            if ($type == 'update' && isset($workerDiagnostic['update']['ok']) && $workerDiagnostic['update']['ok']) {
+                $message = __('Only one `update` worker can run at a time');
+                if ($this->_isRest()) {
+                    return $this->RestResponse->saveFailResponse('Servers', 'startWorker', false, $message, $this->response->type());
+                } else {
+                    $this->Flash->error($message);
+                    $this->redirect('/servers/serverSettings/workers');
+                }
+            }
             shell_exec($prepend . APP . 'Console' . DS . 'cake CakeResque.CakeResque start --interval 5 --queue ' . $type .' > /dev/null 2>&1 &');
         } else {
             shell_exec($prepend . APP . 'Console' . DS . 'cake CakeResque.CakeResque startscheduler -i 5 > /dev/null 2>&1 &');
@@ -1171,6 +1230,18 @@ class ServersController extends AppController
         $this->render('ajax/submoduleStatus');
     }
 
+    public function getSetting($setting_name)
+    {
+        $setting = $this->Server->getSettingData($setting_name);
+        if (!empty($setting["redacted"])) {
+            throw new MethodNotAllowedException(__('This setting is redacted.'));
+        }
+        if (Configure::check($setting_name)) {
+            $setting['value'] = Configure::read($setting_name);
+        }
+        return $this->RestResponse->viewData($setting);
+    }
+
     public function serverSettingsEdit($setting_name, $id = false, $forceSave = false)
     {
         if (!$this->_isSiteAdmin()) {
@@ -1225,6 +1296,9 @@ class ServersController extends AppController
                     return $this->RestResponse->saveFailResponse('Servers', 'serverSettingsEdit', false, 'Invalid input. Expected: {"value": "new_setting"}', $this->response->type());
                 }
             }
+            if (!empty($this->request->data['Server']['force'])) {
+                $forceSave = $this->request->data['Server']['force'];
+            }
             if (trim($this->request->data['Server']['value']) === '*****') {
                 if ($this->_isRest()) {
                     return $this->RestResponse->saveFailResponse('Servers', 'serverSettingsEdit', false, 'No change.', $this->response->type());
@@ -1275,6 +1349,9 @@ class ServersController extends AppController
             throw new MethodNotAllowedException();
         }
         $this->Server->restartWorkers($this->Auth->user());
+        if ($this->_isRest()) {
+            return $this->RestResponse->saveSuccessResponse('Server', 'restartWorkers', false, $this->response->type(), __('Restarting workers.'));
+        }
         $this->redirect(array('controller' => 'servers', 'action' => 'serverSettings', 'workers'));
     }
 
@@ -1393,6 +1470,20 @@ class ServersController extends AppController
         }
     }
 
+    public function getRemoteUser($id)
+    {
+        $this->Server->id = $id;
+        if (!$this->Server->exists()) {
+            throw new NotFoundException(__('Invalid server'));
+        }
+        $user = $this->Server->getRemoteUser($id);
+        if (empty($user)) {
+            throw new NotFoundException(__('Invalid user or user not found.'));
+        } else {
+            return $this->RestResponse->viewData($user);
+        }
+    }
+
     public function testConnection($id = false)
     {
         if (!$this->Auth->user('Role')['perm_sync'] && !$this->Auth->user('Role')['perm_site_admin']) {
@@ -1432,6 +1523,9 @@ class ServersController extends AppController
                             $newer = 'local';
                         }
                     }
+                }
+                if (!$mismatch && $version[2] < 111) {
+                    $mismatch = 'proposal';
                 }
                 if (!$perm_sync) {
                     $result['status'] = 7;
@@ -1558,8 +1652,13 @@ class ServersController extends AppController
     {
         if ($this->request->is('post')) {
             $status = $this->Server->getCurrentGitStatus();
-            $update = $this->Server->update($status);
-            return new CakeResponse(array('body'=> $update, 'type' => 'txt'));
+            $raw = array();
+            $update = $this->Server->update($status, $raw);
+            if ($this->_isRest()) {
+                return $this->RestResponse->viewData(array('results' => $raw), $this->response->type());
+            } else {
+                return new CakeResponse(array('body'=> $update, 'type' => 'txt'));
+            }
         } else {
             $branch = $this->Server->getCurrentBranch();
             $this->set('branch', $branch);
@@ -1596,36 +1695,49 @@ class ServersController extends AppController
         $this->set('updateLocked', $this->Server->isUpdateLocked());
     }
 
-    public function updateProgress()
+    public function updateProgress($ajaxHtml=false)
     {
         if (!$this->_isSiteAdmin()) {
             throw new MethodNotAllowedException('You are not authorised to do that.');
         }
-        $update_progress = $this->Server->getUpdateProgress();
-        $current_index = $update_progress['current'];
-        $current_command = !isset($update_progress['commands'][$current_index]) ? '' : $update_progress['commands'][$current_index];
-        $lookup_string = preg_replace('/\s{2,}/', '', substr($current_command, 0, -1));
-        $sql_info = $this->Server->query("SELECT * FROM INFORMATION_SCHEMA.PROCESSLIST;");
-        if (empty($sql_info)) {
-            $update_progress['process_list'] = array();
+
+        $this->AdminSetting = ClassRegistry::init('AdminSetting');
+        $dbVersion = $this->AdminSetting->getSetting('db_version');
+        $updateProgress = $this->Server->getUpdateProgress();
+        $updateProgress['db_version'] = $dbVersion;
+        $maxUpdateNumber = max(array_keys($this->Server->db_changes));
+        $updateProgress['complete_update_remaining'] = max($maxUpdateNumber - $dbVersion, 0);
+        $updateProgress['update_locked'] = $this->Server->isUpdateLocked();
+        $updateProgress['lock_remaining_time'] = $this->Server->getLockRemainingTime();
+        $updateProgress['update_fail_number_reached'] = $this->Server->UpdateFailNumberReached();
+        $currentIndex = $updateProgress['current'];
+        $currentCommand = !isset($updateProgress['commands'][$currentIndex]) ? '' : $updateProgress['commands'][$currentIndex];
+        $lookupString = preg_replace('/\s{2,}/', '', substr($currentCommand, 0, -1));
+        $sqlInfo = $this->Server->query("SELECT * FROM INFORMATION_SCHEMA.PROCESSLIST;");
+        if (empty($sqlInfo)) {
+            $updateProgress['process_list'] = array();
         } else {
-            // retreive current update process
-            foreach($sql_info as $row) {
-                if (preg_replace('/\s{2,}/', '', $row['PROCESSLIST']['INFO']) == $lookup_string) {
-                    $sql_info = $row['PROCESSLIST'];
+            // retrieve current update process
+            foreach($sqlInfo as $row) {
+                if (preg_replace('/\s{2,}/', '', $row['PROCESSLIST']['INFO']) == $lookupString) {
+                    $sqlInfo = $row['PROCESSLIST'];
                     break;
                 }
             }
-            $update_progress['process_list'] = array();
-            $update_progress['process_list']['STATE'] = isset($sql_info['STATE']) ? $sql_info['STATE'] : '';
-            $update_progress['process_list']['PROGRESS'] = isset($sql_info['PROGRESS']) ? $sql_info['PROGRESS'] : 0;
-            $update_progress['process_list']['STAGE'] = isset($sql_info['STAGE']) ? $sql_info['STAGE'] : 0;
-            $update_progress['process_list']['MAX_STAGE'] = isset($sql_info['MAX_STAGE']) ? $sql_info['MAX_STAGE'] : 0;
+            $updateProgress['process_list'] = array();
+            $updateProgress['process_list']['STATE'] = isset($sqlInfo['STATE']) ? $sqlInfo['STATE'] : '';
+            $updateProgress['process_list']['PROGRESS'] = isset($sqlInfo['PROGRESS']) ? $sqlInfo['PROGRESS'] : 0;
+            $updateProgress['process_list']['STAGE'] = isset($sqlInfo['STAGE']) ? $sqlInfo['STAGE'] : 0;
+            $updateProgress['process_list']['MAX_STAGE'] = isset($sqlInfo['MAX_STAGE']) ? $sqlInfo['MAX_STAGE'] : 0;
         }
-        if ($this->request->is('ajax')) {
-            return $this->RestResponse->viewData(h($update_progress), $this->response->type());
+        $this->set('ajaxHtml', $ajaxHtml);
+        if ($this->request->is('ajax') && $ajaxHtml) {
+            $this->set('updateProgress', $updateProgress);
+            $this->layout = false;
+        } elseif ($this->request->is('ajax') || $this->_isRest()) {
+            return $this->RestResponse->viewData(h($updateProgress), $this->response->type());
         } else {
-            $this->set('updateProgress', $update_progress);
+            $this->set('updateProgress', $updateProgress);
         }
     }
 
@@ -1725,6 +1837,7 @@ class ServersController extends AppController
         if (!empty($request['skip_ssl_validation'])) {
             $params['ssl_verify_peer'] = false;
             $params['ssl_verify_host'] = false;
+            $params['ssl_verify_peer_name'] = false;
             $params['ssl_allow_self_signed'] = true;
         }
         $params['timeout'] = 300;
@@ -1767,6 +1880,17 @@ class ServersController extends AppController
                 $python = $this->__generatePythonScript($request, $url);
             }
             $response = $HttpSocket->post($url, $request['body'], array('header' => $request['header']));
+        } elseif (
+            !empty($request['method']) &&
+            $request['method'] === 'DELETE'
+        ) {
+            if ($curl !== false) {
+                $curl = $this->__generateCurlQuery('delete', $request, $url);
+            }
+            if ($python !== false) {
+                $python = $this->__generatePythonScript($request, $url);
+            }
+            $response = $HttpSocket->delete($url, false, array('header' => $request['header']));
         } else {
             return false;
         }
@@ -1868,7 +1992,7 @@ misp.direct_call(relative_path, body)
         $relative_path = $this->request->data['url'];
         $result = $this->RestResponse->getApiInfo($relative_path);
         if ($this->_isRest()) {
-            return $result;
+            return $this->RestResponse->viewData($result, $this->response->type(), false, true);
         } else {
             $result = json_decode($result, true);
             if (empty($result)) {
@@ -1939,14 +2063,27 @@ misp.direct_call(relative_path, body)
                 $baseurl = Router::url('/', true);
             }
         }
+        $host_org_id = Configure::read('MISP.host_org_id');
+        if (empty($host_org_id)) {
+            throw new MethodNotAllowedException(__('Cannot create sync config - no host org ID configured for the instance.'));
+        }
+        $this->loadModel('Organisation');
+        $host_org = $this->Organisation->find('first', array(
+            'conditions' => array('Organisation.id' => $host_org_id),
+            'recursive' => -1,
+            'fields' => array('name', 'uuid')
+        ));
+        if (empty($host_org)) {
+            throw new MethodNotAllowedException(__('Configured host org not found. Please make sure that the setting is current on the instance.'));
+        }
         $server = array(
             'Server' => array(
                 'url' => $baseurl,
                 'uuid' => Configure::read('MISP.uuid'),
                 'authkey' => $this->Auth->user('authkey'),
                 'Organisation' => array(
-                    'name' => $this->Auth->user('Organisation')['name'],
-                    'uuid' => $this->Auth->user('Organisation')['uuid']
+                    'name' => $host_org['Organisation']['name'],
+                    'uuid' => $host_org['Organisation']['uuid'],
                 )
             )
         );
@@ -2006,5 +2143,68 @@ misp.direct_call(relative_path, body)
                 }
             }
         }
+    }
+
+    public function resetRemoteAuthKey($id)
+    {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException(__('This endpoint expects POST requests.'));
+        }
+        $result = $this->Server->resetRemoteAuthkey($id);
+        if ($result !== true) {
+            if (!$this->_isRest()) {
+                $this->Flash->error($result);
+                $this->redirect(array('action' => 'index'));
+            } else {
+                return $this->RestResponse->saveFailResponse('Servers', 'resetRemoteAuthKey', $id, $message, $this->response->type());
+            }
+        } else {
+            $message = __('API key updated.');
+            if (!$this->_isRest()) {
+                $this->Flash->success($message);
+                $this->redirect(array('action' => 'index'));
+            } else {
+                return $this->RestResponse->saveSuccessResponse('Servers', 'resetRemoteAuthKey', $message, $this->response->type());
+            }
+        }
+    }
+
+    public function changePriority($id = false, $direction = 'down') {
+        $this->Server->id = $id;
+        if (!$this->Server->exists()) {
+            throw new InvalidArgumentException(__('ID has to be a valid server connection'));
+        }
+        if ($direction !== 'up' && $direction !== 'down') {
+            throw new InvalidArgumentException(__('Invalid direction. Valid options: ', 'up', 'down'));
+        }
+        $success = $this->Server->reprioritise($id, $direction);
+        if ($success) {
+            $message = __('Priority changed.');
+            return $this->RestResponse->saveSuccessResponse('Servers', 'changePriority', $message, $this->response->type());
+        } else {
+            $message = __('Priority could not be changed.');
+            return $this->RestResponse->saveFailResponse('Servers', 'changePriority', $id, $message, $this->response->type());
+        }
+    }
+
+    public function releaseUpdateLock()
+    {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException(__('This endpoint expects POST requests.'));
+        }
+        if (!$this->_isSiteAdmin()) {
+            throw new MethodNotAllowedException(__('Only site admin accounts can release the update lock.'));
+        }
+        $this->Server->changeLockState(false);
+        $this->Server->resetUpdateFailNumber();
+        $this->redirect(array('action' => 'updateProgress'));
+    }
+
+    public function dbSchemaDiagnostic()
+    {
+        if (!$this->_isSiteAdmin()) {
+            throw new MethodNotAllowedException(__('Only site admin accounts get the DB schema diagnostic.'));
+        }
+        return $this->RestResponse->viewData($this->Server->dbSchemaDiagnostic(), $this->response->type());
     }
 }

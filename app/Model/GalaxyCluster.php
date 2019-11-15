@@ -142,7 +142,7 @@ class GalaxyCluster extends AppModel
     */
     public function getCluster($name)
     {
-        $conditions = array('GalaxyCluster.tag_name ' => $name);
+        $conditions = array('LOWER(GalaxyCluster.tag_name)' => strtolower($name));
         if (is_numeric($name)) {
             $conditions = array('GalaxyCluster.id' => $name);
         }
@@ -173,7 +173,7 @@ class GalaxyCluster extends AppModel
                 'first',
                 array(
                     'conditions' => array(
-                            'Tag.name' => $cluster['GalaxyCluster']['tag_name']
+                        'LOWER(Tag.name)' => strtolower($cluster['GalaxyCluster']['tag_name'])
                     ),
                     'recursive' => -1,
                     'fields' => array('Tag.id')
@@ -206,5 +206,37 @@ class GalaxyCluster extends AppModel
             }
         }
         return $events;
+    }
+
+    public function getClusterTagsFromMeta($galaxyElements)
+    {
+        // AND operator between cluster metas
+        $tmpResults = array();
+        foreach ($galaxyElements as $galaxyElementKey => $galaxyElementValue) {
+            $tmpResults[] = array_values($this->GalaxyElement->find('list', array(
+                'conditions' => array(
+                    'key' => $galaxyElementKey,
+                    'value' => $galaxyElementValue,
+                ),
+                'fields' => array('galaxy_cluster_id'),
+                'recursive' => -1
+            )));
+        }
+        $clusterTags = array();
+        if (!empty($tmpResults)) {
+            // Get all Clusters matching all conditions
+            $matchingClusters = $tmpResults[0];
+            array_shift($tmpResults);
+            foreach ($tmpResults as $tmpResult) {
+                $matchingClusters = array_intersect($matchingClusters, $tmpResult);
+            }
+    
+            $clusterTags = $this->find('list', array(
+                'conditions' => array('id' => $matchingClusters),
+                'fields' => array('GalaxyCluster.tag_name'),
+                'recursive' => -1
+            ));
+        }
+        return array_values($clusterTags);
     }
 }
