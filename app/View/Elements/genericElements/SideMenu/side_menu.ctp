@@ -143,6 +143,16 @@
                         'class' => (isset($event['Event']['published']) && (1 == $event['Event']['published'] && $mayModify)) ? '' : 'hidden',
                         'text' => __('Unpublish')
                     ));
+                    if (!empty($event['Event']['published']) && $me['Role']['perm_sighting']) {
+                        echo $this->element('/genericElements/SideMenu/side_menu_link', array(
+                            'onClick' => array(
+                                'function' => 'publishPopup',
+                                'params' => array($event['Event']['id'], 'sighting')
+                            ),
+                            'class' => 'publishButtons',
+                            'text' => __('Publish Sightings')
+                        ));
+                    }
                     if (Configure::read('MISP.delegation')) {
                         if ((Configure::read('MISP.unpublishedprivate') || (isset($event['Event']['distribution']) && $event['Event']['distribution'] == 0)) && (!isset($delegationRequest) || !$delegationRequest) && ($isSiteAdmin || (isset($isAclDelegate) && $isAclDelegate))) {
                             echo $this->element('/genericElements/SideMenu/side_menu_link', array(
@@ -1036,6 +1046,15 @@
                                 'element_id' => 'previewEvent',
                                 'url' => '/feeds/previewEvent/' . h($feed['Feed']['id']) . '/' . h($id),
                                 'text' => __('PreviewEvent')
+                            ));
+                            echo $this->element('/genericElements/SideMenu/side_menu_post_link', array(
+                                'url' => sprintf(
+                                    '/feeds/getEvent/%s/%s',
+                                    h($feed['Feed']['id']),
+                                    h($event['Event']['uuid'])
+                                ),
+                                'text' => __('Fetch This Event'),
+                                'message' => __('Are you sure you want to fetch and save this event on your instance?')
                             ));
                         }
                     }
