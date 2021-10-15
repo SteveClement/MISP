@@ -287,8 +287,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.rhel7/" title="RHEL7/CentOS7" class="md-nav__link">
-      RHEL7/CentOS7
+    <a href="../INSTALL.rhel8/" title="RHEL8/CentOS8" class="md-nav__link">
+      RHEL8/CentOS8
     </a>
   </li>
 
@@ -299,8 +299,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.rhel8/" title="RHEL8/CentOS8" class="md-nav__link">
-      RHEL8/CentOS8
+    <a href="../INSTALL.rhel7/" title="RHEL7/CentOS7" class="md-nav__link">
+      RHEL7/CentOS7
     </a>
   </li>
 
@@ -349,44 +349,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
-      Centos 6
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../xINSTALL.debian10/" title="Debian 10" class="md-nav__link">
       Debian 10
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
-      Debian 9
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
-      Ubuntu 18.04 \w webmin
     </a>
   </li>
 
@@ -447,8 +411,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.6" class="md-nav__link">
-      OpenBSD 6.6
+    <a href="../xINSTALL.OpenBSD/" title="OpenBSD 7.0" class="md-nav__link">
+      OpenBSD 7.0
     </a>
   </li>
 
@@ -579,8 +543,44 @@
 
 
   <li class="md-nav__item">
+    <a href="../archive/xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-nav__link">
+      Ubuntu 18.04 \w webmin
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
       Ubuntu 16.04
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
+      Debian 9
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../archive/xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
+      Centos 6
     </a>
   </li>
 
@@ -708,14 +708,12 @@ sudo update-rc.d -f ssh defaults
 sudo dpkg-reconfigure openssh-server
 sudo systemctl restart ssh
 </code></pre></div>
-
 <p>If you installed Tsurugi to your disk, the locale is a little all over the place.
 We assume <strong>en_US</strong> to be default unless you know what you're doing, go with that default.</p>
 <div class="highlight"><pre><span></span><code>sudo sed -i <span class="s1">&#39;s/ja_JP/en_US/g&#39;</span> /etc/default/locale
 sudo sed -i <span class="s1">&#39;s/ja_JP.UTF/# ja_JP.UTF/g&#39;</span> /etc/locale.gen
 sudo dpkg-reconfigure locales
 </code></pre></div>
-
 <p>To install MISP on Tsurugi copy paste this in your r00t shell:
 <div class="highlight"><pre><span></span><code>wget -O /tmp/misp-tsurugi.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/xINSTALL.tsurugi.txt <span class="o">&amp;&amp;</span> bash /tmp/misp-tsurugi.sh
 </code></pre></div></p>
@@ -756,7 +754,7 @@ MISP_PASSWORD='Password1234'</p>
    exit 1
   elif [[ $(id $MISP_USER &gt;/dev/null; echo $?) -ne 0 ]]; then
     useradd -s /bin/bash -m -G adm,cdrom,sudo,dip,plugdev,www-data $MISP_USER
-    echo <span><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_PASSWORD | chpasswd
+    echo <span class="arithmatex"><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_PASSWORD | chpasswd
   else
     echo "User ${MISP_USER} exists, skipping creation"
     adduser $MISP_USER www-data
@@ -767,12 +765,12 @@ MISP_PASSWORD='Password1234'</p>
   PATH_TO_MISP='/var/www/MISP'
   MISP_BASEURL='<a href="https://misp.local">https://misp.local</a>'
   MISP_LIVE='1'
-  CAKE="$PATH_TO_MISP/app/Console/cake"</p>
+  CAKE="${PATH_TO_MISP}/app/Console/cake"</p>
 <p># Database configuration
   DBHOST='localhost'
   DBNAME='misp'
   DBUSER_ADMIN='root'
-  DBPASSWORD_ADMIN="<span><span class="MathJax_Preview">(openssl rand -hex 32)"
+  DBPASSWORD_ADMIN="<span class="arithmatex"><span class="MathJax_Preview">(openssl rand -hex 32)"
   DBUSER_MISP='misp'
   DBPASSWORD_MISP="</span><script type="math/tex">(openssl rand -hex 32)"
   DBUSER_MISP='misp'
@@ -798,13 +796,15 @@ MISP_PASSWORD='Password1234'</p>
   post_max_size=50M
   max_execution_time=300
   memory_limit=2048M
-  PHP_INI=/etc/php/7.0/apache2/php.ini</p>
+  session.sid_length=32
+  session.use_strict_mode=1</p>
+<p>PHP_INI=/etc/php/7.0/apache2/php.ini</p>
 <p># apt config
   export DEBIAN_FRONTEND=noninteractive</p>
 <p># sudo config to run $LUSER commands
   SUDO="sudo -H -u ${MISP_USER}"
   SUDO_WWW="sudo -H -u www-data"</p>
-<p>echo "Admin (${DBUSER_ADMIN}) DB Password: <span><span class="MathJax_Preview">{DBPASSWORD_ADMIN}"
+<p>echo "Admin (${DBUSER_ADMIN}) DB Password: <span class="arithmatex"><span class="MathJax_Preview">{DBPASSWORD_ADMIN}"
   echo "User  (</span><script type="math/tex">{DBPASSWORD_ADMIN}"
   echo "User  (</script></span>{DBUSER_MISP}) DB Password: ${DBPASSWORD_MISP}"</p>
 <p>echo "-----------------------------------------------------------------------"
@@ -818,7 +818,7 @@ MISP_PASSWORD='Password1234'</p>
 <p># Update all expired keys, needed for MongoDB key.
   apt-key list | \
   grep "expired: " | \
-  sed -ne 's|pub .<em>/<span><span class="MathJax_Preview">[^ ]*</span><script type="math/tex">[^ ]*</script></span> .</em>|\1|gp' | \
+  sed -ne 's|pub .<em>/<span class="arithmatex"><span class="MathJax_Preview">[^ ]*</span><script type="math/tex">[^ ]*</script></span> .</em>|\1|gp' | \
   xargs -n1 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys</p>
 <p>apt update
   apt install -qy etckeeper
@@ -849,11 +849,11 @@ MISP_PASSWORD='Password1234'</p>
 <p># You can make Python 3 default, if you wish to.
   #update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
   #update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2</p>
-<p>mkdir $PATH_TO_MISP
-  chown www-data:www-data $PATH_TO_MISP
-  cd $PATH_TO_MISP
-  $SUDO_WWW git clone <a href="https://github.com/MISP/MISP.git">https://github.com/MISP/MISP.git</a> $PATH_TO_MISP</p>
-<p>$SUDO_WWW git config core.filemode false</p>
+<p>mkdir ${PATH_TO_MISP}
+  chown www-data:www-data ${PATH_TO_MISP}
+  cd ${PATH_TO_MISP}
+  ${SUDO_WWW} git clone <a href="https://github.com/MISP/MISP.git">https://github.com/MISP/MISP.git</a> ${PATH_TO_MISP}</p>
+<p>${SUDO_WWW} git config core.filemode false</p>
 <p>cp -p /etc/lsb-release /etc/lsb-release.tmp
   sudo sed -i 's/TSURUGI/Ubuntu/g' /etc/lsb-release
   sudo sed -i 's/bamboo/xenial/g' /etc/lsb-release
@@ -861,35 +861,35 @@ MISP_PASSWORD='Password1234'</p>
   sudo apt-get update
   sudo apt-get install python3.6 python3.6-dev -y
   mv /etc/lsb-release.tmp /etc/lsb-release
-  $SUDO_WWW virtualenv -p python3.6 $PATH_TO_MISP/venv</p>
-<p>cd $PATH_TO_MISP/app/files/scripts
-  $SUDO_WWW git clone <a href="https://github.com/CybOXProject/python-cybox.git">https://github.com/CybOXProject/python-cybox.git</a>
-  $SUDO_WWW git clone <a href="https://github.com/STIXProject/python-stix.git">https://github.com/STIXProject/python-stix.git</a>
-  $SUDO_WWW git clone <a href="https://github.com/CybOXProject/mixbox.git">https://github.com/CybOXProject/mixbox.git</a></p>
+  ${SUDO_WWW} virtualenv -p python3.6 ${PATH_TO_MISP}/venv</p>
+<p>cd ${PATH_TO_MISP}/app/files/scripts
+  ${SUDO_WWW} git clone <a href="https://github.com/CybOXProject/python-cybox.git">https://github.com/CybOXProject/python-cybox.git</a>
+  ${SUDO_WWW} git clone <a href="https://github.com/STIXProject/python-stix.git">https://github.com/STIXProject/python-stix.git</a>
+  ${SUDO_WWW} git clone <a href="https://github.com/CybOXProject/mixbox.git">https://github.com/CybOXProject/mixbox.git</a></p>
 <p>mkdir /var/www/.cache
   chown www-data:www-data /var/www/.cache</p>
-<p>cd $PATH_TO_MISP/app/files/scripts/python-stix
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install .</p>
-<p>cd $PATH_TO_MISP/app/files/scripts/python-cybox
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install .</p>
-<p>cd $PATH_TO_MISP/app/files/scripts/mixbox
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install .</p>
-<p>cd $PATH_TO_MISP
-  $SUDO_WWW git submodule update --init --recursive
+<p>cd ${PATH_TO_MISP}/app/files/scripts/python-stix
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install .</p>
+<p>cd ${PATH_TO_MISP}/app/files/scripts/python-cybox
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install .</p>
+<p>cd ${PATH_TO_MISP}/app/files/scripts/mixbox
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install .</p>
+<p>cd ${PATH_TO_MISP}
+  ${SUDO_WWW} git submodule update --init --recursive
   # Make git ignore filesystem permission differences for submodules
-  $SUDO_WWW git submodule foreach --recursive git config core.filemode false</p>
+  ${SUDO_WWW} git submodule foreach --recursive git config core.filemode false</p>
 <p># install PyMISP
-  cd $PATH_TO_MISP/PyMISP
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install .</p>
-<p>cd $PATH_TO_MISP/app
+  cd ${PATH_TO_MISP}/PyMISP
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install .</p>
+<p>cd ${PATH_TO_MISP}/app
   mkdir /var/www/.composer ; chown www-data:www-data /var/www/.composer
-  $SUDO_WWW php composer.phar install</p>
-<p>$SUDO_WWW cp -fa $PATH_TO_MISP/INSTALL/setup/config.php $PATH_TO_MISP/app/Plugin/CakeResque/Config/config.php</p>
-<p>chown -R www-data:www-data $PATH_TO_MISP
-  chmod -R 750 $PATH_TO_MISP
-  chmod -R g+ws $PATH_TO_MISP/app/tmp
-  chmod -R g+ws $PATH_TO_MISP/app/files
-  chmod -R g+ws $PATH_TO_MISP/app/files/scripts/tmp</p>
+  ${SUDO_WWW} php composer.phar install --no-dev</p>
+<p>${SUDO_WWW} cp -fa ${PATH_TO_MISP}/INSTALL/setup/config.php ${PATH_TO_MISP}/app/Plugin/CakeResque/Config/config.php</p>
+<p>chown -R www-data:www-data ${PATH_TO_MISP}
+  chmod -R 750 ${PATH_TO_MISP}
+  chmod -R g+ws ${PATH_TO_MISP}/app/tmp
+  chmod -R g+ws ${PATH_TO_MISP}/app/files
+  chmod -R g+ws ${PATH_TO_MISP}/app/files/scripts/tmp</p>
 <p>if [ ! -e /var/lib/mysql/misp/users.ibd ]; then
     echo "
       set timeout 10
@@ -899,7 +899,7 @@ MISP_PASSWORD='Password1234'</p>
       expect \"Set root password?\"
       send -- \"y\r\"
       expect \"New password:\"
-      send -- \"<span><span class="MathJax_Preview">{DBPASSWORD_ADMIN}\r\"
+      send -- \"<span class="arithmatex"><span class="MathJax_Preview">{DBPASSWORD_ADMIN}\r\"
       expect \"Re-enter new password:\"
       send -- \"</span><script type="math/tex">{DBPASSWORD_ADMIN}\r\"
       expect \"Re-enter new password:\"
@@ -922,36 +922,35 @@ update-rc.d mysql enable
 update-rc.d apache2 enable
 update-rc.d redis-server enable
 
-$SUDO_WWW cat $PATH_TO_MISP/INSTALL/MYSQL.sql | mysql -u $DBUSER_MISP -p$DBPASSWORD_MISP $DBNAME
+${SUDO_WWW} cat ${PATH_TO_MISP}/INSTALL/MYSQL.sql | mysql -u $DBUSER_MISP -p$DBPASSWORD_MISP $DBNAME
 
 echo &quot;&lt;?php
 </code></pre></div>
-
 
 <p>class DATABASE_CONFIG {
           public $default = array(
                   'datasource' =&gt; 'Database/Mysql',
                   //'datasource' =&gt; 'Database/Postgres',
                   'persistent' =&gt; false,
-                  'host' =&gt; '<span><span class="MathJax_Preview">DBHOST',
+                  'host' =&gt; '<span class="arithmatex"><span class="MathJax_Preview">DBHOST',
                   'login' =&gt; '</span><script type="math/tex">DBHOST',
                   'login' => '</script></span>DBUSER_MISP',
                   'port' =&gt; 3306, // MySQL &amp; MariaDB
                   //'port' =&gt; 5432, // PostgreSQL
-                  'password' =&gt; '<span><span class="MathJax_Preview">DBPASSWORD_MISP',
+                  'password' =&gt; '<span class="arithmatex"><span class="MathJax_Preview">DBPASSWORD_MISP',
                   'database' =&gt; '</span><script type="math/tex">DBPASSWORD_MISP',
                   'database' => '</script></span>DBNAME',
                   'prefix' =&gt; '',
                   'encoding' =&gt; 'utf8',
           );
-  }" | $SUDO_WWW tee $PATH_TO_MISP/app/Config/database.php
+  }" | ${SUDO_WWW} tee ${PATH_TO_MISP}/app/Config/database.php
   else
     echo "There might be a database already existing here: /var/lib/mysql/misp/users.ibd"
     echo "Skipping any creations…"
     sleep 3
   fi</p>
 <p>openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
-  -subj "/C=<span><span class="MathJax_Preview">{OPENSSL_C}/ST=</span><script type="math/tex">{OPENSSL_C}/ST=</script></span>{OPENSSL_ST}/L=<span><span class="MathJax_Preview">{OPENSSL_L}/O=</span><script type="math/tex">{OPENSSL_L}/O=</script></span>{OPENSSL_O}/OU=<span><span class="MathJax_Preview">{OPENSSL_OU}/CN=</span><script type="math/tex">{OPENSSL_OU}/CN=</script></span>{OPENSSL_CN}/emailAddress=${OPENSSL_EMAILADDRESS}" \
+  -subj "/C=<span class="arithmatex"><span class="MathJax_Preview">{OPENSSL_C}/ST=</span><script type="math/tex">{OPENSSL_C}/ST=</script></span>{OPENSSL_ST}/L=<span class="arithmatex"><span class="MathJax_Preview">{OPENSSL_L}/O=</span><script type="math/tex">{OPENSSL_L}/O=</script></span>{OPENSSL_O}/OU=<span class="arithmatex"><span class="MathJax_Preview">{OPENSSL_OU}/CN=</span><script type="math/tex">{OPENSSL_OU}/CN=</script></span>{OPENSSL_CN}/emailAddress=${OPENSSL_EMAILADDRESS}" \
   -keyout /etc/ssl/private/misp.local.key -out /etc/ssl/private/misp.local.crt</p>
 <p>if [ ! -e /etc/rc.local ]
   then
@@ -962,40 +961,40 @@ echo &quot;&lt;?php
 <p>cd /var/www
   mkdir misp-dashboard
   chown www-data:www-data misp-dashboard
-  <span><span class="MathJax_Preview">SUDO_WWW git clone <a href="https://github.com/MISP/misp-dashboard.git">https://github.com/MISP/misp-dashboard.git</a>
+  <span class="arithmatex"><span class="MathJax_Preview">{SUDO_WWW} git clone <a href="https://github.com/MISP/misp-dashboard.git">https://github.com/MISP/misp-dashboard.git</a>
   cd misp-dashboard
-  <span><span class="MathJax_Preview">SUDO_WWW <span><span class="MathJax_Preview">PATH_TO_MISP/venv/bin/pip install zmq redis
+  <span class="arithmatex"><span class="MathJax_Preview">{SUDO_WWW} <span class="arithmatex"><span class="MathJax_Preview">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
-  sed -i -e '</span><script type="math/tex">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
   sed -i -e 'i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
-  sed -i -e '</span><script type="math/tex">SUDO_WWW <span><span class="MathJax_Preview">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{SUDO_WWW} <span class="arithmatex"><span class="MathJax_Preview">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
-  sed -i -e '</span><script type="math/tex">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
   sed -i -e 'i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
   sed -i -e '</script></span>i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;\n' /etc/rc.local
   sed -i -e 'i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;\n' /etc/rc.local
-  sed -i -e '</span><script type="math/tex">SUDO_WWW git clone <a href="https://github.com/MISP/misp-dashboard.git">https://github.com/MISP/misp-dashboard.git</a>
+  sed -i -e '</span><script type="math/tex">{SUDO_WWW} git clone <a href="https://github.com/MISP/misp-dashboard.git">https://github.com/MISP/misp-dashboard.git</a>
   cd misp-dashboard
-  <span><span class="MathJax_Preview">SUDO_WWW <span><span class="MathJax_Preview">PATH_TO_MISP/venv/bin/pip install zmq redis
+  <span class="arithmatex"><span class="MathJax_Preview">{SUDO_WWW} <span class="arithmatex"><span class="MathJax_Preview">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
-  sed -i -e '</span><script type="math/tex">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
   sed -i -e 'i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
-  sed -i -e '</span><script type="math/tex">SUDO_WWW <span><span class="MathJax_Preview">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{SUDO_WWW} <span class="arithmatex"><span class="MathJax_Preview">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
-  sed -i -e '</span><script type="math/tex">PATH_TO_MISP/venv/bin/pip install zmq redis
+  sed -i -e '</span><script type="math/tex">{PATH_TO_MISP}/venv/bin/pip install zmq redis
   /var/www/misp-dashboard/install_dependencies.sh
   sed -i "s/^host\ =\ localhost/host\ =\ 0.0.0.0/g" /var/www/misp-dashboard/config/config.cfg
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh\n' /etc/rc.local
@@ -1003,14 +1002,14 @@ echo &quot;&lt;?php
   sed -i -e '</script></span>i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;\n' /etc/rc.local
   sed -i -e 'i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;\n' /etc/rc.local
   sed -i -e '</script></span>i \git_dirs="/usr/local/src/misp-modules/ /var/www/misp-dashboard /usr/local/src/faup /usr/local/src/mail_to_misp /usr/local/src/misp-modules /usr/local/src/viper /var/www/misp-dashboard"\n' /etc/rc.local
-  sed -i -e '$i \for d in <span><span class="MathJax_Preview">git_dirs; do\n' /etc/rc.local
+  sed -i -e '$i \for d in <span class="arithmatex"><span class="MathJax_Preview">git_dirs; do\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">git_dirs; do\n' /etc/rc.local
-  sed -i -e '</script></span>i     echo "Updating <span><span class="MathJax_Preview">{d}"\n' /etc/rc.local
+  sed -i -e '</script></span>i     echo "Updating <span class="arithmatex"><span class="MathJax_Preview">{d}"\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">{d}"\n' /etc/rc.local
-  sed -i -e '</script></span>i     cd <span><span class="MathJax_Preview">d &amp;&amp; sudo git pull &amp;\n' /etc/rc.local
+  sed -i -e '</script></span>i     cd <span class="arithmatex"><span class="MathJax_Preview">d &amp;&amp; sudo git pull &amp;\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">d && sudo git pull &\n' /etc/rc.local
   sed -i -e '</script></span>i \done\n' /etc/rc.local
-  $SUDO_WWW bash /var/www/misp-dashboard/start_all.sh</p>
+  ${SUDO_WWW} bash /var/www/misp-dashboard/start_all.sh</p>
 <p>apt install libapache2-mod-wsgi-py3 -y</p>
 <p>echo "<VirtualHost _default_:80>
           ServerAdmin <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#46;&#108;&#117;">&#97;&#100;&#109;&#105;&#110;&#64;&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#46;&#108;&#117;</a>
@@ -1023,13 +1022,12 @@ echo &quot;&lt;?php
       ServerSignature Off
 </code></pre></div>
 
-
 <p></VirtualHost></p>
 <p><VirtualHost _default_:443>
           ServerAdmin <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#110;&#64;&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#46;&#108;&#117;">&#97;&#100;&#109;&#105;&#110;&#64;&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#46;&#108;&#117;</a>
           ServerName misp.local
-          DocumentRoot $PATH_TO_MISP/app/webroot</p>
-<div class="codehilite"><pre><span></span><code>      &lt;Directory $PATH_TO_MISP/app/webroot&gt;
+          DocumentRoot ${PATH_TO_MISP}/app/webroot</p>
+<div class="codehilite"><pre><span></span><code>      &lt;Directory ${PATH_TO_MISP}/app/webroot&gt;
               Options -Indexes
               AllowOverride all
                 Require all granted
@@ -1042,7 +1040,6 @@ echo &quot;&lt;?php
       SSLCertificateKeyFile /etc/ssl/private/misp.local.key
 </code></pre></div>
 
-
 <p>#        SSLCertificateChainFile /etc/ssl/private/misp-chain.crt</p>
 <div class="codehilite"><pre><span></span><code>      LogLevel warn
       ErrorLog /var/log/apache2/misp.local_error.log
@@ -1051,7 +1048,6 @@ echo &quot;&lt;?php
       Header set X-Content-Type-Options nosniff
       Header set X-Frame-Options DENY
 </code></pre></div>
-
 
 <p></VirtualHost>" | tee /etc/apache2/sites-available/misp-ssl.conf</p>
 <p>echo "127.0.0.1 misp.local" | tee -a /etc/hosts</p>
@@ -1093,23 +1089,24 @@ echo &quot;&lt;?php
   ServerSignature Off
 </code></pre></div>
 
-
 <p></VirtualHost>" | tee /etc/apache2/sites-available/misp-dashboard.conf</p>
 <p>a2dissite default-ssl
   a2ensite misp-ssl
   a2ensite misp-dashboard</p>
 <p>for key in upload_max_filesize post_max_size max_execution_time max_input_time memory_limit
   do
-      sed -i "s/^<span><span class="MathJax_Preview">$key</span><script type="math/tex">$key</script></span>.*/\1 = <span><span class="MathJax_Preview">(eval echo \${</span><script type="math/tex">(eval echo \${</script></span>key})/" $PHP_INI
-  done</p>
+      sed -i "s/^<span class="arithmatex"><span class="MathJax_Preview">$key</span><script type="math/tex">$key</script></span>.<em>/\1 = <span class="arithmatex"><span class="MathJax_Preview">(eval echo \${</span><script type="math/tex">(eval echo \${</script></span>key})/" $PHP_INI
+  done
+  sudo sed -i "s/^<span class="arithmatex"><span class="MathJax_Preview">session.sid_length</span><script type="math/tex">session.sid_length</script></span>.</em>/\1 = $(eval echo ${session0sid_length})/" $PHP_INI
+  sudo sed -i "s/^<span class="arithmatex"><span class="MathJax_Preview">session.use_strict_mode</span><script type="math/tex">session.use_strict_mode</script></span>.*/\1 = $(eval echo ${session0use_strict_mode})/" $PHP_INI</p>
 <p>systemctl restart apache2</p>
-<p>cp $PATH_TO_MISP/INSTALL/misp.logrotate /etc/logrotate.d/misp
+<p>cp ${PATH_TO_MISP}/INSTALL/misp.logrotate /etc/logrotate.d/misp
   chmod 0640 /etc/logrotate.d/misp</p>
-<p>$SUDO_WWW cp -a $PATH_TO_MISP/app/Config/bootstrap.default.php $PATH_TO_MISP/app/Config/bootstrap.php
-  $SUDO_WWW cp -a $PATH_TO_MISP/app/Config/core.default.php $PATH_TO_MISP/app/Config/core.php
-  $SUDO_WWW cp -a $PATH_TO_MISP/app/Config/config.default.php $PATH_TO_MISP/app/Config/config.php</p>
-<p>chown -R www-data:www-data $PATH_TO_MISP/app/Config
-  chmod -R 750 $PATH_TO_MISP/app/Config
+<p>${SUDO_WWW} cp -a ${PATH_TO_MISP}/app/Config/bootstrap.default.php ${PATH_TO_MISP}/app/Config/bootstrap.php
+  ${SUDO_WWW} cp -a ${PATH_TO_MISP}/app/Config/core.default.php ${PATH_TO_MISP}/app/Config/core.php
+  ${SUDO_WWW} cp -a ${PATH_TO_MISP}/app/Config/config.default.php ${PATH_TO_MISP}/app/Config/config.php</p>
+<p>chown -R www-data:www-data ${PATH_TO_MISP}/app/Config
+  chmod -R 750 ${PATH_TO_MISP}/app/Config
   $CAKE Live $MISP_LIVE
   $CAKE Baseurl $MISP_BASEURL</p>
 <p>echo "%echo Generating a default key
@@ -1124,13 +1121,13 @@ echo &quot;&lt;?php
       # Do a commit here, so that we can later print "done"
       %commit
   %echo done" &gt; /tmp/gen-key-script</p>
-<p>$SUDO_WWW gpg --homedir $PATH_TO_MISP/.gnupg --batch --gen-key /tmp/gen-key-script</p>
-<p>$SUDO_WWW sh -c "gpg --homedir $PATH_TO_MISP/.gnupg --export --armor $GPG_EMAIL_ADDRESS" | $SUDO_WWW tee $PATH_TO_MISP/app/webroot/gpg.asc</p>
-<p>chmod +x $PATH_TO_MISP/app/Console/worker/start.sh</p>
+<p>${SUDO_WWW} gpg --homedir ${PATH_TO_MISP}/.gnupg --batch --gen-key /tmp/gen-key-script</p>
+<p>${SUDO_WWW} sh -c "gpg --homedir ${PATH_TO_MISP}/.gnupg --export --armor $GPG_EMAIL_ADDRESS" | ${SUDO_WWW} tee ${PATH_TO_MISP}/app/webroot/gpg.asc</p>
+<p>chmod +x ${PATH_TO_MISP}/app/Console/worker/start.sh</p>
 <p>$CAKE userInit -q
   $CAKE Admin updateDatabase</p>
-<p>AUTH_KEY=$(mysql -u <span><span class="MathJax_Preview">DBUSER_MISP -p</span><script type="math/tex">DBUSER_MISP -p</script></span>DBPASSWORD_MISP misp -e "SELECT authkey FROM users;" | tail -1)</p>
-<p><span><span class="MathJax_Preview">CAKE Admin setSetting "MISP.python_bin" "</span><script type="math/tex">CAKE Admin setSetting "MISP.python_bin" "</script></span>{PATH_TO_MISP}/venv/bin/python"
+<p>AUTH_KEY=$(mysql -u <span class="arithmatex"><span class="MathJax_Preview">DBUSER_MISP -p</span><script type="math/tex">DBUSER_MISP -p</script></span>DBPASSWORD_MISP misp -e "SELECT authkey FROM users;" | tail -1)</p>
+<p><span class="arithmatex"><span class="MathJax_Preview">CAKE Admin setSetting "MISP.python_bin" "</span><script type="math/tex">CAKE Admin setSetting "MISP.python_bin" "</script></span>{PATH_TO_MISP}/venv/bin/python"
   $CAKE Admin setSetting "Plugin.ZeroMQ_enable" true
   $CAKE Admin setSetting "Plugin.ZeroMQ_event_notifications_enable" true
   $CAKE Admin setSetting "Plugin.ZeroMQ_object_notifications_enable" true
@@ -1208,34 +1205,34 @@ echo &quot;&lt;?php
   $CAKE Admin setSetting "MISP.welcome_text_top" "Autogenerated install, please configure and harden accordingly"
   $CAKE Admin setSetting "MISP.welcome_text_bottom" "Welcome to MISP on Tsurugi"
   $CAKE Admin setSetting "Security.password_policy_length" 12
-  <span><span class="MathJax_Preview">CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*</span><script type="math/tex">CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*</script></span>|.{16,}/'
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*</span><script type="math/tex">CAKE Admin setSetting "Security.password_policy_complexity" '/^((?=.*\d)|(?=.*\W+))(?![\n])(?=.*[A-Z])(?=.*[a-z]).*</script></span>|.{16,}/'
   $CAKE Admin setSetting "Session.autoRegenerate" 0
   $CAKE Admin setSetting "Session.timeout" 600
   $CAKE Admin setSetting "Session.cookie_timeout" 3600
   $CAKE Live $MISP_LIVE
-  <span><span class="MathJax_Preview">CAKE Admin updateGalaxies
-  <span><span class="MathJax_Preview">CAKE Admin updateTaxonomies
-  <span><span class="MathJax_Preview">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateGalaxies
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateTaxonomies
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateWarningLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</script></span>i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e 'i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
@@ -1244,27 +1241,27 @@ echo &quot;&lt;?php
   sed -i -e '</script></span>i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
   sed -i -e 'i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateTaxonomies
-  <span><span class="MathJax_Preview">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateWarningLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</script></span>i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e 'i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
@@ -1275,28 +1272,28 @@ echo &quot;&lt;?php
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
   sed -i -e 'i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateGalaxies
-  <span><span class="MathJax_Preview">CAKE Admin updateTaxonomies
-  <span><span class="MathJax_Preview">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateTaxonomies
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateWarningLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</script></span>i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e 'i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
@@ -1305,27 +1302,27 @@ echo &quot;&lt;?php
   sed -i -e '</script></span>i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
   sed -i -e 'i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateTaxonomies
-  <span><span class="MathJax_Preview">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateWarningLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</script></span>i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e 'i \echo 1024 &gt; /proc/sys/net/core/somaxconn\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateWarningLists
-  <span><span class="MathJax_Preview">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateNoticeLists
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e '</span><script type="math/tex">CAKE Admin updateNoticeLists
-  <span><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</span><script type="math/tex">CAKE Admin updateObjectTemplates "31337"
   sed -i -e '</script></span>i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
   sed -i -e 'i \echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/rc.local
@@ -1336,21 +1333,21 @@ echo &quot;&lt;?php
   sed -i -e '</script></span>i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
   sed -i -e 'i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh\n' /etc/rc.local
   sed -i -e '</script></span>i \sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 127.0.0.1 -s &gt; /tmp/misp-modules_rc.local.log 2&gt; /dev/null &amp;\n' /etc/rc.local
-  $SUDO_WWW bash $PATH_TO_MISP/app/Console/worker/start.sh
+  ${SUDO_WWW} bash ${PATH_TO_MISP}/app/Console/worker/start.sh
   cd /usr/local/src/
   git clone <a href="https://github.com/MISP/misp-modules.git">https://github.com/MISP/misp-modules.git</a>
   cd misp-modules
   # pip3 install
   chown www-data .
   apt install libpq5 libjpeg-dev tesseract-ocr libpoppler-cpp-dev imagemagick libopencv-dev zbar-tools libzbar0 libzbar-dev libfuzzy-dev -y</p>
-<p>$SUDO_WWW $PATH_TO_MISP/venv/bin/pip install -I -r REQUIREMENTS
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install -I .
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install maec python-magic wand lief yara-python plyara
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install git+<a href="https://github.com/kbandla/pydeep.git">https://github.com/kbandla/pydeep.git</a>
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/pip install stix2
+<p>${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install -I -r REQUIREMENTS
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install -I .
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install maec python-magic wand lief yara-python plyara
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install git+<a href="https://github.com/kbandla/pydeep.git">https://github.com/kbandla/pydeep.git</a>
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/pip install stix2
   gem install pygments.rb
   gem install asciidoctor-pdf --pre
-  $SUDO_WWW $PATH_TO_MISP/venv/bin/misp-modules -l 127.0.0.1 -s &amp;
+  ${SUDO_WWW} ${PATH_TO_MISP}/venv/bin/misp-modules -l 127.0.0.1 -s &amp;
   $CAKE Admin setSetting "Plugin.Enrichment_services_enable" true
   $CAKE Admin setSetting "Plugin.Enrichment_hover_enable" true
   $CAKE Admin setSetting "Plugin.Enrichment_timeout" 300
@@ -1369,17 +1366,17 @@ echo &quot;&lt;?php
   $CAKE Admin setSetting "Plugin.Export_services_url" "<a href="http://127.0.0.1">http://127.0.0.1</a>"
   $CAKE Admin setSetting "Plugin.Export_services_port" 6666
   $CAKE Admin setSetting "Plugin.Export_timeout" 300
-  <span><span class="MathJax_Preview">CAKE Admin setSetting "Plugin.Export_pdfexport_enabled" true
+  <span class="arithmatex"><span class="MathJax_Preview">CAKE Admin setSetting "Plugin.Export_pdfexport_enabled" true
   cd /usr/local/src/
   apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2
   git clone <a href="https://github.com/viper-framework/viper.git">https://github.com/viper-framework/viper.git</a>
-  chown -R <span><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER viper
+  chown -R <span class="arithmatex"><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER viper
   cd viper
   virtualenv -p python3.6 venv
   MISP_USER viper
   cd viper
   virtualenv -p python3.6 venv
-  <span><span class="MathJax_Preview">SUDO git submodule update --init --recursive
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO git submodule update --init --recursive
   sed -i 's/yara-python==3.7.0//g' requirements-modules.txt
   ./venv/bin/pip install scrapy
   ./venv/bin/pip install -r requirements.txt
@@ -1392,13 +1389,13 @@ echo &quot;&lt;?php
   cd /usr/local/src/
   apt-get install -y libssl-dev swig python3-ssdeep p7zip-full unrar-free sqlite python3-pyclamd exiftool radare2
   git clone <a href="https://github.com/viper-framework/viper.git">https://github.com/viper-framework/viper.git</a>
-  chown -R <span><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER viper
+  chown -R <span class="arithmatex"><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER viper
   cd viper
   virtualenv -p python3.6 venv
   MISP_USER viper
   cd viper
   virtualenv -p python3.6 venv
-  <span><span class="MathJax_Preview">SUDO git submodule update --init --recursive
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO git submodule update --init --recursive
   sed -i 's/yara-python==3.7.0//g' requirements-modules.txt
   ./venv/bin/pip install scrapy
   ./venv/bin/pip install -r requirements.txt
@@ -1410,32 +1407,32 @@ echo &quot;&lt;?php
   sed -i '1 s/^.<em>/#!\/usr\/local\/src\/viper\/venv\/bin\/python/' viper-cli
   sed -i '1 s/^.</em></script></span>/#!\/usr\/local\/src\/viper\/venv\/bin\/python/' viper-web
   $SUDO /usr/local/src/viper/viper-cli -h &gt; /dev/null
-  <span><span class="MathJax_Preview">SUDO /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &amp;
   echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper:/var/www/MISP/app/Console"' |tee -a /etc/environment
   echo ". /etc/environment" &gt;&gt; /home/</span><script type="math/tex">SUDO /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &
   echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper:/var/www/MISP/app/Console"' |tee -a /etc/environment
   echo ". /etc/environment" >> /home/</script></span>{MISP_USER}/.profile
-  <span><span class="MathJax_Preview">SUDO sed -i "s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g" /home/</span><script type="math/tex">SUDO sed -i "s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g" /home/</script></span>{MISP_USER}/.viper/viper.conf
-  $SUDO sed -i "s/^misp_key =/misp_key = <span><span class="MathJax_Preview">AUTH_KEY/g" /home/</span><script type="math/tex">AUTH_KEY/g" /home/</script></span>{MISP_USER}/.viper/viper.conf</p>
-<p>while [ "<span><span class="MathJax_Preview">(sqlite3 /home/</span><script type="math/tex">(sqlite3 /home/</script></span>{MISP_USER}/.viper/admin.db 'UPDATE auth_user SET password="pbkdf2_sha256<span><span class="MathJax_Preview">100000</span><script type="math/tex">100000</script></span>iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U="'; echo <span><span class="MathJax_Preview">?)" -ne "0" ]; do
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO sed -i "s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g" /home/</span><script type="math/tex">SUDO sed -i "s/^misp_url\ =/misp_url\ =\ http:\/\/localhost/g" /home/</script></span>{MISP_USER}/.viper/viper.conf
+  $SUDO sed -i "s/^misp_key =/misp_key = <span class="arithmatex"><span class="MathJax_Preview">AUTH_KEY/g" /home/</span><script type="math/tex">AUTH_KEY/g" /home/</script></span>{MISP_USER}/.viper/viper.conf</p>
+<p>while [ "<span class="arithmatex"><span class="MathJax_Preview">(sqlite3 /home/</span><script type="math/tex">(sqlite3 /home/</script></span>{MISP_USER}/.viper/admin.db 'UPDATE auth_user SET password="pbkdf2_sha256<span class="arithmatex"><span class="MathJax_Preview">100000</span><script type="math/tex">100000</script></span>iXgEJh8hz7Cf$vfdDAwLX8tko1t0M1TLTtGlxERkNnltUnMhbv56wK/U="'; echo <span class="arithmatex"><span class="MathJax_Preview">?)" -ne "0" ]; do
     # FIXME This might lead to a race condition, the while loop is sub-par
-   chown <span><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER /home/MISP_USER /home/</span><script type="math/tex">?)" -ne "0" ]; do
+   chown <span class="arithmatex"><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER /home/MISP_USER /home/</span><script type="math/tex">?)" -ne "0" ]; do
     # FIXME This might lead to a race condition, the while loop is sub-par
-   chown <span><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER /home/MISP_USER /home/</script></span>{MISP_USER}/.viper/admin.db
+   chown <span class="arithmatex"><span class="MathJax_Preview">MISP_USER:</span><script type="math/tex">MISP_USER:</script></span>MISP_USER /home/MISP_USER /home/</script></span>{MISP_USER}/.viper/admin.db
     echo "Updating viper-web admin password, giving process time to start-up, sleeping 5, 4, 3,…"
     sleep 6
   done</p>
-<p>chown -R www-data:www-data $PATH_TO_MISP
-  chmod -R 750 $PATH_TO_MISP
-  chmod -R g+ws $PATH_TO_MISP/app/tmp
-  chmod -R g+ws $PATH_TO_MISP/app/files
-  chmod -R g+ws $PATH_TO_MISP/app/files/scripts/tmp</p>
+<p>chown -R www-data:www-data ${PATH_TO_MISP}
+  chmod -R 750 ${PATH_TO_MISP}
+  chmod -R g+ws ${PATH_TO_MISP}/app/tmp
+  chmod -R g+ws ${PATH_TO_MISP}/app/files
+  chmod -R g+ws ${PATH_TO_MISP}/app/files/scripts/tmp</p>
 <p>cd /usr/local/src/</p>
 <p>apt-get install cmake libcaca-dev liblua5.3-dev -y
   git clone <a href="https://github.com/MISP/mail_to_misp.git">https://github.com/MISP/mail_to_misp.git</a>
-  git clone git://github.com/stricaud/faup.git faup
-  git clone git://github.com/stricaud/gtcaca.git gtcaca
-  chown -R <span><span class="MathJax_Preview">{MISP_USER}:</span><script type="math/tex">{MISP_USER}:</script></span>{MISP_USER} faup mail_to_misp gtcaca
+  git clone <a href="https://github.com/stricaud/faup.git">https://github.com/stricaud/faup.git</a> faup
+  git clone <a href="https://github.com/stricaud/gtcaca.git">https://github.com/stricaud/gtcaca.git</a> gtcaca
+  chown -R <span class="arithmatex"><span class="MathJax_Preview">{MISP_USER}:</span><script type="math/tex">{MISP_USER}:</script></span>{MISP_USER} faup mail_to_misp gtcaca
   cd gtcaca
   $SUDO_CMD mkdir -p build
   cd build
@@ -1451,15 +1448,15 @@ echo &quot;&lt;?php
   $SUDO_CMD virtualenv -p python3 venv
   $SUDO_CMD ./venv/bin/pip install lief
   $SUDO_CMD ./venv/bin/pip install -r requirements.txt
-  <span><span class="MathJax_Preview">SUDO_CMD cp mail_to_misp_config.py-example mail_to_misp_config.py
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO_CMD cp mail_to_misp_config.py-example mail_to_misp_config.py
   ##</span><script type="math/tex">SUDO_CMD cp mail_to_misp_config.py-example mail_to_misp_config.py
   ##</script></span>SUDO cp mail_to_misp_config.py-example mail_to_misp_config.py
   $SUDO_CMD sed -i "s/^misp_url = 'YOUR_MISP_URL'/misp_url = 'https:\/\/localhost'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
-  <span><span class="MathJax_Preview">SUDO_CMD sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '</span><script type="math/tex">SUDO_CMD sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '</script></span>{AUTH_KEY}'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
+  <span class="arithmatex"><span class="MathJax_Preview">SUDO_CMD sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '</span><script type="math/tex">SUDO_CMD sed -i "s/^misp_key\ =\ 'YOUR_KEY_HERE'/misp_key\ =\ '</script></span>{AUTH_KEY}'/g" /usr/local/src/mail_to_misp/mail_to_misp_config.py
   echo ""
-  echo "Admin (root) DB Password: <span><span class="MathJax_Preview">DBPASSWORD_ADMIN" &gt; /home/</span><script type="math/tex">DBPASSWORD_ADMIN" > /home/</script></span>{MISP_USER}/mysql.txt
-  echo "User  (misp) DB Password: <span><span class="MathJax_Preview">DBPASSWORD_MISP" &gt;&gt; /home/</span><script type="math/tex">DBPASSWORD_MISP" >> /home/</script></span>{MISP_USER}/mysql.txt
-  echo "Authkey: <span><span class="MathJax_Preview">AUTH_KEY" &gt; /home/</span><script type="math/tex">AUTH_KEY" > /home/</script></span>{MISP_USER}/MISP-authkey.txt</p>
+  echo "Admin (root) DB Password: <span class="arithmatex"><span class="MathJax_Preview">DBPASSWORD_ADMIN" &gt; /home/</span><script type="math/tex">DBPASSWORD_ADMIN" > /home/</script></span>{MISP_USER}/mysql.txt
+  echo "User  (misp) DB Password: <span class="arithmatex"><span class="MathJax_Preview">DBPASSWORD_MISP" &gt;&gt; /home/</span><script type="math/tex">DBPASSWORD_MISP" >> /home/</script></span>{MISP_USER}/mysql.txt
+  echo "Authkey: <span class="arithmatex"><span class="MathJax_Preview">AUTH_KEY" &gt; /home/</span><script type="math/tex">AUTH_KEY" > /home/</script></span>{MISP_USER}/MISP-authkey.txt</p>
 <p>clear
   echo "-------------------------------------------------------------------------"
   echo "MISP Installed, access here: <a href="https://misp.local">https://misp.local</a>"
@@ -1467,7 +1464,7 @@ echo &quot;&lt;?php
   echo "Password: admin"
   echo "MISP Dashboard, access here: <a href="http://misp.local:8001">http://misp.local:8001</a>"
   echo "-------------------------------------------------------------------------"
-  cat /home/<span><span class="MathJax_Preview">{MISP_USER}/mysql.txt
+  cat /home/<span class="arithmatex"><span class="MathJax_Preview">{MISP_USER}/mysql.txt
   cat /home/</span><script type="math/tex">{MISP_USER}/mysql.txt
   cat /home/</script></span>{MISP_USER}/MISP-authkey.txt
   echo "-------------------------------------------------------------------------"
@@ -1512,7 +1509,7 @@ installMISPonTsurugi</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../xINSTALL.ubuntu1804.with.webmin/" title="Ubuntu 18.04 \w webmin" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../xINSTALL.debian10/" title="Debian 10" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1521,19 +1518,19 @@ installMISPonTsurugi</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Ubuntu 18.04 \w webmin
+                Debian 10
               </span>
             </div>
           </a>
         
         
-          <a href="../xINSTALL.OpenBSD/" title="OpenBSD 6.6" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../xINSTALL.OpenBSD/" title="OpenBSD 7.0" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                OpenBSD 6.6
+                OpenBSD 7.0
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -1549,7 +1546,7 @@ installMISPonTsurugi</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2020 MISP Project
+            Copyright &copy; 2021 MISP Project
           </div>
         
         powered by
