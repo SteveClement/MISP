@@ -373,6 +373,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.ubuntu2204/" title="Ubuntu 22.04" class="md-nav__link">
+      Ubuntu 22.04
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -467,31 +479,31 @@
       
 
 
+  <li class="md-nav__item">
+    <a href="../../background-jobs-migration-guide/" title="Migrating BG Jobs" class="md-nav__link">
+      Migrating BG Jobs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       Old guides
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         Old guides
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../archive/old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-nav__link">
-      2.3 to 2.4 upgrade
-    </a>
-  </li>
-
         
           
           
@@ -511,32 +523,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
-      Ubuntu 16.04
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../archive/xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
       Debian 9
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../archive/xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
-      Centos 6
     </a>
   </li>
 
@@ -565,13 +553,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1240,6 +1228,16 @@ kaliUpgrade <span class="o">()</span> <span class="o">{</span>
   sudo <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt autoremove -y
 <span class="o">}</span>
 
+<span class="c1"># Kali 2022.x has only php81</span>
+installDepsKaliPhp74 <span class="o">()</span> <span class="o">{</span>
+    sudo apt -y install lsb-release apt-transport-https ca-certificates 
+    sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+    <span class="nb">echo</span> <span class="s2">&quot;deb https://packages.sury.org/php/ bullseye main&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/php.list
+    sudo apt update
+    wget http://ftp.us.debian.org/debian/pool/main/libf/libffi/libffi7_3.3-6_amd64.deb
+    sudo dpkg -i libffi7_3.3-6_amd64.deb
+<span class="o">}</span>
+
 <span class="c1"># Disables sleep</span>
 disableSleep <span class="o">()</span> <span class="o">{</span>
   debug <span class="s2">&quot;Disabling sleep etc if run from a Laptop as the install might take some time…&quot;</span> &gt; /dev/tty
@@ -1352,7 +1350,7 @@ installDeps <span class="o">()</span> <span class="o">{</span>
   <span class="o">[[</span> -n <span class="nv">$KALI</span> <span class="o">]]</span> <span class="o">||</span> <span class="o">[[</span> -n <span class="nv">$UNATTENDED</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> sudo <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt install -qy postfix <span class="o">||</span> sudo apt install -qy postfix
 
   sudo apt install -qy <span class="se">\</span>
-  curl gcc git gnupg-agent make openssl redis-server neovim unzip zip libyara-dev python3-yara python3-redis python3-zmq sqlite3 <span class="se">\</span>
+  curl gcc git gnupg-agent make openssl redis-server neovim unzip zip libyara-dev python3-yara python3-redis python3-zmq sqlite3 python3-virtualenv <span class="se">\</span>
   mariadb-client <span class="se">\</span>
   mariadb-server <span class="se">\</span>
   apache2 apache2-doc apache2-utils <span class="se">\</span>
@@ -1360,74 +1358,6 @@ installDeps <span class="o">()</span> <span class="o">{</span>
   libxml2-dev libxslt1-dev zlib1g-dev python3-setuptools
 
   installRNG
-<span class="o">}</span>
-
-<span class="c1"># On Kali, the redis start-up script is broken. This tries to fix it.</span>
-fixRedis <span class="o">()</span> <span class="o">{</span>
-  <span class="c1"># As of 20190124 redis-server init.d scripts are broken and need to be replaced</span>
-  sudo mv /etc/init.d/redis-server /etc/init.d/redis-server_<span class="sb">`</span>date +%Y%m%d<span class="sb">`</span>
-
-  <span class="nb">echo</span> <span class="s1">&#39;#! /bin/sh</span>
-<span class="s1">### BEGIN INIT INFO</span>
-<span class="s1"># Provides:     redis-server</span>
-<span class="s1"># Required-Start:   $syslog</span>
-<span class="s1"># Required-Stop:    $syslog</span>
-<span class="s1"># Should-Start:     $local_fs</span>
-<span class="s1"># Should-Stop:      $local_fs</span>
-<span class="s1"># Default-Start:    2 3 4 5</span>
-<span class="s1"># Default-Stop:     0 1 6</span>
-<span class="s1"># Short-Description:    redis-server - Persistent key-value db</span>
-<span class="s1"># Description:      redis-server - Persistent key-value db</span>
-<span class="s1">### END INIT INFO</span>
-
-<span class="s1">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span>
-<span class="s1">DAEMON=/usr/bin/redis-server</span>
-<span class="s1">DAEMON_ARGS=/etc/redis/redis.conf</span>
-<span class="s1">NAME=redis-server</span>
-<span class="s1">DESC=redis-server</span>
-<span class="s1">PIDFILE=/var/run/redis.pid</span>
-
-<span class="s1">test -x $DAEMON || exit 0</span>
-<span class="s1">test -x $DAEMONBOOTSTRAP || exit 0</span>
-
-<span class="s1">set -e</span>
-
-<span class="s1">case &quot;$1&quot; in</span>
-<span class="s1">  start)</span>
-<span class="s1">    echo -n &quot;Starting $DESC: &quot;</span>
-<span class="s1">    touch $PIDFILE</span>
-<span class="s1">    chown redis:redis $PIDFILE</span>
-<span class="s1">    if start-stop-daemon --start --quiet --umask 007 --pidfile $PIDFILE --chuid redis:redis --exec $DAEMON -- $DAEMON_ARGS</span>
-<span class="s1">    then</span>
-<span class="s1">        echo &quot;$NAME.&quot;</span>
-<span class="s1">    else</span>
-<span class="s1">        echo &quot;failed&quot;</span>
-<span class="s1">    fi</span>
-<span class="s1">    ;;</span>
-<span class="s1">  stop)</span>
-<span class="s1">    echo -n &quot;Stopping $DESC: &quot;</span>
-<span class="s1">    if start-stop-daemon --stop --retry 10 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON</span>
-<span class="s1">    then</span>
-<span class="s1">        echo &quot;$NAME.&quot;</span>
-<span class="s1">    else</span>
-<span class="s1">        echo &quot;failed&quot;</span>
-<span class="s1">    fi</span>
-<span class="s1">    rm -f $PIDFILE</span>
-<span class="s1">    ;;</span>
-
-<span class="s1">  restart|force-reload)</span>
-<span class="s1">    ${0} stop</span>
-<span class="s1">    ${0} start</span>
-<span class="s1">    ;;</span>
-<span class="s1">  *)</span>
-<span class="s1">    echo &quot;Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}&quot; &gt;&amp;2</span>
-<span class="s1">    exit 1</span>
-<span class="s1">    ;;</span>
-<span class="s1">esac</span>
-
-<span class="s1">exit 0&#39;</span> <span class="p">|</span> sudo tee /etc/init.d/redis-server
-  sudo chmod <span class="m">755</span> /etc/init.d/redis-server
-  sudo /etc/init.d/redis-server start
 <span class="o">}</span>
 
 <span class="c1"># generate MISP apache conf</span>
@@ -1487,6 +1417,11 @@ composer <span class="o">()</span> <span class="o">{</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> sh -c <span class="s2">&quot;cd </span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/app ; php composer.phar install --no-dev&quot;</span>
 <span class="o">}</span>
 
+<span class="c1"># Legacy composer function</span>
+composer74 <span class="o">()</span> <span class="o">{</span>
+  sudo mkdir -p /var/www/.composer <span class="p">;</span> sudo chown <span class="si">${</span><span class="nv">WWW_USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">WWW_USER</span><span class="si">}</span> /var/www/.composer
+  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> sh -c <span class="s2">&quot;cd </span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/app ; php7.4 composer.phar install --no-dev&quot;</span>
+<span class="o">}</span>
 
 <span class="c1"># TODO: FIX somehow the alias of the function does not work</span>
 <span class="c1"># Composer on php 7.0 does not need any special treatment the provided phar works well</span>
@@ -1651,7 +1586,7 @@ installDepsPhp72 <span class="o">()</span> <span class="o">{</span>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 MISP Project
+            Copyright &copy; 2022 MISP Project
           </div>
         
         powered by

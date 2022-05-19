@@ -377,6 +377,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../xINSTALL.ubuntu2204/" title="Ubuntu 22.04" class="md-nav__link">
+      Ubuntu 22.04
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -470,34 +482,34 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../../background-jobs-migration-guide/" title="Migrating BG Jobs" class="md-nav__link">
+      Migrating BG Jobs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" checked>
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       Old guides
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         Old guides
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-nav__link">
-      2.3 to 2.4 upgrade
-    </a>
-  </li>
-
         
           
           
@@ -718,32 +730,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
-      Ubuntu 16.04
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
       Debian 9
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
-      Centos 6
     </a>
   </li>
 
@@ -772,13 +760,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1090,7 +1078,8 @@ MISPvars <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># MISP configuration variables</span>
   <span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="k">:-</span><span class="p">/var/www/MISP</span><span class="si">}</span><span class="s2">&quot;</span>
   <span class="nv">PATH_TO_MISP_SCRIPTS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/app/files/scripts&quot;</span>
-
+  <span class="c1">## For future use</span>
+  <span class="c1"># TMPDIR=&quot;${TMPDIR:-$PATH_TO_MISP/app/tmp}&quot;</span>
 
   <span class="nv">FQDN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FQDN</span><span class="k">:-</span><span class="nv">misp</span><span class="p">.local</span><span class="si">}</span><span class="s2">&quot;</span>
 
@@ -1249,11 +1238,14 @@ sudo update-grub  &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&am
 </code></pre></div>
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
-<p>On recent Ubuntu install Netplan is default and you need to change the Network name.
+<p>On recent Ubuntu install Netplan is default and you might need to change the Network name in its respective config file.
 <div class="highlight"><pre><span></span><code>sudo sed -i &quot;s/enp0s3/eth0/&quot; /etc/netplan/50-cloud-init.yaml
 </code></pre></div>
 OR on Ubuntu 19.04 (yay for changing this every 5 commits... #n00bs)
 <div class="highlight"><pre><span></span><code>sudo sed -i &quot;s/enp0s3/eth0/&quot; /etc/netplan/01-netcfg.yaml
+</code></pre></div>
+OR on Ubuntu 22.04
+<div class="highlight"><pre><span></span><code>sudo sed -i &quot;s/enp0s3/eth0/&quot; /etc/netplan/00-installer-config.yaml
 </code></pre></div></p>
 </div>
 <h4 id="make-sure-your-system-is-up2date">Make sure your system is up2date<a class="headerlink" href="#make-sure-your-system-is-up2date" title="Permanent link">&para;</a></h4>
@@ -1621,7 +1613,7 @@ sudo chown -R misp:www-data ${PATH_TO_MISP}/&lt;directory path with an indicated
 <p>If you have installed the recommended Python 3 virtualenv to the recommended place of <strong>${PATH_TO_MISP}/venv</strong> set the following MISP configurable
 <div class="highlight"><pre><span></span><code>sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
 </code></pre></div>
-or on CentOS
+or on Rocky Linux
 <div class="highlight"><pre><span></span><code>sudo -u apache <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.python_bin<span class="s2">&quot; &quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/python<span class="s2">&quot;&quot;</span>
 </code></pre></div></p>
 </div>
@@ -1719,6 +1711,7 @@ index f9f69d4..2e8fd78 100644
 <p><a href="https://weakdh.org/sysadmin.html">Weak Diffie-Hellman and the Logjam Attack</a></p>
 <p><a href="https://wiki.debian.org/Hardening">Debian Wiki Hardening</a></p>
 <p><a href="https://wiki.centos.org/HowTos/OS_Protection">CentOS Hardening</a></p>
+<p><a href="https://docs.rockylinux.org/sv/guides/web/apache_hardened_webserver/">Apache Hardened Webserver</a></p>
 <p><a href="https://www.cyberciti.biz/tips/linux-security.html">Some Linux hardening tips</a></p>
 <h3 id="optional-features">Optional features<a class="headerlink" href="#optional-features" title="Permanent link">&para;</a></h3>
 <hr />
@@ -1779,7 +1772,7 @@ Then the enrichment, export and import modules can be enabled in MISP via the se
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../background-jobs-migration-guide/" title="Migrating BG Jobs" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1788,19 +1781,19 @@ Then the enrichment, export and import modules can be enabled in MISP via the se
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                2.3 to 2.4 upgrade
+                Migrating BG Jobs
               </span>
             </div>
           </a>
         
         
-          <a href="../INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../xINSTALL.debian9/" title="Debian 9" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Ubuntu 16.04
+                Debian 9
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -1816,7 +1809,7 @@ Then the enrichment, export and import modules can be enabled in MISP via the se
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 MISP Project
+            Copyright &copy; 2022 MISP Project
           </div>
         
         powered by

@@ -601,8 +601,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#misp-dashboard-on-centos" class="md-nav__link">
-    MISP Dashboard on CentOS
+  <a href="#misp-dashboard-on-rocky-linux" class="md-nav__link">
+    MISP Dashboard on Rocky Linux
   </a>
   
 </li>
@@ -716,6 +716,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu2204/" title="Ubuntu 22.04" class="md-nav__link">
+      Ubuntu 22.04
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -810,31 +822,31 @@
       
 
 
+  <li class="md-nav__item">
+    <a href="../background-jobs-migration-guide/" title="Migrating BG Jobs" class="md-nav__link">
+      Migrating BG Jobs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       Old guides
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         Old guides
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../archive/old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-nav__link">
-      2.3 to 2.4 upgrade
-    </a>
-  </li>
-
         
           
           
@@ -854,32 +866,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
-      Ubuntu 16.04
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../archive/xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
       Debian 9
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../archive/xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
-      Centos 6
     </a>
   </li>
 
@@ -908,13 +896,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1243,8 +1231,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#misp-dashboard-on-centos" class="md-nav__link">
-    MISP Dashboard on CentOS
+  <a href="#misp-dashboard-on-rocky-linux" class="md-nav__link">
+    MISP Dashboard on Rocky Linux
   </a>
   
 </li>
@@ -1313,11 +1301,11 @@ Henceforth the document will also follow a more logical flow. In the sense that 
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Please check the installer options first to make the best choice for your install</span>
-wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
+wget --no-cache -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
 bash /tmp/INSTALL.sh
 
 <span class="c1"># This will install MISP Core</span>
-wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
+wget --no-cache -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
 bash /tmp/INSTALL.sh -c
 </code></pre></div>
 </div>
@@ -1358,11 +1346,11 @@ Henceforth the document will also follow a more logical flow. In the sense that 
 <div class="admonition notice">
 <p class="admonition-title">Notice</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Please check the installer options first to make the best choice for your install</span>
-wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
+wget --no-cache -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
 bash /tmp/INSTALL.sh
 
 <span class="c1"># This will install MISP Core</span>
-wget -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
+wget --no-cache -O /tmp/INSTALL.sh https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/INSTALL.sh
 bash /tmp/INSTALL.sh -c
 </code></pre></div>
 </div>
@@ -1432,7 +1420,8 @@ MISPvars <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># MISP configuration variables</span>
   <span class="nv">PATH_TO_MISP</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="k">:-</span><span class="p">/var/www/MISP</span><span class="si">}</span><span class="s2">&quot;</span>
   <span class="nv">PATH_TO_MISP_SCRIPTS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/app/files/scripts&quot;</span>
-
+  <span class="c1">## For future use</span>
+  <span class="c1"># TMPDIR=&quot;${TMPDIR:-$PATH_TO_MISP/app/tmp}&quot;</span>
 
   <span class="nv">FQDN</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FQDN</span><span class="k">:-</span><span class="nv">misp</span><span class="p">.local</span><span class="si">}</span><span class="s2">&quot;</span>
 
@@ -1666,6 +1655,9 @@ installCoreRHEL7 <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># If you umask is has been changed from the default, it is a good idea to reset it to 0022 before installing python modules</span>
   <span class="nv">UMASK</span><span class="o">=</span><span class="k">$(</span><span class="nb">umask</span><span class="k">)</span>
   <span class="nb">umask</span> <span class="m">0022</span>
+
+  <span class="c1"># install python-stix dependencies</span>
+  <span class="nv">$SUDO_WWW</span> <span class="nv">$PATH_TO_MISP</span>/venv/bin/pip install ordered-set python-dateutil six weakrefmethod
 
   <span class="c1"># install zmq</span>
   <span class="nv">$SUDO_WWW</span> <span class="nv">$PATH_TO_MISP</span>/venv/bin/pip install -U zmq
@@ -2042,7 +2034,7 @@ configWorkersRHEL <span class="o">()</span> <span class="o">{</span>
 <h4 id="initialize-misp-configuration-and-set-some-defaults">Initialize MISP configuration and set some defaults<a class="headerlink" href="#initialize-misp-configuration-and-set-some-defaults" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># &lt;snippet-begin 2_core-cake.sh&gt;</span>
 <span class="c1"># Core cake commands to tweak MISP and aleviate some of the configuration pains</span>
-<span class="c1"># The ${RUN_PHP} is ONLY set on RHEL/CentOS installs and can thus be ignored</span>
+<span class="c1"># The ${RUN_PHP} is ONLY set on RHEL installs and can thus be ignored</span>
 <span class="c1"># This file is NOT an excuse to NOT read the settings and familiarize ourselves with them ;)</span>
 
 coreCAKE <span class="o">()</span> <span class="o">{</span>
@@ -2066,6 +2058,9 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Session.timeout&quot;</span> <span class="m">600</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Session.cookieTimeout&quot;</span> <span class="m">3600</span>
 
+  <span class="c1"># Set the default temp dir</span>
+  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.tmpdir&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/app/tmp&quot;</span>
+
   <span class="c1"># Change base url, either with this CLI command or in the UI</span>
   <span class="o">[[</span> ! -z <span class="si">${</span><span class="nv">MISP_BASEURL</span><span class="si">}</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Baseurl <span class="nv">$MISP_BASEURL</span>
   <span class="c1"># example: &#39;baseurl&#39; =&gt; &#39;https://&lt;your.FQDN.here&gt;&#39;,</span>
@@ -2086,7 +2081,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># Enable installer org and tune some configurables</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.host_org_id&quot;</span> <span class="m">1</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.email&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
-  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.disable_emailing&quot;</span> <span class="nb">true</span>
+  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.disable_emailing&quot;</span> <span class="nb">true</span> --force
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.contact&quot;</span> <span class="s2">&quot;info@admin.test&quot;</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.disablerestalert&quot;</span> <span class="nb">true</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;MISP.showCorrelationsOnIndex&quot;</span> <span class="nb">true</span>
@@ -2097,7 +2092,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_url&quot;</span> <span class="s2">&quot;http://127.0.0.1&quot;</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_services_port&quot;</span> <span class="m">9000</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_timeout&quot;</span> <span class="m">120</span>
-  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_authkey&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_authkey&quot;</span> <span class="nb">false</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_peer&quot;</span> <span class="nb">false</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_verify_host&quot;</span> <span class="nb">false</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.Cortex_ssl_allow_self_signed&quot;</span> <span class="nb">true</span>
@@ -2156,7 +2151,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
          Plugin.ElasticSearch_logging_enable
          Plugin.S3_enable<span class="o">)</span>
   <span class="k">for</span> PLUG <span class="k">in</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PLUGS</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">do</span>
-    <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="si">${</span><span class="nv">PLUG</span><span class="si">}</span> <span class="nb">false</span>
+    <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="si">${</span><span class="nv">PLUG</span><span class="si">}</span> <span class="nb">false</span> <span class="m">2</span>&gt; /dev/null
   <span class="k">done</span>
 
   <span class="c1"># Plugin CustomAuth tuneable</span>
@@ -2172,7 +2167,7 @@ coreCAKE <span class="o">()</span> <span class="o">{</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_minimum_ttl&quot;</span> <span class="s2">&quot;1h&quot;</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ttl&quot;</span> <span class="s2">&quot;1w&quot;</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns&quot;</span> <span class="s2">&quot;localhost.&quot;</span>
-  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns_alt&quot;</span> <span class="s2">&quot;&quot;</span>
+  <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_ns_alt&quot;</span> <span class="nb">false</span>
   <span class="si">${</span><span class="nv">SUDO_WWW</span><span class="si">}</span> <span class="si">${</span><span class="nv">RUN_PHP</span><span class="si">}</span> -- <span class="si">${</span><span class="nv">CAKE</span><span class="si">}</span> Admin setSetting <span class="s2">&quot;Plugin.RPZ_email&quot;</span> <span class="s2">&quot;root.localhost&quot;</span>
 
   <span class="c1"># Kafka settings</span>
@@ -2341,7 +2336,7 @@ mispmodulesRHEL <span class="o">()</span> <span class="o">{</span>
   <span class="c1"># some misp-modules dependencies for RHEL&lt;8</span>
   <span class="o">([[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DISTRI</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;fedora33&quot;</span> <span class="o">]]</span> <span class="o">||</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DIST_VER</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=</span>~ ^<span class="o">[</span><span class="m">7</span><span class="o">]</span>.* <span class="o">]])</span> <span class="o">&amp;&amp;</span> sudo dnf install rubygem-rouge rubygem-asciidoctor zbar-devel opencv-devel -y
   <span class="c1"># some misp-modules dependencies for RHEL8</span>
-  <span class="o">[[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DIST_VER</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=</span>~ ^<span class="o">[</span><span class="m">8</span><span class="o">]</span>.* <span class="o">]]</span> <span class="o">&amp;&amp;</span> sudo dnf install https://packages.endpoint.com/rhel/8/main/x86_64/endpoint-repo-8-1.ep8.noarch.rpm -y <span class="o">&amp;&amp;</span> sudo dnf install zbar-devel opencv-devel -y
+  <span class="o">[[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DIST_VER</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=</span>~ ^<span class="o">[</span><span class="m">8</span><span class="o">]</span>.* <span class="o">]]</span> <span class="o">&amp;&amp;</span> sudo dnf install https://packages.endpointdev.com/rhel/8/main/x86_64/endpoint-repo.noarch.rpm -y <span class="o">&amp;&amp;</span> sudo dnf install zbar-devel opencv-devel -y
 
   <span class="nb">echo</span> <span class="s2">&quot;[Unit]</span>
 <span class="s2">  Description=MISP modules</span>
@@ -2433,7 +2428,7 @@ modulesCAKE <span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 <span class="c1"># &lt;snippet-end 3_misp-modules-cake.sh&gt;</span>
 </code></pre></div>
-<h4 id="misp-dashboard-on-centos">MISP Dashboard on CentOS<a class="headerlink" href="#misp-dashboard-on-centos" title="Permanent link">&para;</a></h4>
+<h4 id="misp-dashboard-on-rocky-linux">MISP Dashboard on Rocky Linux<a class="headerlink" href="#misp-dashboard-on-rocky-linux" title="Permanent link">&para;</a></h4>
 <hr />
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -2535,7 +2530,7 @@ dashboardCAKE <span class="o">()</span> <span class="o">{</span>
 <p>If you have installed the recommended Python 3 virtualenv to the recommended place of <strong>${PATH_TO_MISP}/venv</strong> set the following MISP configurable
 <div class="highlight"><pre><span></span><code>sudo -H -u www-data <span class="nv">$CAKE</span> Admin setSetting <span class="s2">&quot;MISP.python_bin&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span><span class="s2">/venv/bin/python&quot;</span>
 </code></pre></div>
-or on CentOS
+or on Rocky Linux
 <div class="highlight"><pre><span></span><code>sudo -u apache <span class="nv">$RUN_PHP</span> <span class="s2">&quot;</span><span class="nv">$CAKE</span><span class="s2"> Admin setSetting &quot;</span>MISP.python_bin<span class="s2">&quot; &quot;</span><span class="si">${</span><span class="nv">PATH_TO_MISP</span><span class="si">}</span>/venv/bin/python<span class="s2">&quot;&quot;</span>
 </code></pre></div></p>
 </div>
@@ -2643,6 +2638,7 @@ index f9f69d4..2e8fd78 100644
 <p><a href="https://weakdh.org/sysadmin.html">Weak Diffie-Hellman and the Logjam Attack</a></p>
 <p><a href="https://wiki.debian.org/Hardening">Debian Wiki Hardening</a></p>
 <p><a href="https://wiki.centos.org/HowTos/OS_Protection">CentOS Hardening</a></p>
+<p><a href="https://docs.rockylinux.org/sv/guides/web/apache_hardened_webserver/">Apache Hardened Webserver</a></p>
 <p><a href="https://www.cyberciti.biz/tips/linux-security.html">Some Linux hardening tips</a>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </p>
                 
@@ -2703,7 +2699,7 @@ index f9f69d4..2e8fd78 100644
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 MISP Project
+            Copyright &copy; 2022 MISP Project
           </div>
         
         powered by

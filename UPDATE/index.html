@@ -377,6 +377,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../xINSTALL.ubuntu2204/" title="Ubuntu 22.04" class="md-nav__link">
+      Ubuntu 22.04
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -516,31 +528,31 @@
       
 
 
+  <li class="md-nav__item">
+    <a href="../background-jobs-migration-guide/" title="Migrating BG Jobs" class="md-nav__link">
+      Migrating BG Jobs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       Old guides
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         Old guides
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../archive/old-2_3to2_4-UPGRADE/" title="2.3 to 2.4 upgrade" class="md-nav__link">
-      2.3 to 2.4 upgrade
-    </a>
-  </li>
-
         
           
           
@@ -560,32 +572,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../archive/INSTALL.ubuntu1604/" title="Ubuntu 16.04" class="md-nav__link">
-      Ubuntu 16.04
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../archive/xINSTALL.debian9/" title="Debian 9" class="md-nav__link">
       Debian 9
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../archive/xINSTALL.centos6/" title="Centos 6" class="md-nav__link">
-      Centos 6
     </a>
   </li>
 
@@ -614,13 +602,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -772,7 +760,7 @@ python3 setup.py install
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span> /var/www/MISP/PyMISP
 python3 setup.py install
 </code></pre></div>
-<h1 id="6-for-rhelcentos-enable-python3-for-php-fpm">6. For RHEL/CentOS: enable python3 for php-fpm<a class="headerlink" href="#6-for-rhelcentos-enable-python3-for-php-fpm" title="Permanent link">&para;</a></h1>
+<h1 id="6-for-rhel-enable-python3-for-php-fpm">6. For RHEL: enable python3 for php-fpm<a class="headerlink" href="#6-for-rhel-enable-python3-for-php-fpm" title="Permanent link">&para;</a></h1>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s1">&#39;source scl_source enable rh-python36&#39;</span> &gt;&gt; /etc/opt/rh/rh-php71/sysconfig/php-fpm
 sed -i.org -e <span class="s1">&#39;s/^;\(clear_env = no\)/\1/&#39;</span> /etc/opt/rh/rh-php71/php-fpm.d/www.conf
 systemctl restart rh-php71-php-fpm.service
@@ -866,7 +854,7 @@ chown -R www-data:www-data /var/www/MISP/
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 MISP Project
+            Copyright &copy; 2022 MISP Project
           </div>
         
         powered by
